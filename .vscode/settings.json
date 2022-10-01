@@ -1,0 +1,18 @@
+{
+  "cSpell.words": [
+    "checkindate",
+    "checkoutdate",
+    "citycode",
+    "dtos",
+    "Hoteloffers",
+    "Hotelofferssearch",
+    "roomquantity"
+  ],
+  "cSpell.ignoreWords": [
+    "departuredate",
+    "destinationlocationcode",
+    "originlocationcode",
+    "returndate",
+    "travelclass"
+  ]
+}

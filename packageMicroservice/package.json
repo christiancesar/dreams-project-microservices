@@ -1,0 +1,32 @@
+{
+  "name": "packageMicroservice",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "compile": "grpc_tools_node_protoc --js_out=import_style=commonjs,binary:./src/protos/contracts --grpc_out=grpc_js:./src/protos/contracts -I ./src/protos/contracts ./src/protos/contracts/*.proto && grpc_tools_node_protoc --plugin=protoc-gen-ts=./node_modules/.bin/protoc-gen-ts --ts_out=grpc_js:./src/protos/contracts -I ./src/protos/contracts ./src/protos/contracts/*.proto",
+    "dev:server": "ts-node-dev --transpile-only --inspect --ignore-watch node_modules src/index.ts"
+  },
+  "devDependencies": {
+    "@types/google-protobuf": "^3.15.6",
+    "@types/long": "^4.0.2",
+    "@types/node": "^17.0.35",
+    "google-protobuf": "^3.20.1",
+    "grpc-tools": "^1.11.2",
+    "grpc_tools_node_protoc_ts": "^5.3.2",
+    "ts-node": "^10.8.0",
+    "ts-node-dev": "^1.1.8",
+    "ts-proto": "^1.112.2",
+    "tsconfig-paths": "^4.0.0",
+    "typescript": "^4.6.4",
+    "uuid": "^8.3.2"
+  },
+  "dependencies": {
+    "@grpc/grpc-js": "^1.6.7",
+    "@prisma/client": "3.14.0",
+    "@types/uuid": "^8.3.4",
+    "date-fns": "^2.28.0",
+    "dreams-proto-sharing": "^1.0.4-b",
+    "prisma": "^3.14.0"
+  }
+}
