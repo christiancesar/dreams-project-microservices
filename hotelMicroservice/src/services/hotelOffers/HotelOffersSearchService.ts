@@ -1,5 +1,5 @@
 import { HotelOfferSearchRequest } from "../../@types/amadeus/hotels/HotelOfferSearchRequest";
-import { HotelOffer, HotelOfferSearchResponse } from "../../@types/amadeus/hotels/HotelOfferSearchResponse";
+import { HotelOfferSearchResponse } from "../../@types/amadeus/hotels/HotelOfferSearchResponse";
 import { amadeus } from "../../providers/amadeus/amadeusApi";
 
 type HotelOffersSearchRequest = {

@@ -34,14 +34,14 @@ export default class FlightOfferSearchService {
       flightClient.searchFlightOffer(
         new FlightOffersRequest().setFlightofferssearch(
           new FlightOffersSearch()
-            .setAdults(adults)
-            .setDeparturedate(departureDate)
-            .setDestinationlocationcode(destinationLocationCode)
-            .setOriginlocationcode(originLocationCode)
-            .setTravelclass(travelClass)
-            .setChildren(children || 0)
-            .setInfants(infants || 0)
-            .setReturndate(returnDate || '')
+            .setAdults(search.adults)
+            .setDeparturedate(search.departureDate)
+            .setDestinationlocationcode(search.destinationLocationCode)
+            .setOriginlocationcode(search.originLocationCode)
+            .setTravelclass(search.travelClass)
+            .setChildren(search.children || 0)
+            .setInfants(search.infants || 0)
+            .setReturndate(search. returnDate || '')
         ), (err, flight) => {
           if (err) {
             reject(err)

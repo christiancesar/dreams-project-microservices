@@ -1,5 +1,3 @@
-import { Flight } from "@prisma/client";
-import { Empty } from "google-protobuf/google/protobuf/empty_pb";
 import { FlightByUserRequest, FlightListResponse } from "dreams-proto-sharing/src/contracts/flight/flight_pb";
 import flightClient from "../../providers/FlightService";
 
@@ -22,7 +20,7 @@ export default class ListFlightsByUserService {
 
     const listFlightbyUserServiceRequest = (user: FlightRequest) => new Promise<FlightListResponse>((resolve, reject) => {
       flightClient.listFlightbyUser(
-        new FlightByUserRequest().setUserid(userId),
+        new FlightByUserRequest().setUserid(user.userId),
         (err, flight) => {
           if (err) {
             reject(err)

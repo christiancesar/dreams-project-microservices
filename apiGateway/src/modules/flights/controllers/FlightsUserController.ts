@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import ListFlightsByUserService from "../services/FlightUser/ListFlightsByUserService";
+import ListFlightsByUserService from "../services/flightUser/ListFlightsByUserService";
 
 class FlightsUserController {
   async index(request: Request, response: Response): Promise<Response> {

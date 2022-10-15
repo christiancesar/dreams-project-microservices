@@ -11,6 +11,5 @@ packageRouter.use('/offers', packageOffersRouter);
 packageRouter.use('/user', packageUserRouter);
 
 packageRouter.post('/', packageController.create);
-packageRouter.get('/', packageController.index);
 
 export default packageRouter;

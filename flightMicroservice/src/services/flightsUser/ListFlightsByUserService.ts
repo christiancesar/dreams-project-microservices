@@ -1,4 +1,4 @@
-import { FlightsRepository } from "../repositories/implementations/FlightsRepository";
+import { FlightsRepository } from "../../repositories/implementations/FlightsRepository";
 
 type FlightRequest = {
   userId: string

@@ -11,11 +11,11 @@ import {
   FlightByUserRequest
 } from "dreams-proto-sharing/src/contracts/flight/flight_pb";
 import { Empty } from "google-protobuf/google/protobuf/empty_pb";
-import CreateFlightService from "../../services/CreateFlightService";
+import CreateFlightService from "../../services/flights/CreateFlightService";
 import FlightOfferSearchService from '../../services/flightOffers/FlightOfferSearchService';
-import ListFlightsByUserService from "../../services/ListFlightsByUserService";
-import ListFlightsService from "../../services/ListFlightsService";
-import ShowFlightService from "../../services/ShowFlightService";
+import ListFlightsByUserService from "../../services/flightsUser/ListFlightsByUserService";
+import ListFlightsService from "../../services/flights/ListFlightsService";
+import ShowFlightService from "../../services//flights/ShowFlightService";
 
 class FlightServer implements IFlightsServer {
   listFlightbyUser: handleUnaryCall<FlightByUserRequest, FlightListResponse> = async (call, callback): Promise<void> => {

@@ -1,5 +1,4 @@
 import { Router } from "express";
-import FlightsOffersController from "../controllers/FlightsOffersController";
 import FlightsUserController from "../controllers/FlightsUserController";
 
 
