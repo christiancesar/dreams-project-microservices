@@ -1,27 +1,17 @@
 import { status } from "@grpc/grpc-js";
+import ObjectID from "bson-objectid";
 import { inject, injectable } from "tsyringe";
 import AppError from "../../errors/AppError";
-import { UsersRepository } from "../repositories/implementations/UsersRepository";
+import { UpdateUserRequestDTO } from "../dtos/UpdateUserRequestDTO";
+import { IUsersRepository } from "../repositories/interfaces/IUsersRepository";
 import { User } from "../schemas/User";
-import ObjectID from "bson-objectid";
-
-type UpdateUserParams = {
-  id: string,
-  firstName: string,
-  lastName: string,
-  birthday: string,
-  age: number,
-  email: string
-}
-
 
 @injectable()
 export class UpdateUserService {
   constructor(
     @inject('UsersRepository')
-    private userRepository: UsersRepository
+    private userRepository: IUsersRepository
   ) { }
-
 
   async execute({
     id,
@@ -30,7 +20,7 @@ export class UpdateUserService {
     birthday,
     age,
     email
-  }: UpdateUserParams): Promise<User> {
+  }: UpdateUserRequestDTO): Promise<User> {
 
     if (!ObjectID.isValid(id)) throw new AppError({ code: status.INVALID_ARGUMENT, name: 'Show User', message: 'Sorry, but property id is not valid.' });
 

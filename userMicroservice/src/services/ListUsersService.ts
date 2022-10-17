@@ -1,12 +1,12 @@
 import { inject, injectable } from "tsyringe";
-import { UsersRepository } from "../repositories/implementations/UsersRepository";
+import { IUsersRepository } from "../repositories/interfaces/IUsersRepository";
 import { User } from "../schemas/User";
 
 @injectable()
 export class ListUsersService {
   constructor(
     @inject('UsersRepository')
-    private userRepository: UsersRepository
+    private userRepository: IUsersRepository
   ) { }
 
   async execute(): Promise<User[]> {

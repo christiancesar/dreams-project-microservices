@@ -4,7 +4,7 @@ import { Server, ServerCredentials } from "@grpc/grpc-js";
 import { promisify } from "util";
 import UsersServer from "./protos/implementations/UserServiceProto";
 import { prisma } from '../prisma';
-import "./container"
+import "./shared/containers"
 
 const server = new Server()
 server.addService(UsersService, new UsersServer())

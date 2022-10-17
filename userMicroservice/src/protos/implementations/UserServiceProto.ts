@@ -1,15 +1,15 @@
 
-import grpc, { sendUnaryData, ServerErrorResponse, ServerUnaryCall, status } from "@grpc/grpc-js";
+import grpc, { sendUnaryData, ServerUnaryCall, status } from "@grpc/grpc-js";
 import { IUsersServer } from "dreams-proto-sharing/src/contracts/user/user_grpc_pb";
 import { UserRequest, UserResponse } from "dreams-proto-sharing/src/contracts/user/user_pb";
 import { Empty } from 'google-protobuf/google/protobuf/empty_pb.js';
 import { container } from 'tsyringe';
 import AppError from "../../../errors/AppError";
-import { usersResponseAdd } from "../../utils/usersResponseAdd";
 import { CreateUserService } from "../../services/CreateUserService";
 import { ListUsersService } from "../../services/ListUsersService";
 import { ShowUserService } from "../../services/ShowUserService";
 import { UpdateUserService } from "../../services/UpdateUserService";
+import { usersResponseAdd } from "../../utils/usersResponseAdd";
 
 class UsersServer implements IUsersServer {
   async updateUser(call: ServerUnaryCall<UserRequest, UserResponse>, callback: sendUnaryData<UserResponse>): Promise<void> {

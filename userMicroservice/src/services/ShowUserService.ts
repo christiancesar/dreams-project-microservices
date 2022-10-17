@@ -2,22 +2,18 @@ import { status } from "@grpc/grpc-js";
 import ObjectID from "bson-objectid";
 import { inject, injectable } from "tsyringe";
 import AppError from "../../errors/AppError";
-import { UsersRepository } from "../repositories/implementations/UsersRepository";
+import { ShowUserRequestDTO } from "../dtos/ShowUserRequestDTO";
+import { IUsersRepository } from "../repositories/interfaces/IUsersRepository";
 import { User } from "../schemas/User";
-
-type ShowUserParams = {
-  userId: string
-}
-
 
 @injectable()
 export class ShowUserService {
   constructor(
     @inject('UsersRepository')
-    private userRepository: UsersRepository
+    private userRepository: IUsersRepository
   ) { }
 
-  async execute({ userId }: ShowUserParams): Promise<User> {
+  async execute({ userId }: ShowUserRequestDTO): Promise<User> {
 
     if (!ObjectID.isValid(userId)) throw new AppError({ code: status.INVALID_ARGUMENT, name: 'Show User', message: 'Sorry, but property id is not valid.' });
 

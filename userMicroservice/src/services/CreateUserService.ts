@@ -1,16 +1,9 @@
 import { status } from '@grpc/grpc-js/';
-import { injectable, inject } from 'tsyringe';
+import { inject, injectable } from 'tsyringe';
 import AppError from "../../errors/AppError";
-import { UsersRepository } from "../repositories/implementations/UsersRepository";
+import { CreateUserRequestDTO } from '../dtos/CreateUserRequestDTO';
+import { IUsersRepository } from '../repositories/interfaces/IUsersRepository';
 import { User } from '../schemas/User';
-
-type CreateUserParams = {
-  firstName: string,
-  lastName: string,
-  birthday: string,
-  age: number,
-  email: string
-}
 
 @injectable()
 export class CreateUserService {
@@ -18,7 +11,7 @@ export class CreateUserService {
 
   constructor(
     @inject('UsersRepository')
-    private userRepository: UsersRepository
+    private userRepository: IUsersRepository
   ) { }
 
   async execute({
@@ -27,7 +20,7 @@ export class CreateUserService {
     birthday,
     age,
     email
-  }: CreateUserParams): Promise<User> {
+  }: CreateUserRequestDTO): Promise<User> {
 
 
     if (age <= 17) throw new AppError({ code: status.INVALID_ARGUMENT, name: 'Create User', message: 'You must be over 18 years old.' });

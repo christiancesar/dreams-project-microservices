@@ -1,7 +1,7 @@
-export interface ICreateUserDTO {
+export type CreateUserRequestDTO = {
   firstName: string;
   lastName: string;
-  age: number;
   birthday: string;
+  age: number;
   email: string;
 }
