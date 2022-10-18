@@ -1,5 +1,5 @@
 import { User } from ".prisma/client";
-import { prisma } from "../../../prisma";
+import { prisma } from "../../../../prisma";
 import { CreateUserRequestDTO } from "../../dtos/CreateUserRequestDTO";
 import { UpdateUserRequestDTO } from "../../dtos/UpdateUserRequestDTO";
 import { IUsersRepository } from "../interfaces/IUsersRepository";

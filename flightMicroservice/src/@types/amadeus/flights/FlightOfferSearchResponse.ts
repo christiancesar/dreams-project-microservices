@@ -4,11 +4,11 @@
 //
 //   "Set quicktype target language"
 
-export interface FlightOfferSearchResponse {
+export type FlightOfferSearchResponse = {
   data: FlightOffer[];
 }
 
-export interface FlightOffer {
+export type FlightOffer = {
   type:                     string;
   id:                       string;
   source:                   string;
@@ -24,12 +24,12 @@ export interface FlightOffer {
   travelerPricings:         TravelerPricing[];
 }
 
-export interface Itinerary {
+export type Itinerary = {
   duration: string;
   segments: Segment[];
 }
 
-export interface Segment {
+export type Segment = {
   departure:       Arrival;
   arrival:         Arrival;
   carrierCode:     string;
@@ -42,20 +42,20 @@ export interface Segment {
   blacklistedInEU: boolean;
 }
 
-export interface Aircraft {
+export type Aircraft = {
   code: string;
 }
 
-export interface Arrival {
+export type Arrival = {
   iataCode: string;
   at:       string;
 }
 
-export interface Operating {
+export type Operating = {
   carrierCode: string;
 }
 
-export interface Price {
+export type Price = {
   currency:   Currency;
   total:      string;
   base:       string;
@@ -67,17 +67,17 @@ export enum Currency {
   Brl = "BRL",
 }
 
-export interface Fee {
+export type Fee = {
   amount: string;
   type:   string;
 }
 
-export interface PricingOptions {
+export type PricingOptions = {
   fareType:                string[];
   includedCheckedBagsOnly: boolean;
 }
 
-export interface TravelerPricing {
+export type TravelerPricing = {
   travelerId:           string;
   fareOption:           FareOption;
   travelerType:         TravelerType;
@@ -86,7 +86,7 @@ export interface TravelerPricing {
   associatedAdultId?:   string;
 }
 
-export interface FareDetailsBySegment {
+export type FareDetailsBySegment = {
   segmentId:            string;
   cabin:                Cabin;
   fareBasis:            FareBasis;
@@ -113,7 +113,7 @@ export enum FareBasis {
   Glebfz4L = "GLEBFZ4L",
 }
 
-export interface IncludedCheckedBags {
+export type IncludedCheckedBags = {
   quantity: number;
 }
 
@@ -121,7 +121,7 @@ export enum FareOption {
   Standard = "STANDARD",
 }
 
-export interface TravelerPricingPrice {
+export type TravelerPricingPrice = {
   currency: Currency;
   total:    string;
   base:     string;

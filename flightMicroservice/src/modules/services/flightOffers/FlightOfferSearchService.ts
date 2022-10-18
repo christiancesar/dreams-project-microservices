@@ -1,7 +1,5 @@
-import { FlightOfferSearchRequest } from "../../../@types/amadeus/flights/FlightOfferSearchRequest";
-import { FlightOfferSearchResponse } from "../../../@types/amadeus/flights/FlightOfferSearchResponse";
-import { TravelClass } from "../../../@types/amadeus/flights/TravelClass";
-import { amadeus } from "../../../shared/providers/amadeus/amadeusApi";
+import { inject, injectable } from "tsyringe";
+import { IFlightProvider } from "../../../shared/providers/FlightProvider/interfaces/IFlightProvider";
 
 type FlightSerachRequestDTO = {
   originLocationCode: string;
@@ -18,9 +16,12 @@ type FlightSerachResponseDTO = {
   flightOffers: string;
 }
 
-
+@injectable()
 export class FlightOfferSearchService {
-
+  constructor(
+    @inject('FlightProvider')
+    private flightProvider: IFlightProvider,
+  ) { }
   public async execute({
     adults,
     departureDate,
@@ -31,8 +32,8 @@ export class FlightOfferSearchService {
     infants,
     returnDate
   }: FlightSerachRequestDTO): Promise<FlightSerachResponseDTO> {
-    const findTravelClass = TravelClass["ECONOMY"]
-    const flightOffersResponse = await amadeus.shopping.flightOffersSearch.get({
+
+    const flightOffersResponse = await this.flightProvider.findFlights({
       originLocationCode,
       destinationLocationCode,
       departureDate,
@@ -40,10 +41,8 @@ export class FlightOfferSearchService {
       adults,
       children,
       infants,
-      travelClass: findTravelClass,
-      currencyCode: 'BRL',
-      max: 10
-    } as FlightOfferSearchRequest) as FlightOfferSearchResponse
+      travelClass
+    })
 
     return {
       flightOffers: JSON.stringify(flightOffersResponse.data)
