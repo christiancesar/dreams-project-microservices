@@ -1,6 +1,8 @@
+import "reflect-metadata";
+import "./shared/containers";
 import { Server, ServerCredentials } from "@grpc/grpc-js";
 import { promisify } from "util";
-import HotelServiceProto from "./protos/implementations/HotelServiceProto";
+import HotelServiceProto from "./modules/protos/implementations/HotelServiceProto";
 import { prisma } from '../prisma';
 import { HotelsService } from "dreams-proto-sharing/src/contracts/hotel/hotel_grpc_pb";
 
@@ -17,7 +19,7 @@ bindPromise('0.0.0.0:50054', ServerCredentials.createInsecure())
     console.log(`listening on ${port}`)
     server.start()
   })
-  .catch(console.error)
-  .finally(async () => {
-    await prisma.$disconnect()
+  .catch(async (error) => {
+    await prisma.$disconnect();
+    console.error(error)
   })

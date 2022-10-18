@@ -11,7 +11,7 @@ import {
   HotelShowRequest
 } from "dreams-proto-sharing/src/contracts/hotel/hotel_pb";
 import { Empty } from "google-protobuf/google/protobuf/empty_pb";
-import HotelOfferSearchService from "../../services/hotelOffers/HotelOffersSearchService";
+import HotelOffersSearchService from "../../services/hotelOffers/HotelOffersSearchService";
 import CreateHotelService from "../../services/hotels/CreateHotelService";
 import ListHotelsByUserService from "../../services/hotels/ListHotelsByUserService";
 import ListHotelsService from "../../services/hotels/ListHotelsService";
@@ -112,7 +112,8 @@ class HotelServer implements IHotelsServer {
     try {
       const hotelOffersRequest = call.request.getHotelofferssearch()?.toObject()!
       const hotelOffersResponse = new HotelOffersResponse();
-      const hotelOfferSearchService = new HotelOfferSearchService();
+      
+      const hotelOfferSearchService = new HotelOffersSearchService();
 
       const { hotelOffers } = await hotelOfferSearchService.execute({
         adults: hotelOffersRequest.adults,

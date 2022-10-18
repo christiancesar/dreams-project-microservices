@@ -24,6 +24,8 @@
     "@types/uuid": "^8.3.4",
     "amadeus": "^6.0.0",
     "dreams-proto-sharing": "^1.0.0",
-    "prisma": "^3.14.0"
+    "prisma": "^3.14.0",
+    "reflect-metadata": "^0.1.13",
+    "tsyringe": "^4.7.0"
   }
 }

@@ -1,30 +1,21 @@
 import { status } from "@grpc/grpc-js";
-import { Hotel } from "@prisma/client";
-import HotelsRepository from "../../repositories/implementations/HotelsRepository";
-import AppError from "../../../../common/errors/AppError";
+import { inject, injectable } from "tsyringe";
+import { AppError } from "../../../shared/errors/AppError";
+import { ShowHotelRequestDTO } from "../../dtos/ShowHotelRequestDTO";
+import { ShowHotelResponseDTO } from "../../dtos/ShowHotelResponseDTO";
+import { IHotelsRepository } from "../../repositories/interfaces/IHotelsRepository";
 
-type HotelRequest = {
-  hotelId: string
-}
-
-type HotelResponse = {
-  id: string;
-  hotel: string;
-  offers: string;
-  createdAt: number;
-  updatedAt: number;
-}
-
+@injectable()
 export default class ShowHotelService {
 
-  private hotelsRepository: HotelsRepository;
+  constructor(
+    @inject('HotelsRepository')
+    private hotelsRepository: IHotelsRepository
+  ) {  }
 
-  constructor() {
-    this.hotelsRepository = new HotelsRepository();
-  }
-
-  async execute({ hotelId }: HotelRequest): Promise<HotelResponse> {
+  async execute({ hotelId }: ShowHotelRequestDTO): Promise<ShowHotelResponseDTO> {
     const hotel = await this.hotelsRepository.findByHotelId(hotelId);
+    
     if (!hotel) {
       throw new AppError({ code: status.NOT_FOUND, name: 'Show User', message: 'Sorry, but flight not exist.' });
     }
