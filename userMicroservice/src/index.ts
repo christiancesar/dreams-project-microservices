@@ -3,7 +3,7 @@ import "./shared/containers";
 import { UsersService } from "dreams-proto-sharing/src/contracts/user/user_grpc_pb";
 import { Server, ServerCredentials } from "@grpc/grpc-js";
 import { promisify } from "util";
-import UsersServer from "./protos/implementations/UserServiceProto";
+import { UsersServer } from "./modules/protos/implementations/UserServiceProto";
 import { prisma } from '../prisma';
 
 
@@ -21,5 +21,5 @@ bindPromise('0.0.0.0:50052', ServerCredentials.createInsecure())
   })
   .catch(async (error) => {
     await prisma.$disconnect();
-    console.error(error)	
+    console.error(error)
   })

@@ -1,9 +1,9 @@
 import { status } from '@grpc/grpc-js/';
 import { inject, injectable } from 'tsyringe';
-import AppError from "../../errors/AppError";
 import { CreateUserRequestDTO } from '../dtos/CreateUserRequestDTO';
 import { IUsersRepository } from '../repositories/interfaces/IUsersRepository';
 import { User } from '../entities/UserEntity';
+import { AppError } from '../../shared/errors/AppError';
 
 @injectable()
 export class CreateUserService {

@@ -1,5 +1,5 @@
 import { status } from "@grpc/grpc-js";
-import AppError from "../../../../../common/errors/AppError";
+import { AppError } from "../../../shared/errors/AppError";
 import { ShowFlightRequestDTO } from "../../dtos/ShowFlightRequestDTO";
 import { ShowFlighResponseDTO } from "../../dtos/ShowFlightResponseDTO";
 import { FlightsRepository } from "../../repositories/implementations/FlightsRepository";

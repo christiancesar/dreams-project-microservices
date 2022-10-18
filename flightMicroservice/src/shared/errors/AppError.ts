@@ -1,6 +1,6 @@
 import { Metadata, ServerErrorResponse, status } from '@grpc/grpc-js'
 
-class AppError implements ServerErrorResponse {
+export class AppError implements ServerErrorResponse {
   code?: status | undefined;
   details?: string | undefined;
   metadata?: Metadata | undefined;
@@ -17,5 +17,3 @@ class AppError implements ServerErrorResponse {
     this.stack = stack;
   }
 }
-
-export default AppError
