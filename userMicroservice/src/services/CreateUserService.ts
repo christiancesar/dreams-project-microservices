@@ -3,7 +3,7 @@ import { inject, injectable } from 'tsyringe';
 import AppError from "../../errors/AppError";
 import { CreateUserRequestDTO } from '../dtos/CreateUserRequestDTO';
 import { IUsersRepository } from '../repositories/interfaces/IUsersRepository';
-import { User } from '../schemas/User';
+import { User } from '../entities/UserEntity';
 
 @injectable()
 export class CreateUserService {

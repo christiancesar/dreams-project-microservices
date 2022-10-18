@@ -4,7 +4,7 @@ import { inject, injectable } from "tsyringe";
 import AppError from "../../errors/AppError";
 import { UpdateUserRequestDTO } from "../dtos/UpdateUserRequestDTO";
 import { IUsersRepository } from "../repositories/interfaces/IUsersRepository";
-import { User } from "../schemas/User";
+import { User } from "../entities/UserEntity";
 
 @injectable()
 export class UpdateUserService {

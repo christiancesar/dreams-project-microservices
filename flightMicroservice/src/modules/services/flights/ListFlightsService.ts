@@ -1,26 +1,17 @@
-import { FlightsRepository } from "../repositories/implementations/FlightsRepository";
+import { ListFlightsResponseDTO } from "../../dtos/ListFlightsResponseDTO";
+import { FlightsRepository } from "../../repositories/implementations/FlightsRepository";
 
-type FlightResponse = {
-  id: string;
-  itineraries: any;
-  price: any;
-  userId: string;
-  isPackage: boolean;
-  createdAt: number;
-  updatedAt: number;
-}
-
-export default class ListFlightsService {
+export class ListFlightsService {
   private flightsRepository: FlightsRepository;
 
   constructor() {
     this.flightsRepository = new FlightsRepository()
   }
 
-  async execute(): Promise<FlightResponse[]> {
+  async execute(): Promise<ListFlightsResponseDTO[]> {
     const flights = await this.flightsRepository.findAll();
     
-    const flightFmt: FlightResponse[] = [];
+    const flightFmt: ListFlightsResponseDTO[] = [];
 
     flights.map((flight) => {
       flightFmt.push({

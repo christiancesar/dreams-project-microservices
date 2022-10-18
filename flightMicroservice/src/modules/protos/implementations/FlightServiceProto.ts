@@ -11,11 +11,12 @@ import {
   FlightByUserRequest
 } from "dreams-proto-sharing/src/contracts/flight/flight_pb";
 import { Empty } from "google-protobuf/google/protobuf/empty_pb";
-import CreateFlightService from "../../services/flights/CreateFlightService";
-import FlightOfferSearchService from '../../services/flightOffers/FlightOfferSearchService';
-import ListFlightsByUserService from "../../services/flightsUser/ListFlightsByUserService";
-import ListFlightsService from "../../services/flights/ListFlightsService";
-import ShowFlightService from "../../services//flights/ShowFlightService";
+import { CreateFlightService } from "../../services/flights/CreateFlightService";
+import { FlightOfferSearchService } from '../../services/flightOffers/FlightOfferSearchService';
+import { ListFlightsByUserService } from "../../services/flightsUser/ListFlightsByUserService";
+import { ListFlightsService } from "../../services/flights/ListFlightsService";
+import { ShowFlightService } from "../../services//flights/ShowFlightService";
+import { container } from "tsyringe";
 
 class FlightServer implements IFlightsServer {
   listFlightbyUser: handleUnaryCall<FlightByUserRequest, FlightListResponse> = async (call, callback): Promise<void> => {
@@ -23,7 +24,7 @@ class FlightServer implements IFlightsServer {
       const userId = call.request.getUserid();
 
       const flightListResponse = new FlightListResponse();
-      const listFlightsByUserService = new ListFlightsByUserService();
+      const listFlightsByUserService = container.resolve(ListFlightsByUserService);
 
       const flights = await listFlightsByUserService.execute({ userId });
 
@@ -50,13 +51,13 @@ class FlightServer implements IFlightsServer {
     try {
       const flightRequest = call.request.getFlightcreate()!.toObject();
       const flightResponse = new FlightResponse();
-      const createFlightService = new CreateFlightService();
+      const createFlightService = container.resolve(CreateFlightService);
 
       const flight = await createFlightService.execute({
         itineraries: flightRequest.itineraries,
         price: flightRequest.price,
         userId: flightRequest.userid,
-        isPackage: flightRequest.ispackage        
+        isPackage: flightRequest.ispackage
       })
 
       flightResponse.setFlight(
@@ -76,7 +77,8 @@ class FlightServer implements IFlightsServer {
   listFlights: handleUnaryCall<Empty, FlightListResponse> = async (call, callback): Promise<void> => {
     try {
       const flightListResponse = new FlightListResponse();
-      const listFlightsService = new ListFlightsService();
+
+      const listFlightsService = container.resolve(ListFlightsService);
 
       const flights = await listFlightsService.execute();
 
@@ -101,7 +103,8 @@ class FlightServer implements IFlightsServer {
     try {
       const flightShowRequest = call.request;
       const flightResponse = new FlightResponse();
-      const showFlightService = new ShowFlightService();
+
+      const showFlightService = container.resolve(ShowFlightService);
 
       const flight = await showFlightService.execute({ flightId: flightShowRequest.getId() });
 
@@ -123,7 +126,7 @@ class FlightServer implements IFlightsServer {
     try {
       const flightOffersRequest = call.request.getFlightofferssearch()?.toObject()!
       const flightOffersResponse = new FlightOffersResponse();
-      const flightOfferSearchService = new FlightOfferSearchService();
+      const flightOfferSearchService = container.resolve(FlightOfferSearchService);
 
       const { flightOffers } = await flightOfferSearchService.execute({
         adults: flightOffersRequest.adults,

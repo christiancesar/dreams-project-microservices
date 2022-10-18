@@ -1,29 +1,17 @@
 import { status } from "@grpc/grpc-js";
-import AppError from "../../../common/errors/AppError";
-import { FlightsRepository } from "../repositories/implementations/FlightsRepository";
+import AppError from "../../../../../common/errors/AppError";
+import { ShowFlightRequestDTO } from "../../dtos/ShowFlightRequestDTO";
+import { ShowFlighResponseDTO } from "../../dtos/ShowFlightResponseDTO";
+import { FlightsRepository } from "../../repositories/implementations/FlightsRepository";
 
-type FlightRequest = {
-  flightId: string
-}
-
-type FlightResponse = {
-  id: string;
-  itineraries: any;
-  price: any;
-  userId: string;
-  isPackage: boolean;
-  createdAt: number;
-  updatedAt: number;
-}
-
-export default class ShowFlightService {
+export class ShowFlightService {
   private flightsRepository: FlightsRepository;
 
   constructor() {
     this.flightsRepository = new FlightsRepository()
   }
 
-  async execute({ flightId }: FlightRequest): Promise<FlightResponse> {
+  async execute({ flightId }: ShowFlightRequestDTO): Promise<ShowFlighResponseDTO> {
     const flight = await this.flightsRepository.findByFlightId(flightId);
 
     if (!flight) {

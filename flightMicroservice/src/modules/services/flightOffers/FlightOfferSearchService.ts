@@ -1,9 +1,9 @@
-import { FlightOfferSearchRequest } from "../../@types/amadeus/flights/FlightOfferSearchRequest";
-import { FlightOfferSearchResponse } from "../../@types/amadeus/flights/FlightOfferSearchResponse";
-import { TravelClass } from "../../@types/amadeus/flights/TravelClass";
-import { amadeus } from "../../providers/amadeus/amadeusApi";
+import { FlightOfferSearchRequest } from "../../../@types/amadeus/flights/FlightOfferSearchRequest";
+import { FlightOfferSearchResponse } from "../../../@types/amadeus/flights/FlightOfferSearchResponse";
+import { TravelClass } from "../../../@types/amadeus/flights/TravelClass";
+import { amadeus } from "../../../shared/providers/amadeus/amadeusApi";
 
-type FlightSerachRequest = {
+type FlightSerachRequestDTO = {
   originLocationCode: string;
   destinationLocationCode: string;
   departureDate: string;
@@ -14,12 +14,12 @@ type FlightSerachRequest = {
   travelClass: string;
 }
 
-type FlightSerachResponse = {
+type FlightSerachResponseDTO = {
   flightOffers: string;
 }
 
 
-export default class FlightOfferSearchService {
+export class FlightOfferSearchService {
 
   public async execute({
     adults,
@@ -30,7 +30,7 @@ export default class FlightOfferSearchService {
     children,
     infants,
     returnDate
-  }: FlightSerachRequest): Promise<FlightSerachResponse> {
+  }: FlightSerachRequestDTO): Promise<FlightSerachResponseDTO> {
     const findTravelClass = TravelClass["ECONOMY"]
     const flightOffersResponse = await amadeus.shopping.flightOffersSearch.get({
       originLocationCode,

@@ -1,5 +1,5 @@
 import { User as UserProto, UserResponse } from "dreams-proto-sharing/src/contracts/user/user_pb"
-import { User } from "../schemas/User"
+import { User } from "../entities/UserEntity"
 
 
 export const usersResponseAdd = (users: Array<User>): UserResponse => {

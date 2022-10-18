@@ -1,28 +1,15 @@
+import { CreateFlightRequestDTO } from "../../dtos/CreateFlightRequestDTO";
+import { CreateFlightResponseDTO } from "../../dtos/CreateFlightResponseDTO";
 import { FlightsRepository } from "../../repositories/implementations/FlightsRepository";
 
-type FlightRequest = {
-  itineraries: string;
-  price: string;
-  userId: string;
-  isPackage: boolean;
-}
-
-type FlightResponse = {
-  id: string;
-  itineraries: string;
-  price: string
-  createdAt: number;
-  updatedAt: number;
-}
-
-export default class CreateFlightService {
+export class CreateFlightService {
   private flightsRepository: FlightsRepository;
 
   constructor() {
     this.flightsRepository = new FlightsRepository()
   }
 
-  async execute({ itineraries, price, userId, isPackage }: FlightRequest): Promise<FlightResponse> {
+  async execute({ itineraries, price, userId, isPackage }: CreateFlightRequestDTO): Promise<CreateFlightResponseDTO> {
     const flight = await this.flightsRepository.create({
       itineraries,
       price,

@@ -1,30 +1,18 @@
+import { ListFlightsByUserRequestDTO } from "../../dtos/ListFlightByUserRequestDTO";
+import { ListFlightsByUserResponseDTO } from "../../dtos/ListFlightsByUserResponseDTO";
 import { FlightsRepository } from "../../repositories/implementations/FlightsRepository";
 
-type FlightRequest = {
-  userId: string
-}
-
-type FlightResponse = {
-  id: string;
-  itineraries: any;
-  price: any;
-  userId: string;
-  isPackage: boolean;
-  createdAt: number;
-  updatedAt: number;
-}
-
-export default class ListFlightsByUserService {
+export class ListFlightsByUserService {
   private flightsRepository: FlightsRepository;
 
   constructor() {
     this.flightsRepository = new FlightsRepository()
   }
 
-  async execute({ userId }: FlightRequest): Promise<FlightResponse[]> {
+  async execute({ userId }: ListFlightsByUserRequestDTO): Promise<ListFlightsByUserResponseDTO[]> {
     const flights = await this.flightsRepository.findByUserId(userId);
 
-    const flightFmt: FlightResponse[] = [];
+    const flightFmt: ListFlightsByUserResponseDTO[] = [];
 
     flights.map((flight) => {
       flightFmt.push({

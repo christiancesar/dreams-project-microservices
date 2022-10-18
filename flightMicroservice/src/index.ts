@@ -1,9 +1,10 @@
+import "reflect-metadata";
+import "./shared/containers";
 import { Server, ServerCredentials } from "@grpc/grpc-js";
 import { promisify } from "util";
-import FlightServiceProto from "./protos/implementations/FlightServiceProto";
+import FlightServiceProto from "./modules/protos/implementations/FlightServiceProto";
 import { prisma } from '../prisma';
 import { FlightsService } from "dreams-proto-sharing/src/contracts/flight/flight_grpc_pb";
-import "./container";
 
 const server = new Server()
 server.addService(FlightsService, new FlightServiceProto())
@@ -17,8 +18,7 @@ bindPromise('0.0.0.0:50053', ServerCredentials.createInsecure())
     console.log(`listening on ${port}`)
     server.start()
   })
-  .catch(console.error)
-  .finally(async () => {
-    console.log('Disconnected prisma')
-    await prisma.$disconnect()
+  .catch(async (error) => {
+    await prisma.$disconnect();
+    console.error(error)	
   })

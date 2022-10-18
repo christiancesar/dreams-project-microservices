@@ -1,10 +1,11 @@
-import "reflect-metadata"
+import "reflect-metadata";
+import "./shared/containers";
 import { UsersService } from "dreams-proto-sharing/src/contracts/user/user_grpc_pb";
 import { Server, ServerCredentials } from "@grpc/grpc-js";
 import { promisify } from "util";
 import UsersServer from "./protos/implementations/UserServiceProto";
 import { prisma } from '../prisma';
-import "./shared/containers"
+
 
 const server = new Server()
 server.addService(UsersService, new UsersServer())
@@ -18,7 +19,7 @@ bindPromise('0.0.0.0:50052', ServerCredentials.createInsecure())
     console.log(`listening on ${port}`)
     server.start()
   })
-  .catch(console.error)
-  .finally(async () => {
-    await prisma.$disconnect()
+  .catch(async (error) => {
+    await prisma.$disconnect();
+    console.error(error)	
   })
