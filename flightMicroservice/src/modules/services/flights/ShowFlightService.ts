@@ -1,15 +1,16 @@
 import { status } from "@grpc/grpc-js";
+import { inject, injectable } from "tsyringe";
 import { AppError } from "../../../shared/errors/AppError";
 import { ShowFlightRequestDTO } from "../../dtos/ShowFlightRequestDTO";
 import { ShowFlighResponseDTO } from "../../dtos/ShowFlightResponseDTO";
-import { FlightsRepository } from "../../repositories/implementations/FlightsRepository";
+import { IFlightsRepository } from "../../repositories/interfaces/IFlightsRepository";
 
+@injectable()
 export class ShowFlightService {
-  private flightsRepository: FlightsRepository;
-
-  constructor() {
-    this.flightsRepository = new FlightsRepository()
-  }
+  constructor(
+    @inject('FlightsRepository')
+    private flightsRepository: IFlightsRepository,
+  ) { }
 
   async execute({ flightId }: ShowFlightRequestDTO): Promise<ShowFlighResponseDTO> {
     const flight = await this.flightsRepository.findByFlightId(flightId);

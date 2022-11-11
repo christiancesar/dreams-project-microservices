@@ -1,62 +1,58 @@
 
 import grpc, { ServerErrorResponse } from "@grpc/grpc-js";
-import CreatePackageService from "../../services/package/CreatePackageService";
-import AssemblingPackageService from "../../services/packageOffers/AssemblingPackageService";
 import { IPackagesServer } from "dreams-proto-sharing/src/contracts/package/package_grpc_pb";
 import {
   Flight,
-  Hotel,
-  PackageResponse,
-  PackagesResponse,
-  PackageCreateRequest,
-  PackageSearchRequest,
-  PackageSearchResponse,
-  PackagesByUserRequest
+  Hotel, PackageCreateRequest, PackageResponse, PackagesByUserRequest, PackageSearchRequest,
+  PackageSearchResponse, PackagesResponse
 } from "dreams-proto-sharing/src/contracts/package/package_pb";
-import { Empty } from "google-protobuf/google/protobuf/empty_pb";
-import ListPackagesByUserService from "../../services/packageUser/ListPackagesByUserService";
-import ListPackagesService from "../../services/package/ListPackagesService";
+import { container } from "tsyringe";
+import { CreatePackageService } from "../../services/package/CreatePackageService";
+import { AssemblingPackageService } from "../../services/packageOffers/AssemblingPackageService";
+// import { Empty } from "google-protobuf/google/protobuf/empty_pb";
+import { ListPackagesByUserService } from "../../services/packageUser/ListPackagesByUserService";
+// import ListPackagesService from "../../services/package/ListPackagesService";
 
 
 class PackagesServer implements IPackagesServer {
-  listPackages: grpc.handleUnaryCall<Empty, PackagesResponse> = async (call, callback): Promise<void> => {
-    try {
-      const packageResponse = new PackagesResponse();
-      const listPackagesService = new ListPackagesService();
-      
-      const packages = await listPackagesService.execute();
+  // listPackages: grpc.handleUnaryCall<Empty, PackagesResponse> = async (call, callback): Promise<void> => {
+  //   try {
+  //     const packageResponse = new PackagesResponse();
+  //     const listPackagesService = new ListPackagesService();
 
-      packages.map((package_) => {
-        packageResponse.addPackageresponse(
-          new PackageResponse()
-            .setId(package_.id)
-            .setFlight(
-              new Flight()
-                .setIntinerantes(package_.flight.itineraries)
-                .setPrice(package_.flight.price)
-            )
-            .setHotel(
-              new Hotel()
-                .setHotel(package_.hotel.hotel)
-                .setOffers(package_.hotel.offers)
-            )
-            .setAmount(package_.amount)
-            .setOff(package_.off)
-            .setUpdatedat(package_.updatedAt)
-            .setCreatedat(package_.createdAt)
-        )
-      })
-      callback(null, packageResponse);
-    } catch (error) {
-      callback(error as ServerErrorResponse, null);
-    }
-  }
+  //     const packages = await listPackagesService.execute();
+
+  //     packages.map((package_) => {
+  //       packageResponse.addPackageresponse(
+  //         new PackageResponse()
+  //           .setId(package_.id)
+  //           .setFlight(
+  //             new Flight()
+  //               .setIntinerantes(package_.flight.itineraries)
+  //               .setPrice(package_.flight.price)
+  //           )
+  //           .setHotel(
+  //             new Hotel()
+  //               .setHotel(package_.hotel.hotel)
+  //               .setOffers(package_.hotel.offers)
+  //           )
+  //           .setAmount(package_.amount)
+  //           .setOff(package_.off)
+  //           .setUpdatedat(package_.updatedAt)
+  //           .setCreatedat(package_.createdAt)
+  //       )
+  //     })
+  //     callback(null, packageResponse);
+  //   } catch (error) {
+  //     callback(error as ServerErrorResponse, null);
+  //   }
+  // }
 
   listPackageByUser: grpc.handleUnaryCall<PackagesByUserRequest, PackagesResponse> = async (call, callback): Promise<void> => {
     try {
       const userId = call.request.getUserid();
       const packageResponse = new PackagesResponse();
-      const listPackagesByUser = new ListPackagesByUserService();
+      const listPackagesByUser = container.resolve(ListPackagesByUserService);
 
       const packages = await listPackagesByUser.execute({ userId });
 
@@ -90,7 +86,7 @@ class PackagesServer implements IPackagesServer {
     try {
       const packageRequest = call.request.getPackagecreate()!.toObject();
       const packageResponse = new PackagesResponse();
-      const createPackageService = new CreatePackageService();
+      const createPackageService = container.resolve(CreatePackageService);
 
       const package_ = await createPackageService.execute({
         userId: packageRequest.userid,
@@ -135,7 +131,7 @@ class PackagesServer implements IPackagesServer {
     try {
       const packageSearchRequest = call.request.getPackagesearch()!.toObject();
       const packageSearchResponse = new PackageSearchResponse();
-      const assemblingPackageService = new AssemblingPackageService();
+      const assemblingPackageService = container.resolve(AssemblingPackageService);
 
       const packages = await assemblingPackageService.execute({
         adults: packageSearchRequest.adults,

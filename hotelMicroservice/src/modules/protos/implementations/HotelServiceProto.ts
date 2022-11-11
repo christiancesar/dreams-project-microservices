@@ -1,16 +1,17 @@
 import { handleUnaryCall, ServerErrorResponse } from "@grpc/grpc-js";
 import { IHotelsServer } from "dreams-proto-sharing/src/contracts/hotel/hotel_grpc_pb";
 import {
-  Hotel,
-  HotelsByUserRequest,
+  Hotel, 
+  HotelCreateRequest, 
   HotelListResponse,
   HotelOffersRequest,
-  HotelOffersResponse,
-  HotelCreateRequest,
-  HotelResponse,
+  HotelOffersResponse, 
+  HotelResponse, 
+  HotelsByUserRequest, 
   HotelShowRequest
 } from "dreams-proto-sharing/src/contracts/hotel/hotel_pb";
 import { Empty } from "google-protobuf/google/protobuf/empty_pb";
+import { container } from "tsyringe";
 import HotelOffersSearchService from "../../services/hotelOffers/HotelOffersSearchService";
 import CreateHotelService from "../../services/hotels/CreateHotelService";
 import ListHotelsByUserService from "../../services/hotels/ListHotelsByUserService";
@@ -22,7 +23,7 @@ class HotelServer implements IHotelsServer {
     try {
       const userId = call.request.getUserid();
       const hotelListResponse = new HotelListResponse();
-      const listHotelsByUserService = new ListHotelsByUserService();
+      const listHotelsByUserService = container.resolve(ListHotelsByUserService );
 
       const hotels = await listHotelsByUserService.execute({ userId });
 
@@ -44,7 +45,7 @@ class HotelServer implements IHotelsServer {
     try {
       const hotelRequest = call.request.getHotelcreate()!.toObject();
       const hotelResponse = new HotelResponse();
-      const createHotelService = new CreateHotelService();
+      const createHotelService = container.resolve(CreateHotelService);
 
       const hotel = await createHotelService.execute({
         hotel: hotelRequest.hotel,
@@ -70,7 +71,7 @@ class HotelServer implements IHotelsServer {
   listHotels: handleUnaryCall<Empty, HotelListResponse> = async (call, callback): Promise<void> => {
     try {
       const hotelListResponse = new HotelListResponse();
-      const listHotelsService = new ListHotelsService();
+      const listHotelsService = container.resolve(ListHotelsService);
 
       const hotels = await listHotelsService.execute();
 
@@ -93,7 +94,7 @@ class HotelServer implements IHotelsServer {
     try {
       const hotelShowRequest = call.request;
       const hotelResponse = new HotelResponse();
-      const showHotelService = new ShowHotelService();
+      const showHotelService = container.resolve(ShowHotelService);
       const hotel = await showHotelService.execute({ hotelId: hotelShowRequest.getId() });
 
       hotelResponse.setHotel(
@@ -113,7 +114,7 @@ class HotelServer implements IHotelsServer {
       const hotelOffersRequest = call.request.getHotelofferssearch()?.toObject()!
       const hotelOffersResponse = new HotelOffersResponse();
       
-      const hotelOfferSearchService = new HotelOffersSearchService();
+      const hotelOfferSearchService = container.resolve(HotelOffersSearchService);
 
       const { hotelOffers } = await hotelOfferSearchService.execute({
         adults: hotelOffersRequest.adults,

@@ -1,4 +1,4 @@
-export interface ICreatePackageDTO {
+export type CreatePackageDTO = {
   hotelId: string;
   flightId: string;
   amount: number;

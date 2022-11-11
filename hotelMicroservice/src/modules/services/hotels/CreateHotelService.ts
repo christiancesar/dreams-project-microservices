@@ -13,6 +13,8 @@ export default class CreateHotelService {
   ) { }
 
   async execute({ hotel, offers, userId, isPackage}: CreateHotelRequestDTO): Promise<CreateHotelResponseDTO> {
+    throw new Error("Method not implemented.");
+    
     const hotelCreated = await this.hotelsRepository.create({
       userId,
       hotel,

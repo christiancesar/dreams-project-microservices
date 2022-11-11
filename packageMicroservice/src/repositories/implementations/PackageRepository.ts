@@ -1,16 +1,11 @@
 import { Package } from "@prisma/client";
 import { prisma } from "../../../prisma";
-import { ICreatePackageDTO } from "../../dtos/ICreatePackageDTO";
-
-interface IPackageRepository {
-  create(data: ICreatePackageDTO): Promise<Package>;
-  findAllPackages(): Promise<Package[]>;
-  findPackagesByUserId(userId: string): Promise<Package[]>;
-}
+import { CreatePackageDTO } from "../../dtos/CreatePackageDTO";
+import { IPackageRepository } from "../interfaces/IPackageRepository";
 
 class PackageRepository implements IPackageRepository {
 
-  async create(data: ICreatePackageDTO): Promise<Package> {
+  async create(data: CreatePackageDTO): Promise<Package> {
     const packageCreated = await prisma.package.create({ data });
     return packageCreated;
   }

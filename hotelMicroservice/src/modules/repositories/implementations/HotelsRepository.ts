@@ -1,18 +1,26 @@
 import { prisma } from "../../../../prisma"
-import { ICreateHotelDTO } from "../../dtos/ICreateHotelDTO"
+import { CreateHotelRequestDTO } from "../../dtos/CreateHotelRequestDTO"
+import { UpdateHotelStatusDTO } from "../../dtos/UpdateHotelStatusDTO"
 import { Hotel } from "../../entities/HotelEntity"
 import { IHotelsRepository } from "../interfaces/IHotelsRepository"
 
 
 export class HotelsRepository implements IHotelsRepository {
 
-  async create({ hotel, offers, userId, isPackage }: ICreateHotelDTO): Promise<Hotel> {
+  async create({ hotel, offers, userId, isPackage }: CreateHotelRequestDTO): Promise<Hotel> {
     const hotelCreated = await prisma.hotel.create({
       data: {
         userId,
-        hotel, 
+        hotel,
         offers,
-        isPackage
+        isPackage,
+        status: 'created',
+        active: true,
+        events: {
+          create: { 
+            eventName: 'HOTEL_CREATED', 
+          } 
+        }
       }
     })
 
@@ -31,12 +39,29 @@ export class HotelsRepository implements IHotelsRepository {
   }
 
   async findHotelsByUserId(userId: string): Promise<Hotel[]> {
-    const hotels = await prisma.hotel.findMany({ 
-      where: { 
+    const hotels = await prisma.hotel.findMany({
+      where: {
         userId,
         isPackage: false
-      }  
+      }
     })
     return hotels;
+  }
+
+  async updateHotelStatus({ hotelId, active, eventName, status, errorDescription }: UpdateHotelStatusDTO): Promise<void> {
+    await prisma.hotel.update({
+      where: { id: hotelId },
+      data: {
+        active,
+        status,
+        events: {
+          create: {
+            eventName,
+            errorDescription
+          }
+        }
+      }
+    })
+
   }
 }

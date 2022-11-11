@@ -7,12 +7,25 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model Event {
+  id               String   @id @default(auto()) @map("_id") @db.ObjectId
+  eventName        String
+  errorDescription String?
+  Hotel            Hotel?   @relation(fields: [hotelId], references: [id])
+  hotelId          String?  @db.ObjectId
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+}
+
 model Hotel {
   id        String   @id @default(auto()) @map("_id") @db.ObjectId
   hotel     Json
   offers    Json
   userId    String
   isPackage Boolean  @default(false)
+  active    Boolean  @default(true)
+  status    String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  Event     Event[]
 }

@@ -1,50 +1,19 @@
-import { FlightOffersRequest, FlightOffersResponse, FlightOffersSearch } from "dreams-proto-sharing/src/contracts/flight/flight_pb";
-import { HotelOffersRequest, HotelOffersResponse, HotelOffersSearch } from "dreams-proto-sharing/src/contracts/hotel/hotel_pb";
+import { inject, injectable } from "tsyringe";
 import { FlightOffer } from "../../@types/amadeus/flights/FlightOfferSearchResponse";
 import { HotelOffer } from "../../@types/amadeus/hotels/HotelOfferSearchResponse";
-import flightClient from "../../providers/FlightService";
-import hotelClient from "../../providers/HotelService";
+import { AssemblingPackageServiceRequestDTO } from "../../dtos/AssemblingPackageServiceRequestDTO";
+import { AssemblingPackageServiceResponse } from "../../dtos/AssemblingPackageServiceResponse";
+import { IFlightProvider } from "../../shared/container/providers/FlightProvider/interfaces/IFlightProvider";
+import { IHotelProvider } from "../../shared/container/providers/HotelProvider/interface/IHotelProvider";
 
-type PackageOffersRequest = {
-  originLocationCode: string;
-  destinationLocationCode: string;
-  departureDate: string;
-  returnDate: string;
-  adults: number;
-  children: number;
-  infants: number;
-  travelClass: string;
-  roomQuantity: number;
-}
-
-type FlightOffersSearchRequest = {
-  originLocationCode: string;
-  destinationLocationCode: string;
-  departureDate: string;
-  returnDate?: string;
-  adults: number;
-  children?: number;
-  infants?: number;
-  travelClass: string;
-}
-
-type HotelOffersSearchRequest = {
-  cityCode: string;
-  checkInDate: string;
-  checkOutDate: string;
-  roomQuantity: number;
-  adults: number;
-}
-
-type PackageResponse = {
-  flight: FlightOffer;
-  hotel: HotelOffer;  
-  off: number;  
-  amount: number;
-}
-
-export default class AssemblingPackageService {
- 
+@injectable()
+export class AssemblingPackageService {
+  constructor(
+    @inject('FlightProvider')
+    private flightDreamsProvider: IFlightProvider,
+    @inject('HotelProvider')
+    private hotelProvider: IHotelProvider
+  ) { }
   async execute({
     adults,
     children,
@@ -55,7 +24,7 @@ export default class AssemblingPackageService {
     returnDate,
     travelClass,
     roomQuantity
-  }: PackageOffersRequest): Promise<PackageResponse[]> {
+  }: AssemblingPackageServiceRequestDTO): Promise<AssemblingPackageServiceResponse[]> {
     // if (!isMatch(departureDate, 'yyyy-MM-dd')) {
     //   throw new AppError("Formart departure date not match, example format yyyy-MM-dd.");
     // }
@@ -68,55 +37,7 @@ export default class AssemblingPackageService {
     //   throw new AppError("You can't search in the past.");
     // }
 
-    const flightServiceRequest = ({
-      adults,
-      departureDate,
-      destinationLocationCode,
-      originLocationCode,
-      travelClass,
-      children,
-      infants,
-      returnDate
-    }: FlightOffersSearchRequest) => new Promise<FlightOffersResponse>((resolve, reject) => {
-      flightClient.searchFlightOffer(
-        new FlightOffersRequest().setFlightofferssearch(
-          new FlightOffersSearch()
-            .setAdults(adults)
-            .setDeparturedate(departureDate)
-            .setDestinationlocationcode(destinationLocationCode)
-            .setOriginlocationcode(originLocationCode)
-            .setTravelclass(travelClass)
-            .setChildren(children || 0)
-            .setInfants(infants || 0)
-            .setReturndate(returnDate || '')
-        ), (err, flight) => {
-          if (err) {
-            reject(err)
-          }
-          resolve(flight)
-        }
-      );
-    });
-
-    const hotelServiceRequest = ({ adults, checkInDate, checkOutDate, cityCode, roomQuantity }: HotelOffersSearchRequest) => new Promise<HotelOffersResponse>((resolve, reject) => {
-      hotelClient.searchHotelOffer(
-        new HotelOffersRequest().setHotelofferssearch(
-          new HotelOffersSearch()
-            .setAdults(adults)
-            .setCheckindate(checkInDate)
-            .setCheckoutdate(checkOutDate)
-            .setCitycode(cityCode)
-            .setRoomquantity(roomQuantity)
-        ), (err, hotel) => {
-          if (err) {
-            reject(err)
-          }
-          resolve(hotel)
-        }
-      );
-    });
-    
-    const flightOffersResponse = await flightServiceRequest({
+    const flightOffersResponse = await this.flightDreamsProvider.flightOffersSearch({
       adults,
       departureDate,
       destinationLocationCode,
@@ -127,7 +48,7 @@ export default class AssemblingPackageService {
       returnDate
     })
 
-    const hotelOffersResponse = await hotelServiceRequest({
+    const hotelOffersResponse = await this.hotelProvider.hotelOffersSearch({
       cityCode: destinationLocationCode,
       checkInDate: departureDate,
       checkOutDate: returnDate,
@@ -135,11 +56,11 @@ export default class AssemblingPackageService {
       adults,
     })
     
-    const hotels = JSON.parse(hotelOffersResponse.getHoteloffers()) as HotelOffer[];
+    const hotels = JSON.parse(hotelOffersResponse.hoteloffers) as HotelOffer[];
     
-    const flights = JSON.parse(flightOffersResponse.getFlightoffers()) as FlightOffer[];
+    const flights = JSON.parse(flightOffersResponse.flightoffers) as FlightOffer[];
 
-    let packages = [] as PackageResponse[];
+    let packages = [] as AssemblingPackageServiceResponse[];
 
     if (hotels.length < flights.length) {
       for (let index = 0; index < hotels.length; index++) {
@@ -148,7 +69,7 @@ export default class AssemblingPackageService {
           hotel: hotels[index],
           amount: Number(hotels[index].offers[0].price.total) + Number(flights[index].price.total),
           off: Math.floor(Math.random() * (50 - 0)) + 0,
-        } as PackageResponse)
+        } as AssemblingPackageServiceResponse)
 
       }
     } else {

@@ -1,14 +1,7 @@
-import {
-  FlightResponse as FlightShowResponse,
-  FlightShowRequest
-} from "dreams-proto-sharing/src/contracts/flight/flight_pb";
-import flightClient from "../../providers/FlightService";
-import PackageRepository from "../../repositories/implementations/PackageRepository";
-import {
-  HotelResponse as HotelShowResponse,
-  HotelShowRequest
-} from "dreams-proto-sharing/src/contracts/hotel/hotel_pb";
-import hotelClient from "../../providers/HotelService";
+import { inject, injectable } from "tsyringe";
+import { IPackageRepository } from "../../repositories/interfaces/IPackageRepository";
+import { IFlightProvider } from "../../shared/container/providers/FlightProvider/interfaces/IFlightProvider";
+import { IHotelProvider } from "../../shared/container/providers/HotelProvider/interface/IHotelProvider";
 
 type PackagesByUserRequest = {
   userId: string
@@ -30,48 +23,21 @@ type PackageCreateResponseDTO = {
   updatedAt: number;
 }
 
-type FlightRequest = {
-  flightId: string
-}
+@injectable()
+export class ListPackagesByUserService {
 
-type HotelRequest = {
-  hotelId: string
-}
-
-class ListPackagesByUserService {
-  private packageRepository: PackageRepository;
-
-  constructor() {
-    this.packageRepository = new PackageRepository();
-  }
+  constructor(
+    @inject('PackageRepository')
+    private packageRepository: IPackageRepository,
+    @inject('FlightProvider')
+    private flightDreamsProvider: IFlightProvider,
+    @inject('HotelProvider')
+    private hotelDreamsProvider: IHotelProvider
+  ) { }
 
   async execute({ userId }: PackagesByUserRequest): Promise<PackageCreateResponseDTO[]> {
 
     const packages = await this.packageRepository.findPackagesByUserId(userId);
-
-    const showFlightServiceRequest = (flight: FlightRequest) => new Promise<FlightShowResponse>((resolve, reject) => {
-      flightClient.showFlight(
-        new FlightShowRequest().setId(flight.flightId),
-        (err, flight) => {
-          if (err) {
-            reject(err)
-          }
-          resolve(flight)
-        }
-      );
-    });
-
-    const showHotelServiceRequest = (hotel: HotelRequest) => new Promise<HotelShowResponse>((resolve, reject) => {
-      hotelClient.showHotel(
-        new HotelShowRequest().setId(hotel.hotelId),
-        (err, hotel) => {
-          if (err) {
-            reject(err)
-          }
-          resolve(hotel)
-        }
-      );
-    });
 
     // const packagesFmt: PackageCreateResponseDTO[] = [];
 
@@ -79,25 +45,19 @@ class ListPackagesByUserService {
       packages.map(
         async (package_) => {
 
+          const flightResponse = await this.flightDreamsProvider.showFlight({ flightId: package_.flightId });
 
-          const flightResponse = await showFlightServiceRequest({ flightId: package_.flightId });
-
-          const flight = flightResponse.getFlight()!.toObject();
-
-
-          const showHotelResponse = await showHotelServiceRequest({ hotelId: package_.hotelId });
-
-          const hotel = showHotelResponse.getHotel()!.toObject();
+          const showHotelResponse = await this.hotelDreamsProvider.showHotel({ hotelId: package_.hotelId });
 
           return {
             id: package_.id,
             flight: {
-              itineraries: flight.itineraries,
-              price: flight.price,
+              itineraries: flightResponse.itineraries,
+              price: flightResponse.price,
             },
             hotel: {
-              hotel: hotel.hotel,
-              offers: hotel.offers,
+              hotel: showHotelResponse.hotel,
+              offers: showHotelResponse.offers,
             },
             amount: Number(package_.amount.toFixed(2)),
             off: package_.off,
@@ -111,5 +71,3 @@ class ListPackagesByUserService {
     return packagesFmt;
   }
 }
-
-export default ListPackagesByUserService;

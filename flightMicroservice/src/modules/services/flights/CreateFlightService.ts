@@ -1,13 +1,14 @@
+import { inject, injectable } from "tsyringe";
 import { CreateFlightRequestDTO } from "../../dtos/CreateFlightRequestDTO";
 import { CreateFlightResponseDTO } from "../../dtos/CreateFlightResponseDTO";
-import { FlightsRepository } from "../../repositories/implementations/FlightsRepository";
+import { IFlightsRepository } from "../../repositories/interfaces/IFlightsRepository";
 
+@injectable()
 export class CreateFlightService {
-  private flightsRepository: FlightsRepository;
-
-  constructor() {
-    this.flightsRepository = new FlightsRepository()
-  }
+  constructor(
+    @inject('FlightsRepository')
+    private flightsRepository: IFlightsRepository,
+  ) { }
 
   async execute({ itineraries, price, userId, isPackage }: CreateFlightRequestDTO): Promise<CreateFlightResponseDTO> {
     const flight = await this.flightsRepository.create({

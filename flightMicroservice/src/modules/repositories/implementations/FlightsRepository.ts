@@ -1,6 +1,7 @@
 import { Flight, Prisma } from "@prisma/client"
 import { prisma } from "../../../../prisma"
 import { CreateFlightRequestDTO } from "../../dtos/CreateFlightRequestDTO"
+import { UpdateFlightStatusDTO } from "../../dtos/UpdateFlightStatusDTO"
 import { IFlightsRepository } from "../interfaces/IFlightsRepository"
 
 export class FlightsRepository implements IFlightsRepository {
@@ -10,7 +11,14 @@ export class FlightsRepository implements IFlightsRepository {
         userId,
         itineraries: JSON.parse(itineraries) as Prisma.JsonArray,
         price: JSON.parse(price) as Prisma.JsonObject,
-        isPackage
+        isPackage,
+        status: 'created',
+        active: true,
+        events: {
+          create: { 
+            eventName: 'FLIGHT_CREATED', 
+          } 
+        }
       }
     })
     return flight
@@ -27,14 +35,31 @@ export class FlightsRepository implements IFlightsRepository {
   }
 
   async findByUserId(userId: string): Promise<Flight[]> {
-    const flights = await prisma.flight.findMany({ 
-      where: { 
+    const flights = await prisma.flight.findMany({
+      where: {
         userId,
         isPackage: false
-      } 
+      }
     })
 
     return flights
+  }
+
+  async updateFlightStatus({ flightId, active, errorDescription, eventName, status }: UpdateFlightStatusDTO): Promise<void> {
+    await prisma.flight.update({
+      where: { id: flightId },
+      data: {
+        active,
+        status,
+        events: {
+          create: {
+            eventName,
+            errorDescription
+          }
+        }
+      }
+    })
+
   }
 
 }
