@@ -1,38 +1,10 @@
 import { inject, injectable } from 'tsyringe';
+import { PackageCreateRequestDTO } from '../../dtos/PackageCreateRequestDTO';
+import { PackageCreateResponseDTO } from '../../dtos/PackageCreateResponseDTO';
 import { IPackageRepository } from '../../repositories/interfaces/IPackageRepository';
 import { IFlightProvider } from '../../shared/container/providers/FlightProvider/interfaces/IFlightProvider';
 import { IHotelProvider } from '../../shared/container/providers/HotelProvider/interface/IHotelProvider';
 import PackageTripEventHandle, { PackageEventParams } from '../../shared/events/PackageTripEventHandle';
-
-type PackageCreateRequestDTO = {
-  userId: string;
-  hotel: {
-    hotel: string;
-    offers: string;
-  };
-  flight: {
-    itineraries: string;
-    price: string;
-  };
-  amount: number;
-  off: number;
-}
-
-type PackageCreateResponseDTO = {
-  id: string
-  hotel: {
-    hotel: string;
-    offers: string;
-  };
-  flight: {
-    itineraries: string;
-    price: string;
-  };
-  amount: number;
-  off: number;
-  createdAt: number;
-  updatedAt: number;
-}
 
 @injectable()
 export class CreatePackageService {
@@ -47,8 +19,14 @@ export class CreatePackageService {
     private hotelProvider: IHotelProvider
   ) { }
 
-  async execute({ userId, hotel, flight, amount, off }: PackageCreateRequestDTO): Promise<PackageCreateResponseDTO> {
-    
+  async execute({
+    userId,
+    hotel,
+    flight,
+    amount,
+    off
+  }: PackageCreateRequestDTO): Promise<PackageCreateResponseDTO> {
+
     const flightResponse = await this.flightDreamsProvider.createFlight({
       itineraries: flight.itineraries,
       price: flight.price,
