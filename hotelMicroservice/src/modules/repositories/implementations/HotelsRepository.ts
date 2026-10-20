@@ -54,7 +54,7 @@ export class HotelsRepository implements IHotelsRepository {
       data: {
         active,
         status,
-        events: {
+        Event: {
           create: {
             eventName,
             errorDescription

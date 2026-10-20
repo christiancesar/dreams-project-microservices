@@ -29,7 +29,7 @@ class PackageTripEventHandle {
       eventName,
       errorDescription,
     }
-    flightApi.patch('/flights', data)
+    flightApi.patch('/flights', data).catch(console.error)
   }
 
   private async hotelEvent({ hotelId, eventName, errorDescription }: HotelEventParams): Promise<void> {
@@ -38,7 +38,7 @@ class PackageTripEventHandle {
       eventName,
       errorDescription,
     }
-    hotelApi.patch('/hotels', data)
+    hotelApi.patch('/hotels', data).catch(console.error)
   }
 
   async event(params: PackageEventParams): Promise<void> {
@@ -52,7 +52,7 @@ class PackageTripEventHandle {
         break;
       case 'CREATE_PACKAGE_ERROR':
         this.hotelEvent(({
-          hotelId: params.flightId,
+          hotelId: params.hotelId,
           errorDescription: params.errorDescription,
           eventName: params.eventName
         } as HotelEventParams));
