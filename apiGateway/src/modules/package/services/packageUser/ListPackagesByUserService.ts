@@ -1,5 +1,5 @@
-import { PackagesByUserRequest, PackagesResponse } from "dreams-proto-sharing/src/contracts/package/package_pb";
-import packageClient from "../../providers/PackageService";
+import { PackagesByUserRequest, PackagesResponse } from "dreams-proto-sharing/src/contracts/package/package_pb.js";
+import packageClient from "../../providers/PackageService.js";
 
 
 type PackageRequest = {

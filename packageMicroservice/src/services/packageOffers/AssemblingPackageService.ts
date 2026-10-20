@@ -1,10 +1,10 @@
 import { inject, injectable } from "tsyringe";
-import { FlightOffer } from "../../@types/amadeus/flights/FlightOfferSearchResponse";
-import { HotelOffer } from "../../@types/amadeus/hotels/HotelOfferSearchResponse";
-import { AssemblingPackageServiceRequestDTO } from "../../dtos/AssemblingPackageServiceRequestDTO";
-import { AssemblingPackageServiceResponse } from "../../dtos/AssemblingPackageServiceResponse";
-import { IFlightProvider } from "../../shared/container/providers/FlightProvider/interfaces/IFlightProvider";
-import { IHotelProvider } from "../../shared/container/providers/HotelProvider/interface/IHotelProvider";
+import { FlightOffer } from "../../@types/amadeus/flights/FlightOfferSearchResponse.js";
+import { HotelOffer } from "../../@types/amadeus/hotels/HotelOfferSearchResponse.js";
+import { AssemblingPackageServiceRequestDTO } from "../../dtos/AssemblingPackageServiceRequestDTO.js";
+import { AssemblingPackageServiceResponse } from "../../dtos/AssemblingPackageServiceResponse.js";
+import type { IFlightProvider } from "../../shared/container/providers/FlightProvider/interfaces/IFlightProvider.js";
+import type { IHotelProvider } from "../../shared/container/providers/HotelProvider/interface/IHotelProvider.js";
 
 @injectable()
 export class AssemblingPackageService {

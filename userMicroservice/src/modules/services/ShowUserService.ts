@@ -1,10 +1,10 @@
 import { status } from "@grpc/grpc-js";
-import ObjectID from "bson-objectid";
 import { inject, injectable } from "tsyringe";
-import { ShowUserRequestDTO } from "../dtos/ShowUserRequestDTO";
-import { IUsersRepository } from "../repositories/interfaces/IUsersRepository";
-import { User } from "../entities/UserEntity";
-import { AppError } from "../../shared/errors/AppError";
+import type { ShowUserRequestDTO } from "../dtos/ShowUserRequestDTO.js";
+import type { IUsersRepository } from "../repositories/interfaces/IUsersRepository.js";
+import type { User } from "../entities/UserEntity.js";
+import { AppError } from "../../shared/errors/AppError.js";
+import { isValidObjectId } from "../../shared/utils/isValidObjectId.js";
 
 @injectable()
 export class ShowUserService {
@@ -15,7 +15,7 @@ export class ShowUserService {
 
   async execute({ userId }: ShowUserRequestDTO): Promise<User> {
 
-    if (!ObjectID.isValid(userId)) throw new AppError({ code: status.INVALID_ARGUMENT, name: 'Show User', message: 'Sorry, but property id is not valid.' });
+    if (!isValidObjectId(userId)) throw new AppError({ code: status.INVALID_ARGUMENT, name: 'Show User', message: 'Sorry, but property id is not valid.' });
 
 
     const user = await this.userRepository.findByUserId(userId)

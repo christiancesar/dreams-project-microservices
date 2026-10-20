@@ -1,5 +1,5 @@
 import { inject, injectable } from "tsyringe";
-import { IHotelsRepository } from "../../repositories/interfaces/IHotelsRepository";
+import type { IHotelsRepository } from "../../repositories/interfaces/IHotelsRepository.js";
 
 enum Status {
   CREATED = 'created',

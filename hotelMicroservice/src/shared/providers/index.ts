@@ -1,1 +1,1 @@
-import './HotelProvider'
+import './HotelProvider/index.js'

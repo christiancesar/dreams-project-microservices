@@ -26,10 +26,10 @@ userMicroservice  packageMicroservice  flightMicroservice  hotelMicroservice
 | Serviço | Porta gRPC | Porta HTTP | Responsabilidade |
 |---|---|---|---|
 | apiGateway | - | 3333 | Ponto único de entrada da API REST |
-| userMicroservice | 50052 | - | Cadastro e consulta de usuários |
+| userMicroservice | 50052 | 3334 (health) | Cadastro e consulta de usuários |
 | flightMicroservice | 50053 | 3332 | Ofertas de voo e voos registrados |
 | hotelMicroservice | 50054 | 3331 | Ofertas de hotel e hotéis registrados |
-| packageMicroservice | 50051 | - | Monta pacotes (voo + hotel) e consulta pacotes |
+| packageMicroservice | 50051 | 3330 (health) | Monta pacotes (voo + hotel) e consulta pacotes |
 
 O serviço de pacotes é o único que depende dos outros. Ao criar um pacote, ele primeiro registra o voo. Se o hotel falhar, um evento inativa o voo já criado, para não deixar dados órfãos. Essa parte está em `packageMicroservice/src/shared/events/PackageTripEventHandle.ts`.
 
@@ -54,7 +54,6 @@ dreams-project-microservices/
 ├── hotelMicroservice/     # gRPC de hotéis, com provedor Amadeus
 ├── packageMicroservice/   # gRPC de pacotes, consome voos e hotéis
 └── docs/
-    └── insomnia-request.json   # requisições para importar no Insomnia
 ```
 
 Dentro de cada serviço, a organização segue a arquitetura hexagonal: `modules/` ou `services/` com as regras de negócio, `repositories/` com interface e implementação Prisma, `protos/` com a implementação do contrato gRPC, e `shared/providers/` com os adaptadores para o Amadeus.
@@ -91,7 +90,7 @@ Cada serviço é independente. Repita os passos abaixo em cada pasta.
 
 Suba nesta ordem: `userMicroservice`, `flightMicroservice`, `hotelMicroservice`, `packageMicroservice` e, por último, `apiGateway`. O gateway conecta nos serviços pelo endereço fixo `0.0.0.0` e pelas portas da tabela acima.
 
-Para testar, importe `docs/insomnia-request.json` no Insomnia. O gateway responde em `http://localhost:3333`.
+O gateway responde em `http://localhost:3333`. A documentação interativa (OpenAPI com Scalar) fica em `http://localhost:3333/docs`.
 
 ### Variáveis de ambiente
 
@@ -113,4 +112,4 @@ Você só precisa disto se alterar os arquivos `.proto` localmente. Os serviços
 ## Documentação
 
 - Artigo completo: [TCC em PDF](https://github.com/christiancesar/dreams-origins/blob/main/docs/TCC-Christian-Cesar-2022-Arquitetura-de-Microsservicos.pdf)
-- Requisições do Insomnia e imagens da interface: `docs/`
+- Imagens da interface: `docs/`

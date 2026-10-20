@@ -1,6 +1,6 @@
-import { Empty } from "google-protobuf/google/protobuf/empty_pb";
-import { HotelListResponse } from "dreams-proto-sharing/src/contracts/hotel/hotel_pb";
-import hotelClient from "../../providers/HotelService";
+import { Empty } from "../../../../proto/empty_pb.js";
+import { HotelListResponse } from "dreams-proto-sharing/src/contracts/hotel/hotel_pb.js";
+import hotelClient from "../../providers/HotelService.js";
 
 type HotelResponse = {
   id: string;

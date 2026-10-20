@@ -1,8 +1,8 @@
-import { prisma } from "../../../../prisma"
-import { CreateHotelRequestDTO } from "../../dtos/CreateHotelRequestDTO"
-import { UpdateHotelStatusDTO } from "../../dtos/UpdateHotelStatusDTO"
-import { Hotel } from "../../entities/HotelEntity"
-import { IHotelsRepository } from "../interfaces/IHotelsRepository"
+import { prisma } from "../../../../prisma/index.js"
+import { CreateHotelRequestDTO } from "../../dtos/CreateHotelRequestDTO.js"
+import { UpdateHotelStatusDTO } from "../../dtos/UpdateHotelStatusDTO.js"
+import { Hotel } from "../../entities/HotelEntity.js"
+import { IHotelsRepository } from "../interfaces/IHotelsRepository.js"
 
 
 export class HotelsRepository implements IHotelsRepository {
@@ -16,7 +16,7 @@ export class HotelsRepository implements IHotelsRepository {
         isPackage,
         status: 'created',
         active: true,
-        events: {
+        Event: {
           create: { 
             eventName: 'HOTEL_CREATED', 
           } 

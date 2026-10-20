@@ -1,9 +1,9 @@
 import {
   FlightResponse as FlightShowResponse,
   FlightShowRequest
-} from "dreams-proto-sharing/src/contracts/flight/flight_pb";
+} from "dreams-proto-sharing/src/contracts/flight/flight_pb.js";
 
-import flightClient from "../../providers/FlightService";
+import flightClient from "../../providers/FlightService.js";
 
 type FlightRequest ={
   flightId: string

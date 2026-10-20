@@ -1,6 +1,6 @@
 import { inject, injectable } from "tsyringe";
-import { IUsersRepository } from "../repositories/interfaces/IUsersRepository";
-import { User } from "../entities/UserEntity";
+import type { IUsersRepository } from "../repositories/interfaces/IUsersRepository.js";
+import type { User } from "../entities/UserEntity.js";
 
 @injectable()
 export class ListUsersService {

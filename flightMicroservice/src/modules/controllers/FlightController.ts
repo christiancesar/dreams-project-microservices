@@ -1,9 +1,15 @@
-import { Request, Response } from "express";
+import type { FastifyReply, FastifyRequest } from "fastify";
 import { container } from "tsyringe";
-import { UpdateFlightStatusService } from "../services/flights/UpdateFlightStatusService";
+import { UpdateFlightStatusService } from "../services/flights/UpdateFlightStatusService.js";
+
+export type UpdateFlightBody = {
+  flightId: string;
+  eventName: string;
+  errorDescription?: string;
+};
 
 export class FlightController {
-  async update(request: Request, response: Response): Promise<Response> {
+  async update(request: FastifyRequest<{ Body: UpdateFlightBody }>, reply: FastifyReply) {
     const { flightId, eventName, errorDescription } = request.body;
 
     try {
@@ -12,14 +18,14 @@ export class FlightController {
       await updateFlightStatusService.execute({
         flightId,
         eventName,
-        errorDescription,
+        errorDescription: errorDescription ?? "",
       });
 
-      return response.sendStatus(200);
+      return reply.code(200).send("OK");
     } catch (error) {
       const message = (error as Error).message;
       const status = message === "Flight not found" ? 404 : 500;
-      return response.status(status).json({ message });
+      return reply.code(status).send({ message });
     }
   }
 }

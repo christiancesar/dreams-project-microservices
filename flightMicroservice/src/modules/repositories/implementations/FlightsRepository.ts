@@ -1,8 +1,8 @@
 import { Flight, Prisma } from "@prisma/client"
-import { prisma } from "../../../../prisma"
-import { CreateFlightRequestDTO } from "../../dtos/CreateFlightRequestDTO"
-import { UpdateFlightStatusDTO } from "../../dtos/UpdateFlightStatusDTO"
-import { IFlightsRepository } from "../interfaces/IFlightsRepository"
+import { prisma } from "../../../../prisma/index.js"
+import { CreateFlightRequestDTO } from "../../dtos/CreateFlightRequestDTO.js"
+import { UpdateFlightStatusDTO } from "../../dtos/UpdateFlightStatusDTO.js"
+import { IFlightsRepository } from "../interfaces/IFlightsRepository.js"
 
 export class FlightsRepository implements IFlightsRepository {
   async create({ userId, itineraries, price, isPackage }: CreateFlightRequestDTO): Promise<Flight> {

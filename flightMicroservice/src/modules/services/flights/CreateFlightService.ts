@@ -1,7 +1,7 @@
 import { inject, injectable } from "tsyringe";
-import { CreateFlightRequestDTO } from "../../dtos/CreateFlightRequestDTO";
-import { CreateFlightResponseDTO } from "../../dtos/CreateFlightResponseDTO";
-import { IFlightsRepository } from "../../repositories/interfaces/IFlightsRepository";
+import { CreateFlightRequestDTO } from "../../dtos/CreateFlightRequestDTO.js";
+import { CreateFlightResponseDTO } from "../../dtos/CreateFlightResponseDTO.js";
+import type { IFlightsRepository } from "../../repositories/interfaces/IFlightsRepository.js";
 
 @injectable()
 export class CreateFlightService {

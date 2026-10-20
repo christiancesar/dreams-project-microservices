@@ -1,9 +1,9 @@
 import { faker } from "@faker-js/faker";
 import { injectable } from "tsyringe";
-import { FlightOfferSearchResponse } from "../../../../@types/amadeus/flights/FlightOfferSearchResponse";
-import { FlightOfferSearchDTO } from "../dtos/FlightOffersSearchDTO";
-import { createFlightOffer } from "../factories/flightOffer.factory";
-import { IFlightProvider } from "../interfaces/IFlightProvider";
+import { FlightOfferSearchResponse } from "../../../../@types/amadeus/flights/FlightOfferSearchResponse.js";
+import { FlightOfferSearchDTO } from "../dtos/FlightOffersSearchDTO.js";
+import { createFlightOffer } from "../factories/flightOffer.factory.js";
+import { IFlightProvider } from "../interfaces/IFlightProvider.js";
 
 // Provider de desenvolvimento e testes: devolve ofertas geradas pelo faker,
 // sem chamar nenhuma API externa. Defina FAKER_SEED para resultados repetíveis.

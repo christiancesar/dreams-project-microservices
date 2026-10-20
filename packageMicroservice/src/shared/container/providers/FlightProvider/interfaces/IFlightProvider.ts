@@ -1,9 +1,9 @@
-import { CreateFlightRequestDTO } from "../dtos/CreateFlightRequestDTO";
-import { CreateFlightResponseDTO } from "../dtos/CreateFlightResponseDTO";
-import { FlightOffersSearchRequestDTO } from "../dtos/FlightOffersSearchRequestDTO";
-import { FlightOffersSearchResponseDTO } from "../dtos/FlightOffersSearchResponseDTO";
-import { ShowFlightRequestDTO } from "../dtos/ShowFlightRequestDTO";
-import { ShowFlightResponseDTO } from "../dtos/ShowFlightResponseDTO";
+import { CreateFlightRequestDTO } from "../dtos/CreateFlightRequestDTO.js";
+import { CreateFlightResponseDTO } from "../dtos/CreateFlightResponseDTO.js";
+import { FlightOffersSearchRequestDTO } from "../dtos/FlightOffersSearchRequestDTO.js";
+import { FlightOffersSearchResponseDTO } from "../dtos/FlightOffersSearchResponseDTO.js";
+import { ShowFlightRequestDTO } from "../dtos/ShowFlightRequestDTO.js";
+import { ShowFlightResponseDTO } from "../dtos/ShowFlightResponseDTO.js";
 
 export interface IFlightProvider {
   createFlight(flight: CreateFlightRequestDTO): Promise<CreateFlightResponseDTO>;

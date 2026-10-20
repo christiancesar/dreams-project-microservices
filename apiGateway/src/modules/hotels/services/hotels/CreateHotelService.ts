@@ -1,5 +1,5 @@
-import { HotelCreate, HotelCreateRequest, HotelResponse as HotelCreateResponse} from "dreams-proto-sharing/src/contracts/hotel/hotel_pb";
-import hotelClient from "../../providers/HotelService";
+import { HotelCreate, HotelCreateRequest, HotelResponse as HotelCreateResponse} from "dreams-proto-sharing/src/contracts/hotel/hotel_pb.js";
+import hotelClient from "../../providers/HotelService.js";
 
 type HotelRequest = {
   userId: string;

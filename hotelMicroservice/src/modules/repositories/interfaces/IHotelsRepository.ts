@@ -1,6 +1,6 @@
-import { CreateHotelRequestDTO } from "../../dtos/CreateHotelRequestDTO"
-import { UpdateHotelStatusDTO } from "../../dtos/UpdateHotelStatusDTO";
-import { Hotel } from "../../entities/HotelEntity"
+import { CreateHotelRequestDTO } from "../../dtos/CreateHotelRequestDTO.js"
+import { UpdateHotelStatusDTO } from "../../dtos/UpdateHotelStatusDTO.js";
+import { Hotel } from "../../entities/HotelEntity.js"
 
 export interface IHotelsRepository {
   create(data: CreateHotelRequestDTO): Promise<Hotel>;

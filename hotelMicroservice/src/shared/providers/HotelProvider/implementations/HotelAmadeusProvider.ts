@@ -1,8 +1,8 @@
 import { injectable } from "tsyringe";
-import { HotelOfferSearchRequest } from "../../../../@types/amadeus/hotels/HotelOfferSearchRequest";
-import { HotelOfferSearchResponse } from "../../../../@types/amadeus/hotels/HotelOfferSearchResponse";
-import { HotelOffersSearchDTO } from "../dtos/HotelOffersSearchDTO";
-import { IHotelProvider } from "../interfaces/IHotelProvider";
+import { HotelOfferSearchRequest } from "../../../../@types/amadeus/hotels/HotelOfferSearchRequest.js";
+import { HotelOfferSearchResponse } from "../../../../@types/amadeus/hotels/HotelOfferSearchResponse.js";
+import { HotelOffersSearchDTO } from "../dtos/HotelOffersSearchDTO.js";
+import { IHotelProvider } from "../interfaces/IHotelProvider.js";
 
 import { Amadeus } from "dreams-amadeus";
 

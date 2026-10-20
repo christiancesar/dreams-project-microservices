@@ -1,9 +1,9 @@
 import { status } from "@grpc/grpc-js";
 import { inject, injectable } from "tsyringe";
-import { AppError } from "../../../shared/errors/AppError";
-import { ShowFlightRequestDTO } from "../../dtos/ShowFlightRequestDTO";
-import { ShowFlighResponseDTO } from "../../dtos/ShowFlightResponseDTO";
-import { IFlightsRepository } from "../../repositories/interfaces/IFlightsRepository";
+import { AppError } from "../../../shared/errors/AppError.js";
+import { ShowFlightRequestDTO } from "../../dtos/ShowFlightRequestDTO.js";
+import { ShowFlighResponseDTO } from "../../dtos/ShowFlightResponseDTO.js";
+import type { IFlightsRepository } from "../../repositories/interfaces/IFlightsRepository.js";
 
 @injectable()
 export class ShowFlightService {

@@ -1,6 +1,6 @@
-import { ListFlightsByUserRequestDTO } from "../../dtos/ListFlightByUserRequestDTO";
-import { ListFlightsByUserResponseDTO } from "../../dtos/ListFlightsByUserResponseDTO";
-import { FlightsRepository } from "../../repositories/implementations/FlightsRepository";
+import { ListFlightsByUserRequestDTO } from "../../dtos/ListFlightByUserRequestDTO.js";
+import { ListFlightsByUserResponseDTO } from "../../dtos/ListFlightsByUserResponseDTO.js";
+import { FlightsRepository } from "../../repositories/implementations/FlightsRepository.js";
 
 export class ListFlightsByUserService {
   private flightsRepository: FlightsRepository;
