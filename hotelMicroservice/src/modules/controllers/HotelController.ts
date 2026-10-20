@@ -1,25 +1,31 @@
-import { Request, Response } from "express";
+import type { FastifyReply, FastifyRequest } from "fastify";
 import { container } from "tsyringe";
-import { UpdateHotelStatusService } from "../services/hotels/UpdateHotelStatusService";
+import { UpdateHotelStatusService } from "../services/hotels/UpdateHotelStatusService.js";
+
+export type UpdateHotelBody = {
+  hotelId: string;
+  eventName: string;
+  errorDescription?: string;
+};
 
 export class HotelController {
-  async update(request: Request, response: Response): Promise<Response> {
+  async update(request: FastifyRequest<{ Body: UpdateHotelBody }>, reply: FastifyReply) {
     const { hotelId, eventName, errorDescription } = request.body;
 
     try {
-      const updateHotelStatusService = container.resolve(UpdateHotelStatusService);
+      const updateFlightStatusService = container.resolve(UpdateHotelStatusService);
 
-      await updateHotelStatusService.execute({
+      await updateFlightStatusService.execute({
         hotelId,
         eventName,
-        errorDescription,
+        errorDescription: errorDescription ?? "",
       });
 
-      return response.sendStatus(200);
+      return reply.code(200).send("OK");
     } catch (error) {
       const message = (error as Error).message;
       const status = message === "Hotel not found" ? 404 : 500;
-      return response.status(status).json({ message });
+      return reply.code(status).send({ message });
     }
   }
 }

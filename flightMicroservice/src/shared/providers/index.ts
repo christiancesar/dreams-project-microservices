@@ -1,1 +1,1 @@
-import './FlightProvider'
+import './FlightProvider/index.js'

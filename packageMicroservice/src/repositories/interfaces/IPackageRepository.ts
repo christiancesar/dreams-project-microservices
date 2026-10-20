@@ -1,5 +1,5 @@
-import { CreatePackageDTO } from "../../dtos/CreatePackageDTO";
-import { Package } from "../../entities/PackageEntity";
+import { CreatePackageDTO } from "../../dtos/CreatePackageDTO.js";
+import { Package } from "../../entities/PackageEntity.js";
 
 export interface IPackageRepository {
   create(data: CreatePackageDTO): Promise<Package>;

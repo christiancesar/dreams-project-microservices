@@ -1,5 +1,5 @@
-import { FlightByUserRequest, FlightListResponse } from "dreams-proto-sharing/src/contracts/flight/flight_pb";
-import flightClient from "../../providers/FlightService";
+import { FlightByUserRequest, FlightListResponse } from "dreams-proto-sharing/src/contracts/flight/flight_pb.js";
+import flightClient from "../../providers/FlightService.js";
 
 type FlightRequest = {
   userId: string;

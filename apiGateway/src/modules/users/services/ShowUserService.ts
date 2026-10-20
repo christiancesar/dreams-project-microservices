@@ -1,8 +1,8 @@
-import { ServiceError } from "@grpc/grpc-js";
-import AppError from "../../../errors/AppError";
-import { User, UserRequest, UserResponse } from "dreams-proto-sharing/src/contracts/user/user_pb";
-import userClient from "../providers/UserService";
-import { IUserDTO } from "../dtos/IUserDTO";
+import { type ServiceError } from "@grpc/grpc-js";
+import AppError from "../../../errors/AppError.js";
+import { User, UserRequest, UserResponse } from "dreams-proto-sharing/src/contracts/user/user_pb.js";
+import userClient from "../providers/UserService.js";
+import { type IUserDTO } from "../dtos/IUserDTO.js";
 
 interface IRequest {
   userId: string

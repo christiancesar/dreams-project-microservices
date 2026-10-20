@@ -1,9 +1,9 @@
 import { faker } from "@faker-js/faker";
 import { injectable } from "tsyringe";
-import { HotelOfferSearchResponse } from "../../../../@types/amadeus/hotels/HotelOfferSearchResponse";
-import { HotelOffersSearchDTO } from "../dtos/HotelOffersSearchDTO";
-import { createHotelOffer } from "../factories/hotelOffer.factory";
-import { IHotelProvider } from "../interfaces/IHotelProvider";
+import { HotelOfferSearchResponse } from "../../../../@types/amadeus/hotels/HotelOfferSearchResponse.js";
+import { HotelOffersSearchDTO } from "../dtos/HotelOffersSearchDTO.js";
+import { createHotelOffer } from "../factories/hotelOffer.factory.js";
+import { IHotelProvider } from "../interfaces/IHotelProvider.js";
 
 // Provider de desenvolvimento e testes: gera hotéis com o faker, sem API externa.
 // Defina FAKER_SEED para resultados repetíveis.

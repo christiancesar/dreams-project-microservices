@@ -1,5 +1,5 @@
 import { inject, injectable } from "tsyringe";
-import { IFlightsRepository } from "../../repositories/interfaces/IFlightsRepository";
+import type { IFlightsRepository } from "../../repositories/interfaces/IFlightsRepository.js";
 
 enum Status {
   CREATED = 'created',

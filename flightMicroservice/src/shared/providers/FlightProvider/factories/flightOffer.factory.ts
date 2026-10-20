@@ -11,8 +11,8 @@ import {
   type Itinerary,
   type Segment,
   type TravelerPricing,
-} from "../../../../@types/amadeus/flights/FlightOfferSearchResponse";
-import { FlightOfferSearchDTO } from "../dtos/FlightOffersSearchDTO";
+} from "../../../../@types/amadeus/flights/FlightOfferSearchResponse.js";
+import { FlightOfferSearchDTO } from "../dtos/FlightOffersSearchDTO.js";
 
 // Companhias usadas nos trechos simulados.
 const CARRIERS = ["LA", "G3", "AD", "JJ", "AZ"] as const;

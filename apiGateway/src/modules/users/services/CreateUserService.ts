@@ -1,9 +1,9 @@
-import { ServiceError } from '@grpc/grpc-js';
-import { User, UserRequest, UserResponse } from 'dreams-proto-sharing/src/contracts/user/user_pb';
-import { ICreateUser } from '../dtos/ICreateUserDTO';
-import { IUserDTO } from '../dtos/IUserDTO';
-import AppError from '../../../errors/AppError';
-import userClient from '../providers/UserService';
+import { type ServiceError } from '@grpc/grpc-js';
+import { User, UserRequest, UserResponse } from "dreams-proto-sharing/src/contracts/user/user_pb.js";
+import { type ICreateUser } from '../dtos/ICreateUserDTO.js';
+import { type IUserDTO } from '../dtos/IUserDTO.js';
+import AppError from '../../../errors/AppError.js';
+import userClient from '../providers/UserService.js';
 
 export class CreateUserService {
 

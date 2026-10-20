@@ -1,4 +1,4 @@
-import { TravelClass } from "./TravelClass";
+import { TravelClass } from "./TravelClass.js";
 
 export interface FlightOfferSearchRequest {
   originLocationCode: string;

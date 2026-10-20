@@ -1,6 +1,6 @@
-import { CreateUserRequestDTO } from "../../dtos/CreateUserRequestDTO"
-import { UpdateUserRequestDTO } from "../../dtos/UpdateUserRequestDTO"
-import { User } from "../../entities/UserEntity"
+import { CreateUserRequestDTO } from "../../dtos/CreateUserRequestDTO.js"
+import { UpdateUserRequestDTO } from "../../dtos/UpdateUserRequestDTO.js"
+import { User } from "../../entities/UserEntity.js"
 
 export interface IUsersRepository {
   create(data: CreateUserRequestDTO): Promise<User>

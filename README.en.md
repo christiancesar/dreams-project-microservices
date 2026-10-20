@@ -54,7 +54,6 @@ dreams-project-microservices/
 ├── hotelMicroservice/     # hotels gRPC service, with Amadeus provider
 ├── packageMicroservice/   # packages gRPC service, consumes flights and hotels
 └── docs/
-    └── insomnia-request.json   # requests to import into Insomnia
 ```
 
 Inside each service, the code follows hexagonal architecture: `modules/` or `services/` hold the business rules, `repositories/` holds the interface and the Prisma implementation, `protos/` holds the gRPC contract implementation, and `shared/providers/` holds the adapters for Amadeus.
@@ -91,7 +90,7 @@ Each service is independent. Repeat these steps in each folder.
 
 Start them in this order: `userMicroservice`, `flightMicroservice`, `hotelMicroservice`, `packageMicroservice`, and finally `apiGateway`. The gateway connects to the services at the fixed address `0.0.0.0` on the ports listed above.
 
-To try the API, import `docs/insomnia-request.json` into Insomnia. The gateway answers at `http://localhost:3333`.
+The gateway answers at `http://localhost:3333`. Interactive docs (OpenAPI with Scalar) are at `http://localhost:3333/docs`.
 
 ### Environment variables
 
@@ -113,4 +112,4 @@ You only need this if you change the `.proto` files locally. The services use th
 ## Documentation
 
 - Full thesis (Portuguese): [PDF](https://github.com/christiancesar/dreams-origins/blob/main/docs/TCC-Christian-Cesar-2022-Arquitetura-de-Microsservicos.pdf)
-- Insomnia requests and interface images: `docs/`
+- Interface images: `docs/`

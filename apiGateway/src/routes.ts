@@ -1,18 +1,14 @@
-import { Router } from "express";
-import flightsRouter from "./modules/flights/routes/flightsRouter";
-import hotelsRouter from "./modules/hotels/routes/hotelRouter";
-import packagesRouter from "./modules/package/routes/packageRouter";
-import usersRouter from "./modules/users/routes/usersRouter";
+import { type FastifyInstance } from "fastify";
+import flightsRoutes from "./modules/flights/routes.js";
+import hotelsRoutes from "./modules/hotels/routes.js";
+import packagesRoutes from "./modules/package/routes.js";
+import usersRoutes from "./modules/users/routes.js";
+import healthRoutes from "./modules/health/routes.js";
 
-
-const routes = Router();
-
-routes.use('/users', usersRouter);
-
-routes.use('/flights', flightsRouter)
-
-routes.use('/hotels', hotelsRouter)
-
-routes.use('/packages', packagesRouter)
-
-export default routes;
+export default async function routes(server: FastifyInstance) {
+  server.register(usersRoutes, { prefix: '/users' });
+  server.register(flightsRoutes, { prefix: '/flights' });
+  server.register(hotelsRoutes, { prefix: '/hotels' });
+  server.register(packagesRoutes, { prefix: '/packages' });
+  server.register(healthRoutes);
+}

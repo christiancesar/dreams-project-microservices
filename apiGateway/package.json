@@ -1,26 +1,30 @@
 {
   "name": "backend-rework",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "dist/server.js",
   "license": "MIT",
   "scripts": {
-    "dev:server": "ts-node-dev --transpile-only --inspect --ignore-watch node_modules src/server.ts"
+    "dev:server": "tsx watch --inspect src/server.ts",
+    "build": "tsc -p tsconfig.json",
+    "start": "node dist/server.js",
+    "typecheck": "tsc --noEmit -p tsconfig.json"
   },
   "dependencies": {
+    "@fastify/cors": "^11.3.1",
+    "@fastify/swagger": "^9.9.2",
     "@grpc/grpc-js": "^1.14.6",
+    "@scalar/fastify-api-reference": "^1.75.0",
     "@types/google-protobuf": "^3.15.12",
-    "cors": "^2.8.5",
-    "dreams-proto-sharing": "^1.0.5",
-    "express": "^4.17.3",
-    "express-async-errors": "^3.1.1",
-    "google-protobuf": "^4.0.3"
+    "dreams-proto-sharing": "^2.2.0",
+    "fastify": "^5.12.7",
+    "fastify-type-provider-zod": "^7.0.0",
+    "google-protobuf": "^4.0.3",
+    "zod": "^4.6.7"
   },
   "devDependencies": {
-    "@types/cors": "^2.8.19",
-    "@types/express": "^4.17.25",
     "@types/node": "^24.19.2",
-    "ts-node": "^10.9.2",
-    "ts-node-dev": "^2.0.0",
-    "typescript": "^5.9.3"
-  }
+    "tsx": "^4.23.15",
+    "typescript": "^7.0.2"
+  },
+  "type": "module"
 }

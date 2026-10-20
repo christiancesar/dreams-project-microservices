@@ -1,7 +1,7 @@
 import { Package } from "@prisma/client";
-import { prisma } from "../../../prisma";
-import { CreatePackageDTO } from "../../dtos/CreatePackageDTO";
-import { IPackageRepository } from "../interfaces/IPackageRepository";
+import { prisma } from "../../../prisma/index.js";
+import { CreatePackageDTO } from "../../dtos/CreatePackageDTO.js";
+import { IPackageRepository } from "../interfaces/IPackageRepository.js";
 
 class PackageRepository implements IPackageRepository {
 

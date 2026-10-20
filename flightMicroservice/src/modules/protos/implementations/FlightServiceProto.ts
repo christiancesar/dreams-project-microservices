@@ -1,5 +1,5 @@
 import { handleUnaryCall, ServerErrorResponse } from "@grpc/grpc-js";
-import { IFlightsServer } from "dreams-proto-sharing/src/contracts/flight/flight_grpc_pb";
+import { IFlightsServer } from "dreams-proto-sharing/src/contracts/flight/flight_grpc_pb.js";
 import {
   Flight,
   FlightListResponse,
@@ -9,13 +9,13 @@ import {
   FlightResponse,
   FlightShowRequest,
   FlightByUserRequest
-} from "dreams-proto-sharing/src/contracts/flight/flight_pb";
-import { Empty } from "google-protobuf/google/protobuf/empty_pb";
-import { CreateFlightService } from "../../services/flights/CreateFlightService";
-import { FlightOfferSearchService } from '../../services/flightOffers/FlightOfferSearchService';
-import { ListFlightsByUserService } from "../../services/flightsUser/ListFlightsByUserService";
-import { ListFlightsService } from "../../services/flights/ListFlightsService";
-import { ShowFlightService } from "../../services//flights/ShowFlightService";
+} from "dreams-proto-sharing/src/contracts/flight/flight_pb.js";
+import { Empty } from "google-protobuf/google/protobuf/empty_pb.js";
+import { CreateFlightService } from "../../services/flights/CreateFlightService.js";
+import { FlightOfferSearchService } from '../../services/flightOffers/FlightOfferSearchService.js';
+import { ListFlightsByUserService } from "../../services/flightsUser/ListFlightsByUserService.js";
+import { ListFlightsService } from "../../services/flights/ListFlightsService.js";
+import { ShowFlightService } from "../../services//flights/ShowFlightService.js";
 import { container } from "tsyringe";
 
 class FlightServer implements IFlightsServer {

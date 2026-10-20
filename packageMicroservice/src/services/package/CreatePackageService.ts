@@ -1,10 +1,10 @@
 import { inject, injectable } from 'tsyringe';
-import { PackageCreateRequestDTO } from '../../dtos/PackageCreateRequestDTO';
-import { PackageCreateResponseDTO } from '../../dtos/PackageCreateResponseDTO';
-import { IPackageRepository } from '../../repositories/interfaces/IPackageRepository';
-import { IFlightProvider } from '../../shared/container/providers/FlightProvider/interfaces/IFlightProvider';
-import { IHotelProvider } from '../../shared/container/providers/HotelProvider/interface/IHotelProvider';
-import PackageTripEventHandle, { PackageEventParams } from '../../shared/events/PackageTripEventHandle';
+import { PackageCreateRequestDTO } from '../../dtos/PackageCreateRequestDTO.js';
+import { PackageCreateResponseDTO } from '../../dtos/PackageCreateResponseDTO.js';
+import type { IPackageRepository } from '../../repositories/interfaces/IPackageRepository.js';
+import type { IFlightProvider } from '../../shared/container/providers/FlightProvider/interfaces/IFlightProvider.js';
+import type { IHotelProvider } from '../../shared/container/providers/HotelProvider/interface/IHotelProvider.js';
+import PackageTripEventHandle, { PackageEventParams } from '../../shared/events/PackageTripEventHandle.js';
 
 @injectable()
 export class CreatePackageService {

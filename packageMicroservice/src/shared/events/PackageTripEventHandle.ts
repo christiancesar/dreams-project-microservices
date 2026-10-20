@@ -1,5 +1,5 @@
-import flightApi from "../container/providers/FlightApi.ts";
-import hotelApi from "../container/providers/HotelApi.ts";
+import flightApi from "../container/providers/FlightApi.ts/index.js";
+import hotelApi from "../container/providers/HotelApi.ts/index.js";
 
 export type PackageEventParams = {
   hotelId?: string;
