@@ -1,8 +1,8 @@
 import { User } from ".prisma/client";
-import { prisma } from "../../../../prisma";
-import { CreateUserRequestDTO } from "../../dtos/CreateUserRequestDTO";
-import { UpdateUserRequestDTO } from "../../dtos/UpdateUserRequestDTO";
-import { IUsersRepository } from "../interfaces/IUsersRepository";
+import { prisma } from "../../../../prisma/index.js";
+import { CreateUserRequestDTO } from "../../dtos/CreateUserRequestDTO.js";
+import { UpdateUserRequestDTO } from "../../dtos/UpdateUserRequestDTO.js";
+import { IUsersRepository } from "../interfaces/IUsersRepository.js";
 
 export class UsersRepository implements IUsersRepository {
   async create(data: CreateUserRequestDTO): Promise<User> {
