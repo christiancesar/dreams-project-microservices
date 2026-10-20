@@ -95,7 +95,8 @@ services:
     environment:
       DATABASE_URL: "mongodb://user-db:27017/users?replicaSet=rs0&directConnection=true"
     command: ["sh", "-c", "npx prisma db push --skip-generate && npm run dev:server"]
-    expose: ["50052"]
+    expose: ["50052", "3334"]
+    ports: ["127.0.0.1:3334:3334"]
     restart: unless-stopped
 
   flight-service:
@@ -136,7 +137,7 @@ services:
       FLIGHT_API_URL: "http://flight-service:3332"
       HOTEL_API_URL: "http://hotel-service:3331"
     command: ["sh", "-c", "npx prisma db push --skip-generate && npm run dev:server"]
-    expose: ["50051"]
+    expose: ["50051", "3330"]
     restart: unless-stopped
 
   api-gateway:

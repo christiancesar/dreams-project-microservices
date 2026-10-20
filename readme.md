@@ -26,10 +26,10 @@ userMicroservice  packageMicroservice  flightMicroservice  hotelMicroservice
 | Serviço | Porta gRPC | Porta HTTP | Responsabilidade |
 |---|---|---|---|
 | apiGateway | - | 3333 | Ponto único de entrada da API REST |
-| userMicroservice | 50052 | - | Cadastro e consulta de usuários |
+| userMicroservice | 50052 | 3334 (health) | Cadastro e consulta de usuários |
 | flightMicroservice | 50053 | 3332 | Ofertas de voo e voos registrados |
 | hotelMicroservice | 50054 | 3331 | Ofertas de hotel e hotéis registrados |
-| packageMicroservice | 50051 | - | Monta pacotes (voo + hotel) e consulta pacotes |
+| packageMicroservice | 50051 | 3330 (health) | Monta pacotes (voo + hotel) e consulta pacotes |
 
 O serviço de pacotes é o único que depende dos outros. Ao criar um pacote, ele primeiro registra o voo. Se o hotel falhar, um evento inativa o voo já criado, para não deixar dados órfãos. Essa parte está em `packageMicroservice/src/shared/events/PackageTripEventHandle.ts`.
 
