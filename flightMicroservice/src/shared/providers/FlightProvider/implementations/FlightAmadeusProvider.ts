@@ -5,7 +5,7 @@ import { TravelClass } from "../../../../@types/amadeus/flights/TravelClass";
 import { FlightOfferSearchDTO } from "../dtos/FlightOffersSearchDTO";
 import { IFlightProvider } from "../interfaces/IFlightProvider";
 
-const Amadeus = require('amadeus');
+import { Amadeus } from "dreams-amadeus";
 
 @injectable()
 export class FlightAmadeusProvider implements IFlightProvider {
