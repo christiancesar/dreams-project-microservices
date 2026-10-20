@@ -1,60 +1,48 @@
-import { Request, Response } from 'express';
+import { FastifyReply } from "fastify";
+import { CreateUserBody, UpdateUserBody, UserIdParams } from "../../../schemas/users";
 import { CreateUserService } from "../services/CreateUserService";
 import { ListUsersService } from "../services/ListUsersService";
 import { ShowUserService } from "../services/ShowUserService";
 import { UpdateUserService } from '../services/UpdateUserService';
 
-
 export class UsersControllers {
 
-  async create(request: Request, response: Response): Promise<Response> {
-    const { firstName, lastName, birthday, age, email } = request.body;
-
+  async create(body: CreateUserBody, reply: FastifyReply) {
     const createUserService = new CreateUserService();
-    
-    const user = await createUserService.execute({
-      firstName,
-      lastName,
-      birthday,
-      age,
-      email
-    })
 
-    return response.json(user)
+    const user = await createUserService.execute(body)
+
+    return reply.send(user)
   }
 
-  async index(request: Request, response: Response): Promise<Response> {
+  async index(reply: FastifyReply) {
     const listUsersService = new ListUsersService();
 
     const users = await listUsersService.execute()
-    
-    return response.json(users)
+
+    return reply.send(users)
   }
 
-  async show(request: Request, response: Response): Promise<Response> {
-    const { userId } = request.params;
-    
+  async show(params: UserIdParams, reply: FastifyReply) {
     const showUserService = new ShowUserService();
 
-    const user = await showUserService.execute({ userId })
-    
-    return response.json(user)
+    const user = await showUserService.execute({ userId: params.userId })
+
+    return reply.send(user)
   }
 
-  async update(request: Request, response: Response): Promise<Response> {
-    const { id, firstname, lastname, birthday, age, email } = request.body;
-
+  async update(body: UpdateUserBody, reply: FastifyReply) {
     const updateUserService = new UpdateUserService();
-    
+
     const user = await updateUserService.execute({
-      id,
-      firstname,
-      lastname,
-      birthday,
-      age,
-      email
+      id: body.id,
+      firstname: body.firstname,
+      lastname: body.lastname,
+      birthday: body.birthday,
+      age: body.age,
+      email: body.email,
     })
 
-    return response.json(user)
+    return reply.send(user)
   }
 }

@@ -1,12 +1,12 @@
-import { Request, Response } from "express";
+import { FastifyReply } from "fastify";
+import { PackageUserParams } from "../../../schemas/packages";
 import ListPackagesByUserService from "../services/packageUser/ListPackagesByUserService";
 
 class PackageUserController {
-  async index(request: Request, response: Response): Promise<Response> {
-    const { userId } = request.params
+  async index(params: PackageUserParams, reply: FastifyReply) {
     const listPackagesByUserService = new ListPackagesByUserService();
-    const packages = await listPackagesByUserService.execute({ userId });
-    return response.json(packages)
+    const packages = await listPackagesByUserService.execute({ userId: params.userId });
+    return reply.send(packages)
   }
 }
 

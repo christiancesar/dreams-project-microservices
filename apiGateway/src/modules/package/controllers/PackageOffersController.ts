@@ -1,34 +1,14 @@
-import { Request, Response } from "express";
+import { FastifyReply } from "fastify";
+import { PackageOffersQuery } from "../../../schemas/packages";
 import AssemblingPackageService from "../services/packageOffers/AssemblingPackageService";
 
 export default class PackageOffersControllers {
-  
-  async index(request: Request, response: Response): Promise<Response> {
-    const {
-      adults,
-      children,
-      departureDate,
-      destinationLocationCode,
-      infants,
-      originLocationCode,
-      returnDate,
-      travelClass,
-      roomQuantity
-    } = request.body;
+
+  async index(query: PackageOffersQuery, reply: FastifyReply) {
     const assemblingPackageService = new AssemblingPackageService();
 
-    const packages = await assemblingPackageService.execute({
-      adults,
-      children,
-      departureDate,
-      destinationLocationCode,
-      infants,
-      originLocationCode,
-      returnDate,
-      travelClass,
-      roomQuantity
-    })
+    const packages = await assemblingPackageService.execute(query)
 
-    return response.json(packages)
+    return reply.send(packages)
   }
 }

@@ -1,26 +1,25 @@
-import { Request, Response } from "express";
+import { FastifyReply } from "fastify";
+import { CreateHotelBody, HotelIdParams } from "../../../schemas/hotels";
 import CreateHotelService from "../services/hotels/CreateHotelService";
 import ListHotelsService from "../services/hotels/ListHotelsService";
 import ShowHotelService from "../services/hotels/ShowHotelService";
 
 export default class HotelsController {
-  async create(request: Request, response: Response): Promise<Response> {
-    const { hotel, offers, userId } = request.body
+  async create(body: CreateHotelBody, reply: FastifyReply) {
     const createHotelService = new CreateHotelService();
-    const hotelCreated = await createHotelService.execute({ hotel, offers, userId })
-    return response.json(hotelCreated)
+    const hotelCreated = await createHotelService.execute(body)
+    return reply.send(hotelCreated)
   }
 
-  async show(request: Request, response: Response): Promise<Response> {
-    const { hotelId } = request.params
+  async show(params: HotelIdParams, reply: FastifyReply) {
     const showHotelService = new ShowHotelService();
-    const hotels = await showHotelService.execute({ hotelId })
-    return response.json(hotels)
+    const hotels = await showHotelService.execute({ hotelId: params.hotelId })
+    return reply.send(hotels)
   }
 
-  async index(request: Request, response: Response): Promise<Response> {
+  async index(reply: FastifyReply) {
     const listHotelsService = new ListHotelsService();
     const hotels = await listHotelsService.execute();
-    return response.json(hotels)
+    return reply.send(hotels)
   }
 }

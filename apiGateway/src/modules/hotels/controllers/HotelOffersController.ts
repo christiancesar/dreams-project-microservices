@@ -1,28 +1,13 @@
-import { Request, Response } from "express";
-import IHotelOffersSearch from "../dtos/IHotelOffersSearch";
+import { FastifyReply } from "fastify";
+import { HotelOffersQuery } from "../../../schemas/hotels";
 import HotelOfferSearchService from "../services/hotelOffers/HotelOffersSearchService";
 
-
 export class HotelOffersController {
-  async index(request: Request, response: Response): Promise<Response> {
-    const {
-      adults,
-      checkInDate,
-      checkOutDate,
-      cityCode,
-      roomQuantity
-    } = request.body as IHotelOffersSearch;
-
+  async index(query: HotelOffersQuery, reply: FastifyReply) {
     const hotelOfferSearchService = new HotelOfferSearchService();
-    
-    const hotels = await hotelOfferSearchService.execute({
-      adults,
-      checkInDate,
-      checkOutDate,
-      cityCode,
-      roomQuantity
-    });
 
-    return response.json(hotels)
+    const hotels = await hotelOfferSearchService.execute(query);
+
+    return reply.send(hotels)
   }
 }

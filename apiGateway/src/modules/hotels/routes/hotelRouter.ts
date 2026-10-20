@@ -1,18 +1,42 @@
-import { Router } from "express";
+import { FastifyInstance } from "fastify";
+import { ZodTypeProvider } from "fastify-type-provider-zod";
+import { AnyResponse, errorResponses } from "../../../schemas/common";
+import { CreateHotelBody, HotelIdParams } from "../../../schemas/hotels";
 import HotelsController from "../controllers/HotelsController";
 import hotelsOffersRouter from "./hotelsOffersRouter";
 import hotelUserRouter from "./hotelUserRouter";
 
-
-const hotelRouter = Router();
 const hotelsController = new HotelsController();
 
-hotelRouter.use('/offers', hotelsOffersRouter);
-hotelRouter.use('/user', hotelUserRouter);
+export default async function hotelRouter(server: FastifyInstance) {
+  server.register(hotelsOffersRouter, { prefix: '/offers' });
+  server.register(hotelUserRouter, { prefix: '/user' });
 
-hotelRouter.post('/', hotelsController.create);
-hotelRouter.get('/:hotelId', hotelsController.show);
-hotelRouter.get('/', hotelsController.index);
+  const app = server.withTypeProvider<ZodTypeProvider>();
 
-export default hotelRouter;
+  app.post('/', {
+    schema: {
+      tags: ['Hotéis'],
+      summary: 'Registra um hotel para um usuário',
+      body: CreateHotelBody,
+      response: { 200: AnyResponse, ...errorResponses },
+    },
+  }, (request, reply) => hotelsController.create(request.body, reply));
 
+  app.get('/:hotelId', {
+    schema: {
+      tags: ['Hotéis'],
+      summary: 'Mostra um hotel registrado',
+      params: HotelIdParams,
+      response: { 200: AnyResponse, ...errorResponses },
+    },
+  }, (request, reply) => hotelsController.show(request.params, reply));
+
+  app.get('/', {
+    schema: {
+      tags: ['Hotéis'],
+      summary: 'Lista hotéis registrados',
+      response: { 200: AnyResponse, ...errorResponses },
+    },
+  }, (_request, reply) => hotelsController.index(reply));
+}

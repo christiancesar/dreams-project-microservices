@@ -1,45 +1,14 @@
-import { Request, Response } from "express";
+import { FastifyReply } from "fastify";
+import { FlightOffersQuery } from "../../../schemas/flights";
 import FlightOfferSearchService from "../services/flightOffers/FlightOfferSearchService";
-
-type RequestDTO = {
-  originLocationCode: string;
-  destinationLocationCode: string;
-  departureDate: string;
-  returnDate?: string;
-  adults: number;
-  children?: number;
-  infants?: number;
-  travelClass: string;
-}
 
 export default class FlightsOffersController {
 
-  async index(request: Request, response: Response): Promise<Response> {
-
-    const {
-      adults,
-      departureDate,
-      destinationLocationCode,
-      originLocationCode,
-      travelClass,
-      children,
-      infants,
-      returnDate
-    } = request.body as RequestDTO
-
+  async index(query: FlightOffersQuery, reply: FastifyReply) {
     const flightOfferSearchService = new FlightOfferSearchService();
 
-    const flightOffers = await flightOfferSearchService.execute({
-      adults,
-      departureDate,
-      destinationLocationCode,
-      originLocationCode,
-      travelClass,
-      children,
-      infants,
-      returnDate
-    })
+    const flightOffers = await flightOfferSearchService.execute(query)
 
-    return response.json(flightOffers)
+    return reply.send(flightOffers)
   }
 }

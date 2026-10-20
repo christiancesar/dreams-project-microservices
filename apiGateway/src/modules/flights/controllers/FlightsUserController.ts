@@ -1,12 +1,12 @@
-import { Request, Response } from "express";
+import { FastifyReply } from "fastify";
+import { FlightUserParams } from "../../../schemas/flights";
 import ListFlightsByUserService from "../services/FlightUser/ListFlightsByUserService";
 
 class FlightsUserController {
-  async index(request: Request, response: Response): Promise<Response> {
-    const { userId } = request.params
+  async index(params: FlightUserParams, reply: FastifyReply) {
     const listFlightsByUserService = new ListFlightsByUserService();
-    const flights = await listFlightsByUserService.execute({ userId });
-    return response.json(flights)
+    const flights = await listFlightsByUserService.execute({ userId: params.userId });
+    return reply.send(flights)
   }
 }
 

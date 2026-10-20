@@ -1,22 +1,15 @@
-import { Request, Response } from "express";
+import { FastifyReply } from "fastify";
+import { CreatePackageBody } from "../../../schemas/packages";
 import CreatePackageService from "../services/packages/CreatePackageService";
 
 class PackageControllers {
 
-  async create(request: Request, response: Response): Promise<Response> {
-    const { userId, flight, hotel, amount, off } = request.body;
-
+  async create(body: CreatePackageBody, reply: FastifyReply) {
     const createPackageService = new CreatePackageService();
 
-    const packageCreated = await createPackageService.execute({
-      userId,
-      flight,
-      hotel,
-      amount,
-      off
-    })
+    const packageCreated = await createPackageService.execute(body)
 
-    return response.json(packageCreated)
+    return reply.send(packageCreated)
   }
 
 }

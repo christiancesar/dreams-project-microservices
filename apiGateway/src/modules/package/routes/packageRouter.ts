@@ -1,15 +1,26 @@
-import { Router } from "express";
+import { FastifyInstance } from "fastify";
+import { ZodTypeProvider } from "fastify-type-provider-zod";
+import { AnyResponse, errorResponses } from "../../../schemas/common";
+import { CreatePackageBody } from "../../../schemas/packages";
 import PackageController from "../controllers/PackageController";
 import packageOffersRouter from "./packageOffersRouter";
 import packageUserRouter from "./packageUserRouter";
 
-const packageRouter = Router();
 const packageController = new PackageController();
 
-packageRouter.use('/offers', packageOffersRouter);
+export default async function packageRouter(server: FastifyInstance) {
+  server.register(packageOffersRouter, { prefix: '/offers' });
 
-packageRouter.use('/user', packageUserRouter);
+  server.register(packageUserRouter, { prefix: '/user' });
 
-packageRouter.post('/', packageController.create);
+  const app = server.withTypeProvider<ZodTypeProvider>();
 
-export default packageRouter;
+  app.post('/', {
+    schema: {
+      tags: ['Pacotes'],
+      summary: 'Cria um pacote (voo + hotel) para um usuário',
+      body: CreatePackageBody,
+      response: { 200: AnyResponse, ...errorResponses },
+    },
+  }, (request, reply) => packageController.create(request.body, reply));
+}

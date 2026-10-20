@@ -1,28 +1,26 @@
-import { Request, Response } from "express";
+import { FastifyReply } from "fastify";
+import { CreateFlightBody, FlightIdParams } from "../../../schemas/flights";
 import CreateFlightService from "../services/flights/CreateFlightService";
 import ListFlightsService from "../services/flights/ListFlightsService";
 import ShowFlightService from "../services/flights/ShowFlightService";
 
-
 export class FlightsController {
 
-  async create(request: Request, response: Response): Promise<Response> {
-    const { itineraries, price, userId } = request.body
+  async create(body: CreateFlightBody, reply: FastifyReply) {
     const createFlightService = new CreateFlightService();
-    const flights = await createFlightService.execute({ itineraries, price, userId })
-    return response.json(flights)
+    const flights = await createFlightService.execute(body)
+    return reply.send(flights)
   }
 
-  async show(request: Request, response: Response): Promise<Response> {
-    const { flightId } = request.params
+  async show(params: FlightIdParams, reply: FastifyReply) {
     const showFlightService = new ShowFlightService();
-    const flights = await showFlightService.execute({ flightId })
-    return response.json(flights)
+    const flights = await showFlightService.execute({ flightId: params.flightId })
+    return reply.send(flights)
   }
 
-  async index(request: Request, response: Response): Promise<Response> {
+  async index(reply: FastifyReply) {
     const listFlightsService = new ListFlightsService();
     const flights = await listFlightsService.execute();
-    return response.json(flights)
+    return reply.send(flights)
   }
 }

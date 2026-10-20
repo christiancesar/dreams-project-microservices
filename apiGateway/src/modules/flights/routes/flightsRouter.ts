@@ -1,20 +1,42 @@
-import { Router } from "express";
+import { FastifyInstance } from "fastify";
+import { ZodTypeProvider } from "fastify-type-provider-zod";
+import { AnyResponse, errorResponses } from "../../../schemas/common";
+import { CreateFlightBody, FlightIdParams } from "../../../schemas/flights";
 import { FlightsController } from "../controllers/FlightsController";
 import flightsOffersRouter from "./flightsOffersRouter";
 import flightsUserRouter from "./flightsUserRouter";
 
-
-const flightsRouter = Router();
 const flightsController = new FlightsController();
 
-flightsRouter.use('/offers', flightsOffersRouter);
-flightsRouter.use('/user', flightsUserRouter)
+export default async function flightsRouter(server: FastifyInstance) {
+  server.register(flightsOffersRouter, { prefix: '/offers' });
+  server.register(flightsUserRouter, { prefix: '/user' });
 
-flightsRouter.get('/:flightId', flightsController.show);
+  const app = server.withTypeProvider<ZodTypeProvider>();
 
-flightsRouter.get('/', flightsController.index);
+  app.get('/', {
+    schema: {
+      tags: ['Voos'],
+      summary: 'Lista voos registrados',
+      response: { 200: AnyResponse, ...errorResponses },
+    },
+  }, (_request, reply) => flightsController.index(reply));
 
-flightsRouter.post('/', flightsController.create);
+  app.post('/', {
+    schema: {
+      tags: ['Voos'],
+      summary: 'Registra um voo para um usuário',
+      body: CreateFlightBody,
+      response: { 200: AnyResponse, ...errorResponses },
+    },
+  }, (request, reply) => flightsController.create(request.body, reply));
 
-
-export default flightsRouter
+  app.get('/:flightId', {
+    schema: {
+      tags: ['Voos'],
+      summary: 'Mostra um voo registrado',
+      params: FlightIdParams,
+      response: { 200: AnyResponse, ...errorResponses },
+    },
+  }, (request, reply) => flightsController.show(request.params, reply));
+}

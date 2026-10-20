@@ -1,10 +1,20 @@
-import { Router } from "express";
+import { FastifyInstance } from "fastify";
+import { ZodTypeProvider } from "fastify-type-provider-zod";
+import { AnyResponse, errorResponses } from "../../../schemas/common";
+import { FlightUserParams } from "../../../schemas/flights";
 import FlightsUserController from "../controllers/FlightsUserController";
 
-
-const flightsUserRouter = Router()
 const flightsUserController = new FlightsUserController();
 
-flightsUserRouter.use('/:userId', flightsUserController.index)
+export default async function flightsUserRouter(server: FastifyInstance) {
+  const app = server.withTypeProvider<ZodTypeProvider>();
 
-export default flightsUserRouter
+  app.get('/:userId', {
+    schema: {
+      tags: ['Voos'],
+      summary: 'Lista os voos de um usuário',
+      params: FlightUserParams,
+      response: { 200: AnyResponse, ...errorResponses },
+    },
+  }, (request, reply) => flightsUserController.index(request.params, reply));
+}

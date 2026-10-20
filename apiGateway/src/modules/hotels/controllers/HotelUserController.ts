@@ -1,12 +1,12 @@
-import { Request, Response } from "express";
+import { FastifyReply } from "fastify";
+import { HotelUserParams } from "../../../schemas/hotels";
 import ListHotelsByUserService from "../services/hotelsUser/ListHotelsByUserService";
 
 class HotelUserController {
-  async index(request: Request, response: Response): Promise<Response> {
-    const { userId } = request.params
+  async index(params: HotelUserParams, reply: FastifyReply) {
     const listHotelsByUserService = new ListHotelsByUserService();
-    const hotels = await listHotelsByUserService.execute({ userId });
-    return response.json(hotels)
+    const hotels = await listHotelsByUserService.execute({ userId: params.userId });
+    return reply.send(hotels)
   }
 }
 

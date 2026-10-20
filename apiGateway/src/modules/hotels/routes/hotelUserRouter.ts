@@ -1,11 +1,20 @@
-import { Router } from "express";
+import { FastifyInstance } from "fastify";
+import { ZodTypeProvider } from "fastify-type-provider-zod";
+import { AnyResponse, errorResponses } from "../../../schemas/common";
+import { HotelUserParams } from "../../../schemas/hotels";
 import HotelUserController from "../controllers/HotelUserController";
-
-
-const hotelUserRouter = Router();
 
 const hotelUserController = new HotelUserController();
 
-hotelUserRouter.get('/:userId', hotelUserController.index);
+export default async function hotelUserRouter(server: FastifyInstance) {
+  const app = server.withTypeProvider<ZodTypeProvider>();
 
-export default hotelUserRouter;
+  app.get('/:userId', {
+    schema: {
+      tags: ['Hotéis'],
+      summary: 'Lista os hotéis de um usuário',
+      params: HotelUserParams,
+      response: { 200: AnyResponse, ...errorResponses },
+    },
+  }, (request, reply) => hotelUserController.index(request.params, reply));
+}
