@@ -1,26 +1,34 @@
 import { FastifyInstance } from "fastify";
 import { ZodTypeProvider } from "fastify-type-provider-zod";
+import { inject, injectable } from "tsyringe";
+import { FASTIFY_INSTANCE } from "../../../shared/http/tokens";
+import { HttpRouter, mountRouter } from "../../../shared/http/mountRouter";
 import { AnyResponse, errorResponses } from "../../../schemas/common";
 import { CreatePackageBody } from "../../../schemas/packages";
 import PackageController from "../controllers/PackageController";
-import packageOffersRouter from "./packageOffersRouter";
-import packageUserRouter from "./packageUserRouter";
+import { PackageOffersRouter } from "./packageOffersRouter";
+import { PackageUserRouter } from "./packageUserRouter";
 
-const packageController = new PackageController();
+@injectable()
+export class PackagesRouter implements HttpRouter {
+  constructor(
+    @inject(FASTIFY_INSTANCE) private server: FastifyInstance,
+    private packageController: PackageController,
+  ) {}
 
-export default async function packageRouter(server: FastifyInstance) {
-  server.register(packageOffersRouter, { prefix: '/offers' });
+  register() {
+    mountRouter(this.server, PackageOffersRouter, '/offers');
+    mountRouter(this.server, PackageUserRouter, '/user');
 
-  server.register(packageUserRouter, { prefix: '/user' });
+    const app = this.server.withTypeProvider<ZodTypeProvider>();
 
-  const app = server.withTypeProvider<ZodTypeProvider>();
-
-  app.post('/', {
-    schema: {
-      tags: ['Pacotes'],
-      summary: 'Cria um pacote (voo + hotel) para um usuário',
-      body: CreatePackageBody,
-      response: { 200: AnyResponse, ...errorResponses },
-    },
-  }, (request, reply) => packageController.create(request.body, reply));
+    app.post('/', {
+      schema: {
+        tags: ['Pacotes'],
+        summary: 'Cria um pacote (voo + hotel) para um usuário',
+        body: CreatePackageBody,
+        response: { 200: AnyResponse, ...errorResponses },
+      },
+    }, (request, reply) => this.packageController.create(request.body, reply));
+  }
 }

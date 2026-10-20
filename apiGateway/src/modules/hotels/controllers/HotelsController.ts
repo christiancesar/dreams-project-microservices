@@ -1,9 +1,11 @@
+import { injectable } from "tsyringe";
 import { FastifyReply } from "fastify";
 import { CreateHotelBody, HotelIdParams } from "../../../schemas/hotels";
 import CreateHotelService from "../services/hotels/CreateHotelService";
 import ListHotelsService from "../services/hotels/ListHotelsService";
 import ShowHotelService from "../services/hotels/ShowHotelService";
 
+@injectable()
 export default class HotelsController {
   async create(body: CreateHotelBody, reply: FastifyReply) {
     const createHotelService = new CreateHotelService();

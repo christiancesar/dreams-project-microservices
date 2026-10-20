@@ -1,3 +1,4 @@
+import { injectable } from "tsyringe";
 import { FastifyReply } from "fastify";
 import { CreateUserBody, UpdateUserBody, UserIdParams } from "../../../schemas/users";
 import { CreateUserService } from "../services/CreateUserService";
@@ -5,6 +6,7 @@ import { ListUsersService } from "../services/ListUsersService";
 import { ShowUserService } from "../services/ShowUserService";
 import { UpdateUserService } from '../services/UpdateUserService';
 
+@injectable()
 export class UsersControllers {
 
   async create(body: CreateUserBody, reply: FastifyReply) {

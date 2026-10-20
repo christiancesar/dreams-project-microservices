@@ -1,42 +1,51 @@
 import { FastifyInstance } from "fastify";
 import { ZodTypeProvider } from "fastify-type-provider-zod";
+import { inject, injectable } from "tsyringe";
+import { FASTIFY_INSTANCE } from "../../../shared/http/tokens";
+import { HttpRouter, mountRouter } from "../../../shared/http/mountRouter";
 import { AnyResponse, errorResponses } from "../../../schemas/common";
 import { CreateFlightBody, FlightIdParams } from "../../../schemas/flights";
 import { FlightsController } from "../controllers/FlightsController";
-import flightsOffersRouter from "./flightsOffersRouter";
-import flightsUserRouter from "./flightsUserRouter";
+import { FlightsOffersRouter } from "./flightsOffersRouter";
+import { FlightsUserRouter } from "./flightsUserRouter";
 
-const flightsController = new FlightsController();
+@injectable()
+export class FlightsRouter implements HttpRouter {
+  constructor(
+    @inject(FASTIFY_INSTANCE) private server: FastifyInstance,
+    private flightsController: FlightsController,
+  ) {}
 
-export default async function flightsRouter(server: FastifyInstance) {
-  server.register(flightsOffersRouter, { prefix: '/offers' });
-  server.register(flightsUserRouter, { prefix: '/user' });
+  register() {
+    mountRouter(this.server, FlightsOffersRouter, '/offers');
+    mountRouter(this.server, FlightsUserRouter, '/user');
 
-  const app = server.withTypeProvider<ZodTypeProvider>();
+    const app = this.server.withTypeProvider<ZodTypeProvider>();
 
-  app.get('/', {
-    schema: {
-      tags: ['Voos'],
-      summary: 'Lista voos registrados',
-      response: { 200: AnyResponse, ...errorResponses },
-    },
-  }, (_request, reply) => flightsController.index(reply));
+    app.get('/', {
+      schema: {
+        tags: ['Voos'],
+        summary: 'Lista voos registrados',
+        response: { 200: AnyResponse, ...errorResponses },
+      },
+    }, (_request, reply) => this.flightsController.index(reply));
 
-  app.post('/', {
-    schema: {
-      tags: ['Voos'],
-      summary: 'Registra um voo para um usuário',
-      body: CreateFlightBody,
-      response: { 200: AnyResponse, ...errorResponses },
-    },
-  }, (request, reply) => flightsController.create(request.body, reply));
+    app.post('/', {
+      schema: {
+        tags: ['Voos'],
+        summary: 'Registra um voo para um usuário',
+        body: CreateFlightBody,
+        response: { 200: AnyResponse, ...errorResponses },
+      },
+    }, (request, reply) => this.flightsController.create(request.body, reply));
 
-  app.get('/:flightId', {
-    schema: {
-      tags: ['Voos'],
-      summary: 'Mostra um voo registrado',
-      params: FlightIdParams,
-      response: { 200: AnyResponse, ...errorResponses },
-    },
-  }, (request, reply) => flightsController.show(request.params, reply));
+    app.get('/:flightId', {
+      schema: {
+        tags: ['Voos'],
+        summary: 'Mostra um voo registrado',
+        params: FlightIdParams,
+        response: { 200: AnyResponse, ...errorResponses },
+      },
+    }, (request, reply) => this.flightsController.show(request.params, reply));
+  }
 }

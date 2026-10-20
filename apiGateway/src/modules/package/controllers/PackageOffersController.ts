@@ -1,7 +1,9 @@
+import { injectable } from "tsyringe";
 import { FastifyReply } from "fastify";
 import { PackageOffersQuery } from "../../../schemas/packages";
 import AssemblingPackageService from "../services/packageOffers/AssemblingPackageService";
 
+@injectable()
 export default class PackageOffersControllers {
 
   async index(query: PackageOffersQuery, reply: FastifyReply) {

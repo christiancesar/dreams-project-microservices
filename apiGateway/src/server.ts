@@ -1,10 +1,11 @@
+import "reflect-metadata";
 import cors from '@fastify/cors';
 import fastifySwagger from '@fastify/swagger';
 import scalarApiReference from '@scalar/fastify-api-reference';
 import Fastify from 'fastify';
 import { jsonSchemaTransform, serializerCompiler, validatorCompiler } from 'fastify-type-provider-zod';
 import interceptErrorMiddleware from './middlewares/interceptErrorMiddleware';
-import routes from './routes';
+import { registerRoutes } from './routes';
 
 const server = Fastify();
 
@@ -33,7 +34,7 @@ server.register(scalarApiReference, {
 
 server.setErrorHandler(interceptErrorMiddleware);
 
-server.register(routes);
+registerRoutes(server);
 
 async function main() {
 

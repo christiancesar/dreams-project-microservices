@@ -1,9 +1,11 @@
+import { injectable } from "tsyringe";
 import { FastifyReply } from "fastify";
 import { CreateFlightBody, FlightIdParams } from "../../../schemas/flights";
 import CreateFlightService from "../services/flights/CreateFlightService";
 import ListFlightsService from "../services/flights/ListFlightsService";
 import ShowFlightService from "../services/flights/ShowFlightService";
 
+@injectable()
 export class FlightsController {
 
   async create(body: CreateFlightBody, reply: FastifyReply) {

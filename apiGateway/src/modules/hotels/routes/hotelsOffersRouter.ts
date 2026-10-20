@@ -1,20 +1,29 @@
 import { FastifyInstance } from "fastify";
 import { ZodTypeProvider } from "fastify-type-provider-zod";
+import { inject, injectable } from "tsyringe";
+import { FASTIFY_INSTANCE } from "../../../shared/http/tokens";
+import { HttpRouter } from "../../../shared/http/mountRouter";
 import { AnyResponse, errorResponses } from "../../../schemas/common";
 import { HotelOffersQuery } from "../../../schemas/hotels";
 import { HotelOffersController } from "../controllers/HotelOffersController";
 
-const hotelOffersController = new HotelOffersController();
+@injectable()
+export class HotelsOffersRouter implements HttpRouter {
+  constructor(
+    @inject(FASTIFY_INSTANCE) private server: FastifyInstance,
+    private hotelOffersController: HotelOffersController,
+  ) {}
 
-export default async function hotelsOffersRouter(server: FastifyInstance) {
-  const app = server.withTypeProvider<ZodTypeProvider>();
+  register() {
+    const app = this.server.withTypeProvider<ZodTypeProvider>();
 
-  app.get('/', {
-    schema: {
-      tags: ['Hotéis'],
-      summary: 'Busca ofertas de hotel',
-      querystring: HotelOffersQuery,
-      response: { 200: AnyResponse, ...errorResponses },
-    },
-  }, (request, reply) => hotelOffersController.index(request.query, reply));
+    app.get('/', {
+      schema: {
+        tags: ['Hotéis'],
+        summary: 'Busca ofertas de hotel',
+        querystring: HotelOffersQuery,
+        response: { 200: AnyResponse, ...errorResponses },
+      },
+    }, (request, reply) => this.hotelOffersController.index(request.query, reply));
+  }
 }
