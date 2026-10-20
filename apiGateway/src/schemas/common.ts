@@ -13,8 +13,5 @@ export const errorResponses = {
   500: ErrorResponse.describe("Erro interno"),
 };
 
-// Payload de oferta da Amadeus, repassado como JSON sem mapeamento no gateway.
-export const AmadeusOffer = z.record(z.string(), z.any()).describe("Oferta no formato da API Amadeus");
-
 // JSON livre salvo pelo serviço (itinerários, preço, dados de hotel).
 export const JsonData = z.any();

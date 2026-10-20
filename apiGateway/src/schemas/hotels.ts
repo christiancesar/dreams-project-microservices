@@ -1,5 +1,6 @@
 import { z } from "zod";
-import { AmadeusOffer, JsonData } from "./common";
+import { JsonData } from "./common";
+import { HotelOfferSchema } from "./amadeus";
 
 export const HotelIdParams = z.object({
   hotelId: z.string().describe("Id do hotel registrado"),
@@ -36,4 +37,4 @@ export const HotelResponse = z.object({
 }).describe("Hotel registrado");
 export type HotelResponse = z.infer<typeof HotelResponse>;
 
-export const HotelOfferResponse = AmadeusOffer;
+export const HotelOfferResponse = HotelOfferSchema;
