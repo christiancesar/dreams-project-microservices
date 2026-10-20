@@ -1,6 +1,6 @@
 import { faker } from "@faker-js/faker";
-import type { Hotel, HotelOffer, Offer } from "../../../../@types/amadeus/hotels/HotelOfferSearchResponse";
-import { HotelOffersSearchDTO } from "../dtos/HotelOffersSearchDTO";
+import type { Hotel, HotelOffer, Offer } from "../../../../@types/amadeus/hotels/HotelOfferSearchResponse.js";
+import { HotelOffersSearchDTO } from "../dtos/HotelOffersSearchDTO.js";
 
 const ROOM_TYPES = ["SGL", "DBL", "TWN", "QUAD"] as const;
 const BED_TYPES = ["KING", "QUEEN", "TWIN", "SINGLE"] as const;

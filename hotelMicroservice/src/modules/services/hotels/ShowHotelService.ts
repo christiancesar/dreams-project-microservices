@@ -1,9 +1,9 @@
 import { status } from "@grpc/grpc-js";
 import { inject, injectable } from "tsyringe";
-import { AppError } from "../../../shared/errors/AppError";
-import { ShowHotelRequestDTO } from "../../dtos/ShowHotelRequestDTO";
-import { ShowHotelResponseDTO } from "../../dtos/ShowHotelResponseDTO";
-import { IHotelsRepository } from "../../repositories/interfaces/IHotelsRepository";
+import { AppError } from "../../../shared/errors/AppError.js";
+import { ShowHotelRequestDTO } from "../../dtos/ShowHotelRequestDTO.js";
+import { ShowHotelResponseDTO } from "../../dtos/ShowHotelResponseDTO.js";
+import type { IHotelsRepository } from "../../repositories/interfaces/IHotelsRepository.js";
 
 @injectable()
 export default class ShowHotelService {

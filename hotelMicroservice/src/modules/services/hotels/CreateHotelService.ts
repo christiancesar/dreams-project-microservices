@@ -1,7 +1,7 @@
 import { inject, injectable } from "tsyringe";
-import { CreateHotelRequestDTO } from "../../dtos/CreateHotelRequestDTO";
-import { CreateHotelResponseDTO } from "../../dtos/CreateHotelResponseDTO";
-import { IHotelsRepository } from "../../repositories/interfaces/IHotelsRepository";
+import { CreateHotelRequestDTO } from "../../dtos/CreateHotelRequestDTO.js";
+import { CreateHotelResponseDTO } from "../../dtos/CreateHotelResponseDTO.js";
+import type { IHotelsRepository } from "../../repositories/interfaces/IHotelsRepository.js";
 
 @injectable()
 export default class CreateHotelService {

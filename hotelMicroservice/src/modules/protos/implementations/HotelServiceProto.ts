@@ -1,5 +1,5 @@
 import { handleUnaryCall, ServerErrorResponse } from "@grpc/grpc-js";
-import { IHotelsServer } from "dreams-proto-sharing/src/contracts/hotel/hotel_grpc_pb";
+import { IHotelsServer } from "dreams-proto-sharing/src/contracts/hotel/hotel_grpc_pb.js";
 import {
   Hotel, 
   HotelCreateRequest, 
@@ -9,14 +9,14 @@ import {
   HotelResponse, 
   HotelsByUserRequest, 
   HotelShowRequest
-} from "dreams-proto-sharing/src/contracts/hotel/hotel_pb";
-import { Empty } from "google-protobuf/google/protobuf/empty_pb";
+} from "dreams-proto-sharing/src/contracts/hotel/hotel_pb.js";
+import { Empty } from "google-protobuf/google/protobuf/empty_pb.js";
 import { container } from "tsyringe";
-import HotelOffersSearchService from "../../services/hotelOffers/HotelOffersSearchService";
-import CreateHotelService from "../../services/hotels/CreateHotelService";
-import ListHotelsByUserService from "../../services/hotels/ListHotelsByUserService";
-import ListHotelsService from "../../services/hotels/ListHotelsService";
-import ShowHotelService from "../../services/hotels/ShowHotelService";
+import HotelOffersSearchService from "../../services/hotelOffers/HotelOffersSearchService.js";
+import CreateHotelService from "../../services/hotels/CreateHotelService.js";
+import ListHotelsByUserService from "../../services/hotels/ListHotelsByUserService.js";
+import ListHotelsService from "../../services/hotels/ListHotelsService.js";
+import ShowHotelService from "../../services/hotels/ShowHotelService.js";
 
 class HotelServer implements IHotelsServer {
   listHotelByUser: handleUnaryCall<HotelsByUserRequest, HotelListResponse> = async (call, callback): Promise<void> => {

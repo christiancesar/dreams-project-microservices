@@ -1,6 +1,6 @@
 import { inject, injectable } from "tsyringe";
-import { HotelOffersSearchDTO } from "../../../shared/providers/HotelProvider/dtos/HotelOffersSearchDTO";
-import { IHotelProvider } from "../../../shared/providers/HotelProvider/interfaces/IHotelProvider";
+import { HotelOffersSearchDTO } from "../../../shared/providers/HotelProvider/dtos/HotelOffersSearchDTO.js";
+import type { IHotelProvider } from "../../../shared/providers/HotelProvider/interfaces/IHotelProvider.js";
 
 type HotelOffersSearchResponse = {
   hotelOffers: string

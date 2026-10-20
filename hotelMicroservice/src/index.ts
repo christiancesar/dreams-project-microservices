@@ -1,40 +1,53 @@
-import { Server, ServerCredentials } from "@grpc/grpc-js";
-import cors from 'cors';
-import { HotelsService } from "dreams-proto-sharing/src/contracts/hotel/hotel_grpc_pb";
-import express from 'express';
 import "reflect-metadata";
-import { promisify } from "util";
-import { prisma } from '../prisma';
-import HotelServiceProto from "./modules/protos/implementations/HotelServiceProto";
-import routes from "./routes";
-import "./shared/containers";
-import "./shared/providers";
+import "./shared/containers/index.js";
+import "./shared/providers/index.js";
+import { prisma } from '../prisma/index.js';
+import { createGrpcServer } from './grpc/server.js';
+import { buildHttpServer } from './http/server.js';
+import { logger } from './shared/logger/index.js';
+import { databaseHealthCheck } from './shared/health/checks/databaseHealthCheck.js';
 
-const server = express();
+const GRPC_ADDRESS = process.env.GRPC_ADDRESS ?? '0.0.0.0:50054';
+const HTTP_PORT = Number(process.env.HTTP_PORT ?? 3331);
+const HEALTH_CHECK_TIMEOUT_MS = Number(process.env.HEALTH_CHECK_TIMEOUT_MS ?? 2000);
 
-server.use(cors());
+// Novos recursos entram na lista de extraHealthChecks, e aparecem tanto no HTTP quanto no gRPC.
+const extraHealthChecks = [databaseHealthCheck];
 
-server.use(express.json());
+const grpc = createGrpcServer({
+  service: 'hotelMicroservice',
+  extraHealthChecks,
+  healthTimeoutMs: HEALTH_CHECK_TIMEOUT_MS,
+});
 
-server.use(routes);
+const http = buildHttpServer({
+  healthChecks: [grpc.apiHealthCheck, ...extraHealthChecks],
+  healthTimeoutMs: HEALTH_CHECK_TIMEOUT_MS,
+});
 
-const gRPCserver = new Server()
-gRPCserver.addService(HotelsService, new HotelServiceProto())
+async function shutdown(signal: NodeJS.Signals) {
+  logger.info({ signal }, 'shutting down');
 
-const bindPromise = promisify(gRPCserver.bindAsync).bind(gRPCserver)
+  await grpc.shutdown();
+  await http.close();
+  await prisma.$disconnect();
 
-bindPromise('0.0.0.0:50054', ServerCredentials.createInsecure())
-  .then(async (port) => {
-    await prisma.$connect()
+  process.exit(0);
+}
 
-    console.log(`listening on ${port}`)
-    gRPCserver.start()
+process.on('SIGINT', () => void shutdown('SIGINT'));
+process.on('SIGTERM', () => void shutdown('SIGTERM'));
 
-    server.listen(3331, () => {
-      console.log('Server listen on port 3331! 🍹')
-    })
-  })
-  .catch(async (error) => {
-    await prisma.$disconnect();
-    console.error(error)
-  })
+async function main() {
+  const port = await grpc.listen(GRPC_ADDRESS);
+  await prisma.$connect();
+  logger.info({ port }, 'gRPC server listening');
+
+  await http.listen({ port: HTTP_PORT, host: '0.0.0.0' });
+}
+
+main().catch(async (error) => {
+  logger.fatal({ err: error }, 'failed to start hotel microservice');
+  await prisma.$disconnect();
+  process.exit(1);
+});
