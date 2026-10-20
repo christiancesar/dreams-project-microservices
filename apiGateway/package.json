@@ -15,7 +15,7 @@
     "@grpc/grpc-js": "^1.14.6",
     "@scalar/fastify-api-reference": "^1.75.0",
     "@types/google-protobuf": "^3.15.12",
-    "dreams-proto-sharing": "^2.1.0",
+    "dreams-proto-sharing": "^2.2.0",
     "fastify": "^5.12.7",
     "fastify-type-provider-zod": "^7.0.0",
     "google-protobuf": "^4.0.3",
