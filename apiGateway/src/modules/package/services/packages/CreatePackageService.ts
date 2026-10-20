@@ -1,4 +1,4 @@
-import { Flight, Hotel, PackageCreate, PackagesResponse, PackageCreateRequest } from "../../../../proto/package_pb.js";
+import { Flight, Hotel, PackageCreate, PackagesResponse, PackageCreateRequest } from "dreams-proto-sharing/src/contracts/package/package_pb.js";
 import packageClient from "../../providers/PackageService.js";
 
 type PackageCreateRequestDTO = {

@@ -1,5 +1,5 @@
 import { Empty } from "../../../../proto/empty_pb.js";
-import { FlightListResponse } from "../../../../proto/flight_pb.js";
+import { FlightListResponse } from "dreams-proto-sharing/src/contracts/flight/flight_pb.js";
 import flightClient from "../../providers/FlightService.js";
 
 

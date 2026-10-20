@@ -1,4 +1,4 @@
-import { PackagesByUserRequest, PackagesResponse } from "../../../../proto/package_pb.js";
+import { PackagesByUserRequest, PackagesResponse } from "dreams-proto-sharing/src/contracts/package/package_pb.js";
 import packageClient from "../../providers/PackageService.js";
 
 

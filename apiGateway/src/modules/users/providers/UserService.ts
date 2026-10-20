@@ -1,4 +1,4 @@
-import { UsersClient } from "../../../proto/user_grpc_pb.js";
+import { UsersClient } from "dreams-proto-sharing/src/contracts/user/user_grpc_pb.js";
 import { ChannelCredentials } from '@grpc/grpc-js';
 
 const userClient = new UsersClient(process.env.USER_SERVICE_ADDRESS ?? '0.0.0.0:50052', ChannelCredentials.createInsecure()) 

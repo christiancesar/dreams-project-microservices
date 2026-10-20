@@ -4,7 +4,7 @@ import {
   FlightOffersRequest, 
   FlightOffersResponse, 
   FlightOffersSearch 
-} from "../../../../proto/flight_pb.js";
+} from "dreams-proto-sharing/src/contracts/flight/flight_pb.js";
 
 type FlightRequest = {
   originLocationCode: string;

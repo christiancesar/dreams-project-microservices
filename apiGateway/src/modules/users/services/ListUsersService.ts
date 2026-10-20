@@ -1,5 +1,5 @@
 import { Empty } from "../../../proto/empty_pb.js";
-import { User, UserResponse } from "../../../proto/user_pb.js";
+import { User, UserResponse } from "dreams-proto-sharing/src/contracts/user/user_pb.js";
 import { type IUserDTO } from '../dtos/IUserDTO.js';
 
 import userClient from "../providers/UserService.js";

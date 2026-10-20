@@ -1,7 +1,7 @@
 import {
   FlightResponse as FlightShowResponse,
   FlightShowRequest
-} from "../../../../proto/flight_pb.js";
+} from "dreams-proto-sharing/src/contracts/flight/flight_pb.js";
 
 import flightClient from "../../providers/FlightService.js";
 

@@ -1,4 +1,4 @@
-import { FlightByUserRequest, FlightListResponse } from "../../../../proto/flight_pb.js";
+import { FlightByUserRequest, FlightListResponse } from "dreams-proto-sharing/src/contracts/flight/flight_pb.js";
 import flightClient from "../../providers/FlightService.js";
 
 type FlightRequest = {

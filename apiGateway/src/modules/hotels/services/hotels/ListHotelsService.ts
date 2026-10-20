@@ -1,5 +1,5 @@
 import { Empty } from "../../../../proto/empty_pb.js";
-import { HotelListResponse } from "../../../../proto/hotel_pb.js";
+import { HotelListResponse } from "dreams-proto-sharing/src/contracts/hotel/hotel_pb.js";
 import hotelClient from "../../providers/HotelService.js";
 
 type HotelResponse = {
