@@ -29,6 +29,6 @@ export class PackagesRouter implements HttpRouter {
         body: CreatePackageBody,
         response: { 200: AnyResponse, ...errorResponses },
       },
-    }, (request, reply) => this.packageController.create(request.body, reply));
+    }, (request, reply) => this.packageController.create(request, reply));
   }
 }

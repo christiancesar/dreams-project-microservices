@@ -24,6 +24,6 @@ export class HotelUserRouter implements HttpRouter {
         params: HotelUserParams,
         response: { 200: AnyResponse, ...errorResponses },
       },
-    }, (request, reply) => this.hotelUserController.index(request.params, reply));
+    }, (request, reply) => this.hotelUserController.index(request, reply));
   }
 }

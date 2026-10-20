@@ -24,6 +24,6 @@ export class FlightsUserRouter implements HttpRouter {
         params: FlightUserParams,
         response: { 200: AnyResponse, ...errorResponses },
       },
-    }, (request, reply) => this.flightsUserController.index(request.params, reply));
+    }, (request, reply) => this.flightsUserController.index(request, reply));
   }
 }

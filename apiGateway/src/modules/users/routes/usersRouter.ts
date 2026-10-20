@@ -24,7 +24,7 @@ export class UsersRouter implements HttpRouter {
         body: CreateUserBody,
         response: { 200: AnyResponse, ...errorResponses },
       },
-    }, (request, reply) => this.usersControllers.create(request.body, reply));
+    }, (request, reply) => this.usersControllers.create(request, reply));
 
     app.get('/', {
       schema: {
@@ -41,7 +41,7 @@ export class UsersRouter implements HttpRouter {
         params: UserIdParams,
         response: { 200: AnyResponse, ...errorResponses },
       },
-    }, (request, reply) => this.usersControllers.show(request.params, reply));
+    }, (request, reply) => this.usersControllers.show(request, reply));
 
     app.patch('/', {
       schema: {
@@ -50,6 +50,6 @@ export class UsersRouter implements HttpRouter {
         body: UpdateUserBody,
         response: { 200: AnyResponse, ...errorResponses },
       },
-    }, (request, reply) => this.usersControllers.update(request.body, reply));
+    }, (request, reply) => this.usersControllers.update(request, reply));
   }
 }

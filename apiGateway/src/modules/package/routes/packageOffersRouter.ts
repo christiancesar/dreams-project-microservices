@@ -24,6 +24,6 @@ export class PackageOffersRouter implements HttpRouter {
         querystring: PackageOffersQuery,
         response: { 200: AnyResponse, ...errorResponses },
       },
-    }, (request, reply) => this.packageOffersController.index(request.query, reply));
+    }, (request, reply) => this.packageOffersController.index(request, reply));
   }
 }

@@ -1,5 +1,6 @@
-import { injectable } from "tsyringe";
 import { FastifyReply } from "fastify";
+import { injectable } from "tsyringe";
+import { ZodRequest } from "../../../shared/http/types";
 import { CreateUserBody, UpdateUserBody, UserIdParams } from "../../../schemas/users";
 import { CreateUserService } from "../services/CreateUserService";
 import { ListUsersService } from "../services/ListUsersService";
@@ -9,10 +10,10 @@ import { UpdateUserService } from '../services/UpdateUserService';
 @injectable()
 export class UsersControllers {
 
-  async create(body: CreateUserBody, reply: FastifyReply) {
+  async create(request: ZodRequest<{ body: typeof CreateUserBody }>, reply: FastifyReply) {
     const createUserService = new CreateUserService();
 
-    const user = await createUserService.execute(body)
+    const user = await createUserService.execute(request.body)
 
     return reply.send(user)
   }
@@ -25,24 +26,24 @@ export class UsersControllers {
     return reply.send(users)
   }
 
-  async show(params: UserIdParams, reply: FastifyReply) {
+  async show(request: ZodRequest<{ params: typeof UserIdParams }>, reply: FastifyReply) {
     const showUserService = new ShowUserService();
 
-    const user = await showUserService.execute({ userId: params.userId })
+    const user = await showUserService.execute({ userId: request.params.userId })
 
     return reply.send(user)
   }
 
-  async update(body: UpdateUserBody, reply: FastifyReply) {
+  async update(request: ZodRequest<{ body: typeof UpdateUserBody }>, reply: FastifyReply) {
     const updateUserService = new UpdateUserService();
 
     const user = await updateUserService.execute({
-      id: body.id,
-      firstname: body.firstname,
-      lastname: body.lastname,
-      birthday: body.birthday,
-      age: body.age,
-      email: body.email,
+      id: request.body.id,
+      firstname: request.body.firstname,
+      lastname: request.body.lastname,
+      birthday: request.body.birthday,
+      age: request.body.age,
+      email: request.body.email,
     })
 
     return reply.send(user)

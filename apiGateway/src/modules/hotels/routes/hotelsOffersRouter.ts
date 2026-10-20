@@ -24,6 +24,6 @@ export class HotelsOffersRouter implements HttpRouter {
         querystring: HotelOffersQuery,
         response: { 200: AnyResponse, ...errorResponses },
       },
-    }, (request, reply) => this.hotelOffersController.index(request.query, reply));
+    }, (request, reply) => this.hotelOffersController.index(request, reply));
   }
 }

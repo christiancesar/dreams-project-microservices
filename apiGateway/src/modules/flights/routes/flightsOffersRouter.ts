@@ -24,6 +24,6 @@ export class FlightsOffersRouter implements HttpRouter {
         querystring: FlightOffersQuery,
         response: { 200: AnyResponse, ...errorResponses },
       },
-    }, (request, reply) => this.flightsOffersController.index(request.query, reply));
+    }, (request, reply) => this.flightsOffersController.index(request, reply));
   }
 }

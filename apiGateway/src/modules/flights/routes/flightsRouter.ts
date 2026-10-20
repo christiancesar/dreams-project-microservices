@@ -37,7 +37,7 @@ export class FlightsRouter implements HttpRouter {
         body: CreateFlightBody,
         response: { 200: AnyResponse, ...errorResponses },
       },
-    }, (request, reply) => this.flightsController.create(request.body, reply));
+    }, (request, reply) => this.flightsController.create(request, reply));
 
     app.get('/:flightId', {
       schema: {
@@ -46,6 +46,6 @@ export class FlightsRouter implements HttpRouter {
         params: FlightIdParams,
         response: { 200: AnyResponse, ...errorResponses },
       },
-    }, (request, reply) => this.flightsController.show(request.params, reply));
+    }, (request, reply) => this.flightsController.show(request, reply));
   }
 }

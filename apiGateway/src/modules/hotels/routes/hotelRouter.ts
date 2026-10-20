@@ -29,7 +29,7 @@ export class HotelsRouter implements HttpRouter {
         body: CreateHotelBody,
         response: { 200: AnyResponse, ...errorResponses },
       },
-    }, (request, reply) => this.hotelsController.create(request.body, reply));
+    }, (request, reply) => this.hotelsController.create(request, reply));
 
     app.get('/:hotelId', {
       schema: {
@@ -38,7 +38,7 @@ export class HotelsRouter implements HttpRouter {
         params: HotelIdParams,
         response: { 200: AnyResponse, ...errorResponses },
       },
-    }, (request, reply) => this.hotelsController.show(request.params, reply));
+    }, (request, reply) => this.hotelsController.show(request, reply));
 
     app.get('/', {
       schema: {

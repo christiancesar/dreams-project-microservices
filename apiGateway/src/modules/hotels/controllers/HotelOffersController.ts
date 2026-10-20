@@ -1,14 +1,15 @@
-import { injectable } from "tsyringe";
 import { FastifyReply } from "fastify";
+import { injectable } from "tsyringe";
+import { ZodRequest } from "../../../shared/http/types";
 import { HotelOffersQuery } from "../../../schemas/hotels";
 import HotelOfferSearchService from "../services/hotelOffers/HotelOffersSearchService";
 
 @injectable()
 export class HotelOffersController {
-  async index(query: HotelOffersQuery, reply: FastifyReply) {
+  async index(request: ZodRequest<{ querystring: typeof HotelOffersQuery }>, reply: FastifyReply) {
     const hotelOfferSearchService = new HotelOfferSearchService();
 
-    const hotels = await hotelOfferSearchService.execute(query);
+    const hotels = await hotelOfferSearchService.execute(request.query);
 
     return reply.send(hotels)
   }

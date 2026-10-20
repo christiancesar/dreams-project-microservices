@@ -24,6 +24,6 @@ export class PackageUserRouter implements HttpRouter {
         params: PackageUserParams,
         response: { 200: AnyResponse, ...errorResponses },
       },
-    }, (request, reply) => this.packageUserController.index(request.params, reply));
+    }, (request, reply) => this.packageUserController.index(request, reply));
   }
 }
