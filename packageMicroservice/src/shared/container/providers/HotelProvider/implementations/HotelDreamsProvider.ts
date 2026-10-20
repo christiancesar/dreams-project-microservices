@@ -16,7 +16,7 @@ export class HotelDreamsProvider implements IHotelProvider {
   private hotelClient: HotelsClient;
 
   constructor() {
-    this.hotelClient = new HotelsClient('0.0.0.0:50054', ChannelCredentials.createInsecure());
+    this.hotelClient = new HotelsClient(process.env.HOTEL_SERVICE_ADDRESS ?? '0.0.0.0:50054', ChannelCredentials.createInsecure());
   }
 
   async createHotel(hotel: CreateHotelRequestDTO): Promise<CreateHotelResponseDTO> {

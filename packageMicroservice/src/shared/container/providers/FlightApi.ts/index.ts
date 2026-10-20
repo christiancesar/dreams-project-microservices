@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const flightApi = axios.create({
-  baseURL: 'http://localhost:3332',
+  baseURL: process.env.FLIGHT_API_URL ?? 'http://localhost:3332',
 });
 
 export default flightApi;
