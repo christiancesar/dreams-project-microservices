@@ -15,7 +15,6 @@ export const CreateUserBody = z.object({
 export type CreateUserBody = z.infer<typeof CreateUserBody>;
 
 export const UpdateUserBody = z.object({
-  id: z.string().describe("Id do usuário a atualizar"),
   firstname: z.string(),
   lastname: z.string(),
   birthday: z.string().describe("Data de nascimento (AAAA-MM-DD)"),

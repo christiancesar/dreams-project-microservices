@@ -37,10 +37,11 @@ export default async function usersRoutes(app: FastifyInstance) {
     },
   }, showUser);
 
-  server.patch('/', {
+  server.patch('/:userId', {
     schema: {
       tags: ['Usuários'],
       summary: 'Atualiza um usuário',
+      params: UserIdParams,
       body: UpdateUserBody,
       response: { 200: z.array(UserResponse), ...errorResponses },
     },
