@@ -1,7 +1,7 @@
-import { FastifyReply } from "fastify";
-import { ZodRequest } from "../../../shared/http/types";
-import { CreateHotelBody } from "../../../schemas/hotels";
-import CreateHotelService from "../services/hotels/CreateHotelService";
+import { type FastifyReply } from "fastify";
+import { type ZodRequest } from "../../../shared/http/types.js";
+import { CreateHotelBody } from "../../../schemas/hotels.js";
+import CreateHotelService from "../services/hotels/CreateHotelService.js";
 
 export async function createHotel(request: ZodRequest<{ body: typeof CreateHotelBody }>, reply: FastifyReply) {
   const createHotelService = new CreateHotelService();

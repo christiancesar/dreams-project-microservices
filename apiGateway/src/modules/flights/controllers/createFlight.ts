@@ -1,7 +1,7 @@
-import { FastifyReply } from "fastify";
-import { ZodRequest } from "../../../shared/http/types";
-import { CreateFlightBody } from "../../../schemas/flights";
-import CreateFlightService from "../services/flights/CreateFlightService";
+import { type FastifyReply } from "fastify";
+import { type ZodRequest } from "../../../shared/http/types.js";
+import { CreateFlightBody } from "../../../schemas/flights.js";
+import CreateFlightService from "../services/flights/CreateFlightService.js";
 
 export async function createFlight(request: ZodRequest<{ body: typeof CreateFlightBody }>, reply: FastifyReply) {
   const createFlightService = new CreateFlightService();

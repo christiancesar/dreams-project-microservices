@@ -1,12 +1,12 @@
-import { FastifyInstance } from "fastify";
-import { ZodTypeProvider } from "fastify-type-provider-zod";
+import { type FastifyInstance } from "fastify";
+import { type ZodTypeProvider } from "fastify-type-provider-zod";
 import { z } from "zod";
-import { errorResponses } from "../../schemas/common";
-import { CreateUserBody, UpdateUserBody, UserIdParams, UserResponse } from "../../schemas/users";
-import { createUser } from "./controllers/createUser";
-import { listUsers } from "./controllers/listUsers";
-import { showUser } from "./controllers/showUser";
-import { updateUser } from "./controllers/updateUser";
+import { errorResponses } from "../../schemas/common.js";
+import { CreateUserBody, UpdateUserBody, UserIdParams, UserResponse } from "../../schemas/users.js";
+import { createUser } from "./controllers/createUser.js";
+import { listUsers } from "./controllers/listUsers.js";
+import { showUser } from "./controllers/showUser.js";
+import { updateUser } from "./controllers/updateUser.js";
 
 export default async function usersRoutes(app: FastifyInstance) {
   const server = app.withTypeProvider<ZodTypeProvider>();

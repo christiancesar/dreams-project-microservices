@@ -1,7 +1,7 @@
-import { FastifyReply } from "fastify";
-import { ZodRequest } from "../../../shared/http/types";
-import { UpdateUserBody } from "../../../schemas/users";
-import { UpdateUserService } from "../services/UpdateUserService";
+import { type FastifyReply } from "fastify";
+import { type ZodRequest } from "../../../shared/http/types.js";
+import { UpdateUserBody } from "../../../schemas/users.js";
+import { UpdateUserService } from "../services/UpdateUserService.js";
 
 export async function updateUser(request: ZodRequest<{ body: typeof UpdateUserBody }>, reply: FastifyReply) {
   const updateUserService = new UpdateUserService();

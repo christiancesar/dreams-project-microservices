@@ -1,11 +1,11 @@
-import { FastifyInstance } from "fastify";
-import { ZodTypeProvider } from "fastify-type-provider-zod";
+import { type FastifyInstance } from "fastify";
+import { type ZodTypeProvider } from "fastify-type-provider-zod";
 import { z } from "zod";
-import { errorResponses } from "../../schemas/common";
-import { CreatePackageBody, PackageOfferResponse, PackageOffersQuery, PackageResponse, PackageUserParams } from "../../schemas/packages";
-import { createPackage } from "./controllers/createPackage";
-import { listPackagesByUser } from "./controllers/listPackagesByUser";
-import { searchPackageOffers } from "./controllers/searchPackageOffers";
+import { errorResponses } from "../../schemas/common.js";
+import { CreatePackageBody, PackageOfferResponse, PackageOffersQuery, PackageResponse, PackageUserParams } from "../../schemas/packages.js";
+import { createPackage } from "./controllers/createPackage.js";
+import { listPackagesByUser } from "./controllers/listPackagesByUser.js";
+import { searchPackageOffers } from "./controllers/searchPackageOffers.js";
 
 async function packageOffersRoutes(app: FastifyInstance) {
   const server = app.withTypeProvider<ZodTypeProvider>();

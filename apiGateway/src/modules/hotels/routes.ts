@@ -1,13 +1,13 @@
-import { FastifyInstance } from "fastify";
-import { ZodTypeProvider } from "fastify-type-provider-zod";
+import { type FastifyInstance } from "fastify";
+import { type ZodTypeProvider } from "fastify-type-provider-zod";
 import { z } from "zod";
-import { errorResponses } from "../../schemas/common";
-import { CreateHotelBody, HotelIdParams, HotelOfferResponse, HotelOffersQuery, HotelResponse, HotelUserParams } from "../../schemas/hotels";
-import { createHotel } from "./controllers/createHotel";
-import { listHotels } from "./controllers/listHotels";
-import { listHotelsByUser } from "./controllers/listHotelsByUser";
-import { searchHotelOffers } from "./controllers/searchHotelOffers";
-import { showHotel } from "./controllers/showHotel";
+import { errorResponses } from "../../schemas/common.js";
+import { CreateHotelBody, HotelIdParams, HotelOfferResponse, HotelOffersQuery, HotelResponse, HotelUserParams } from "../../schemas/hotels.js";
+import { createHotel } from "./controllers/createHotel.js";
+import { listHotels } from "./controllers/listHotels.js";
+import { listHotelsByUser } from "./controllers/listHotelsByUser.js";
+import { searchHotelOffers } from "./controllers/searchHotelOffers.js";
+import { showHotel } from "./controllers/showHotel.js";
 
 async function hotelOffersRoutes(app: FastifyInstance) {
   const server = app.withTypeProvider<ZodTypeProvider>();

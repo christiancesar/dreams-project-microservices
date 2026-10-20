@@ -1,10 +1,10 @@
-import flightClient from "../../providers/FlightService";
-import { FlightOffer } from "../../../../@types/amadeus/flights/FlightOfferSearchResponse";
+import flightClient from "../../providers/FlightService.js";
+import { type FlightOffer } from "../../../../@types/amadeus/flights/FlightOfferSearchResponse.js";
 import { 
   FlightOffersRequest, 
   FlightOffersResponse, 
   FlightOffersSearch 
-} from "dreams-proto-sharing/src/contracts/flight/flight_pb";
+} from "../../../../proto/flight_pb.js";
 
 type FlightRequest = {
   originLocationCode: string;

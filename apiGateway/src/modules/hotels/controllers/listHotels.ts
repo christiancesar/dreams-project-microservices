@@ -1,5 +1,5 @@
-import { FastifyReply, FastifyRequest } from "fastify";
-import ListHotelsService from "../services/hotels/ListHotelsService";
+import { type FastifyReply, type FastifyRequest } from "fastify";
+import ListHotelsService from "../services/hotels/ListHotelsService.js";
 
 export async function listHotels(_request: FastifyRequest, reply: FastifyReply) {
   const listHotelsService = new ListHotelsService();

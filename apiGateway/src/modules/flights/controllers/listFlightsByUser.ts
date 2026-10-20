@@ -1,7 +1,7 @@
-import { FastifyReply } from "fastify";
-import { ZodRequest } from "../../../shared/http/types";
-import { FlightUserParams } from "../../../schemas/flights";
-import ListFlightsByUserService from "../services/FlightUser/ListFlightsByUserService";
+import { type FastifyReply } from "fastify";
+import { type ZodRequest } from "../../../shared/http/types.js";
+import { FlightUserParams } from "../../../schemas/flights.js";
+import ListFlightsByUserService from "../services/FlightUser/ListFlightsByUserService.js";
 
 export async function listFlightsByUser(request: ZodRequest<{ params: typeof FlightUserParams }>, reply: FastifyReply) {
   const listFlightsByUserService = new ListFlightsByUserService();

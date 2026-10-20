@@ -1,10 +1,10 @@
-import { Empty } from 'google-protobuf/google/protobuf/empty_pb';
-import { User, UserResponse } from "dreams-proto-sharing/src/contracts/user/user_pb";
-import { IUserDTO } from '../dtos/IUserDTO';
+import { Empty } from "../../../proto/empty_pb.js";
+import { User, UserResponse } from "../../../proto/user_pb.js";
+import { type IUserDTO } from '../dtos/IUserDTO.js';
 
-import userClient from "../providers/UserService";
-import AppError from "../../../errors/AppError";
-import { ServiceError } from "@grpc/grpc-js";
+import userClient from "../providers/UserService.js";
+import AppError from "../../../errors/AppError.js";
+import { type ServiceError } from "@grpc/grpc-js";
 
 export class ListUsersService {
 

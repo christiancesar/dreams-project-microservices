@@ -1,7 +1,7 @@
-import { FastifyReply } from "fastify";
-import { ZodRequest } from "../../../shared/http/types";
-import { CreatePackageBody } from "../../../schemas/packages";
-import CreatePackageService from "../services/packages/CreatePackageService";
+import { type FastifyReply } from "fastify";
+import { type ZodRequest } from "../../../shared/http/types.js";
+import { CreatePackageBody } from "../../../schemas/packages.js";
+import CreatePackageService from "../services/packages/CreatePackageService.js";
 
 export async function createPackage(request: ZodRequest<{ body: typeof CreatePackageBody }>, reply: FastifyReply) {
   const createPackageService = new CreatePackageService();

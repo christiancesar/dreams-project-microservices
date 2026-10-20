@@ -1,6 +1,6 @@
 import { z } from "zod";
-import { JsonData } from "./common";
-import { FlightOfferSchema } from "./amadeus";
+import { JsonData } from "./common.js";
+import { FlightOfferSchema } from "./amadeus.js";
 
 export const FlightIdParams = z.object({
   flightId: z.string().describe("Id do voo registrado"),

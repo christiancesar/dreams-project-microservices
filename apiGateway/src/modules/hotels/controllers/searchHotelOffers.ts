@@ -1,7 +1,7 @@
-import { FastifyReply } from "fastify";
-import { ZodRequest } from "../../../shared/http/types";
-import { HotelOffersQuery } from "../../../schemas/hotels";
-import HotelOfferSearchService from "../services/hotelOffers/HotelOffersSearchService";
+import { type FastifyReply } from "fastify";
+import { type ZodRequest } from "../../../shared/http/types.js";
+import { HotelOffersQuery } from "../../../schemas/hotels.js";
+import HotelOfferSearchService from "../services/hotelOffers/HotelOffersSearchService.js";
 
 export async function searchHotelOffers(request: ZodRequest<{ body: typeof HotelOffersQuery }>, reply: FastifyReply) {
   const hotelOfferSearchService = new HotelOfferSearchService();

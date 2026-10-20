@@ -1,8 +1,8 @@
-import { FastifyInstance } from "fastify";
-import flightsRoutes from "./modules/flights/routes";
-import hotelsRoutes from "./modules/hotels/routes";
-import packagesRoutes from "./modules/package/routes";
-import usersRoutes from "./modules/users/routes";
+import { type FastifyInstance } from "fastify";
+import flightsRoutes from "./modules/flights/routes.js";
+import hotelsRoutes from "./modules/hotels/routes.js";
+import packagesRoutes from "./modules/package/routes.js";
+import usersRoutes from "./modules/users/routes.js";
 
 export default async function routes(server: FastifyInstance) {
   server.register(usersRoutes, { prefix: '/users' });

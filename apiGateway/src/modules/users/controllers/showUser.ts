@@ -1,7 +1,7 @@
-import { FastifyReply } from "fastify";
-import { ZodRequest } from "../../../shared/http/types";
-import { UserIdParams } from "../../../schemas/users";
-import { ShowUserService } from "../services/ShowUserService";
+import { type FastifyReply } from "fastify";
+import { type ZodRequest } from "../../../shared/http/types.js";
+import { UserIdParams } from "../../../schemas/users.js";
+import { ShowUserService } from "../services/ShowUserService.js";
 
 export async function showUser(request: ZodRequest<{ params: typeof UserIdParams }>, reply: FastifyReply) {
   const showUserService = new ShowUserService();

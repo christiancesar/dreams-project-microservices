@@ -3,8 +3,8 @@ import fastifySwagger from '@fastify/swagger';
 import scalarApiReference from '@scalar/fastify-api-reference';
 import Fastify from 'fastify';
 import { jsonSchemaTransform, serializerCompiler, validatorCompiler } from 'fastify-type-provider-zod';
-import interceptErrorMiddleware from './middlewares/interceptErrorMiddleware';
-import routes from './routes';
+import interceptErrorMiddleware from './middlewares/interceptErrorMiddleware.js';
+import routes from './routes.js';
 
 const server = Fastify();
 

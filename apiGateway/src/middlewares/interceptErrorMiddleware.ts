@@ -1,5 +1,5 @@
-import { FastifyReply, FastifyRequest } from "fastify";
-import AppError from '../errors/AppError';
+import { type FastifyReply, type FastifyRequest } from "fastify";
+import AppError from '../errors/AppError.js';
 
 export default function interceptErrorMiddleware(
   err: Error,

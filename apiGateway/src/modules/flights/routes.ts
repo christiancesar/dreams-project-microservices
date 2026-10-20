@@ -1,13 +1,13 @@
-import { FastifyInstance } from "fastify";
-import { ZodTypeProvider } from "fastify-type-provider-zod";
+import { type FastifyInstance } from "fastify";
+import { type ZodTypeProvider } from "fastify-type-provider-zod";
 import { z } from "zod";
-import { errorResponses } from "../../schemas/common";
-import { CreateFlightBody, FlightIdParams, FlightOffersQuery, FlightResponse, FlightOfferResponse, FlightUserParams } from "../../schemas/flights";
-import { createFlight } from "./controllers/createFlight";
-import { listFlights } from "./controllers/listFlights";
-import { listFlightsByUser } from "./controllers/listFlightsByUser";
-import { searchFlightOffers } from "./controllers/searchFlightOffers";
-import { showFlight } from "./controllers/showFlight";
+import { errorResponses } from "../../schemas/common.js";
+import { CreateFlightBody, FlightIdParams, FlightOffersQuery, FlightResponse, FlightOfferResponse, FlightUserParams } from "../../schemas/flights.js";
+import { createFlight } from "./controllers/createFlight.js";
+import { listFlights } from "./controllers/listFlights.js";
+import { listFlightsByUser } from "./controllers/listFlightsByUser.js";
+import { searchFlightOffers } from "./controllers/searchFlightOffers.js";
+import { showFlight } from "./controllers/showFlight.js";
 
 async function flightOffersRoutes(app: FastifyInstance) {
   const server = app.withTypeProvider<ZodTypeProvider>();

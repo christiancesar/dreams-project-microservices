@@ -1,6 +1,6 @@
 import { z } from "zod";
-import { JsonData } from "./common";
-import { FlightOfferSchema, HotelOfferSchema } from "./amadeus";
+import { JsonData } from "./common.js";
+import { FlightOfferSchema, HotelOfferSchema } from "./amadeus.js";
 
 export const PackageUserParams = z.object({
   userId: z.string().describe("Id do usuário"),

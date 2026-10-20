@@ -1,7 +1,7 @@
-import { FastifyReply } from "fastify";
-import { ZodRequest } from "../../../shared/http/types";
-import { FlightOffersQuery } from "../../../schemas/flights";
-import FlightOfferSearchService from "../services/flightOffers/FlightOfferSearchService";
+import { type FastifyReply } from "fastify";
+import { type ZodRequest } from "../../../shared/http/types.js";
+import { FlightOffersQuery } from "../../../schemas/flights.js";
+import FlightOfferSearchService from "../services/flightOffers/FlightOfferSearchService.js";
 
 export async function searchFlightOffers(request: ZodRequest<{ body: typeof FlightOffersQuery }>, reply: FastifyReply) {
   const flightOfferSearchService = new FlightOfferSearchService();

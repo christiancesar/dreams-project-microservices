@@ -1,6 +1,6 @@
-import { HotelOffer, HotelOfferSearchResponse } from "../../../../@types/amadeus/hotels/HotelOfferSearchResponse";
-import { HotelOffersRequest, HotelOffersResponse, HotelOffersSearch as HotelOffersSearchObject } from "dreams-proto-sharing/src/contracts/hotel/hotel_pb";
-import hotelClient from "../../providers/HotelService";
+import { type HotelOffer, type HotelOfferSearchResponse } from "../../../../@types/amadeus/hotels/HotelOfferSearchResponse.js";
+import { HotelOffersRequest, HotelOffersResponse, HotelOffersSearch as HotelOffersSearchObject } from "../../../../proto/hotel_pb.js";
+import hotelClient from "../../providers/HotelService.js";
 
 type HotelOffersSearch = {
   cityCode: string;

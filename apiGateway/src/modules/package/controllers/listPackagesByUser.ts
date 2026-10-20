@@ -1,7 +1,7 @@
-import { FastifyReply } from "fastify";
-import { ZodRequest } from "../../../shared/http/types";
-import { PackageUserParams } from "../../../schemas/packages";
-import ListPackagesByUserService from "../services/packageUser/ListPackagesByUserService";
+import { type FastifyReply } from "fastify";
+import { type ZodRequest } from "../../../shared/http/types.js";
+import { PackageUserParams } from "../../../schemas/packages.js";
+import ListPackagesByUserService from "../services/packageUser/ListPackagesByUserService.js";
 
 export async function listPackagesByUser(request: ZodRequest<{ params: typeof PackageUserParams }>, reply: FastifyReply) {
   const listPackagesByUserService = new ListPackagesByUserService();

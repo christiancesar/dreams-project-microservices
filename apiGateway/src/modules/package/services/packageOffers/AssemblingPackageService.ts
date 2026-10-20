@@ -1,7 +1,7 @@
-import { PackageSearch, PackageSearchRequest, PackageSearchResponse } from "dreams-proto-sharing/src/contracts/package/package_pb";
-import packageClient from "../../providers/PackageService";
-import { FlightOffer } from "../../../../@types/amadeus/flights/FlightOfferSearchResponse";
-import { HotelOffer } from "../../../../@types/amadeus/hotels/HotelOfferSearchResponse";
+import { PackageSearch, PackageSearchRequest, PackageSearchResponse } from "../../../../proto/package_pb.js";
+import packageClient from "../../providers/PackageService.js";
+import { type FlightOffer } from "../../../../@types/amadeus/flights/FlightOfferSearchResponse.js";
+import { type HotelOffer } from "../../../../@types/amadeus/hotels/HotelOfferSearchResponse.js";
 
 type PackageOffersResponse = {
   flight: FlightOffer;

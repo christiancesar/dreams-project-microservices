@@ -1,7 +1,7 @@
-import { FastifyReply } from "fastify";
-import { ZodRequest } from "../../../shared/http/types";
-import { PackageOffersQuery } from "../../../schemas/packages";
-import AssemblingPackageService from "../services/packageOffers/AssemblingPackageService";
+import { type FastifyReply } from "fastify";
+import { type ZodRequest } from "../../../shared/http/types.js";
+import { PackageOffersQuery } from "../../../schemas/packages.js";
+import AssemblingPackageService from "../services/packageOffers/AssemblingPackageService.js";
 
 export async function searchPackageOffers(request: ZodRequest<{ body: typeof PackageOffersQuery }>, reply: FastifyReply) {
   const assemblingPackageService = new AssemblingPackageService();
