@@ -1,9 +1,9 @@
 import { injectable } from "tsyringe";
-import { FlightOfferSearchRequest } from "../../../../@types/amadeus/flights/FlightOfferSearchRequest";
-import { FlightOfferSearchResponse } from "../../../../@types/amadeus/flights/FlightOfferSearchResponse";
-import { TravelClass } from "../../../../@types/amadeus/flights/TravelClass";
-import { FlightOfferSearchDTO } from "../dtos/FlightOffersSearchDTO";
-import { IFlightProvider } from "../interfaces/IFlightProvider";
+import { FlightOfferSearchRequest } from "../../../../@types/amadeus/flights/FlightOfferSearchRequest.js";
+import { FlightOfferSearchResponse } from "../../../../@types/amadeus/flights/FlightOfferSearchResponse.js";
+import { TravelClass } from "../../../../@types/amadeus/flights/TravelClass.js";
+import { FlightOfferSearchDTO } from "../dtos/FlightOffersSearchDTO.js";
+import { IFlightProvider } from "../interfaces/IFlightProvider.js";
 
 import { Amadeus } from "dreams-amadeus";
 

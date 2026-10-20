@@ -1,5 +1,5 @@
 import { inject, injectable } from "tsyringe";
-import { IFlightProvider } from "../../../shared/providers/FlightProvider/interfaces/IFlightProvider";
+import type { IFlightProvider } from "../../../shared/providers/FlightProvider/interfaces/IFlightProvider.js";
 
 type FlightSerachRequestDTO = {
   originLocationCode: string;
