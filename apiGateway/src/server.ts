@@ -12,7 +12,9 @@ server.setValidatorCompiler(validatorCompiler);
 
 server.setSerializerCompiler(serializerCompiler);
 
-server.register(cors);
+server.register(cors, {
+  methods: ['GET', 'HEAD', 'POST', 'PATCH', 'QUERY'],
+});
 
 server.register(fastifySwagger, {
   openapi: {

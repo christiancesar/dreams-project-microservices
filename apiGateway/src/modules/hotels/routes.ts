@@ -12,14 +12,17 @@ import { showHotel } from "./controllers/showHotel";
 async function hotelOffersRoutes(app: FastifyInstance) {
   const server = app.withTypeProvider<ZodTypeProvider>();
 
-  server.get('/', {
+  server.route({
+    method: 'QUERY',
+    url: '/',
     schema: {
       tags: ['Hotéis'],
       summary: 'Busca ofertas de hotel',
-      querystring: HotelOffersQuery,
+      body: HotelOffersQuery,
       response: { 200: z.array(HotelOfferResponse), ...errorResponses },
     },
-  }, searchHotelOffers);
+    handler: searchHotelOffers,
+  });
 }
 
 async function hotelUserRoutes(app: FastifyInstance) {

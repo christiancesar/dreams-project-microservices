@@ -10,14 +10,17 @@ import { searchPackageOffers } from "./controllers/searchPackageOffers";
 async function packageOffersRoutes(app: FastifyInstance) {
   const server = app.withTypeProvider<ZodTypeProvider>();
 
-  server.get('/', {
+  server.route({
+    method: 'QUERY',
+    url: '/',
     schema: {
       tags: ['Pacotes'],
       summary: 'Monta ofertas de pacote (voo + hotel)',
-      querystring: PackageOffersQuery,
+      body: PackageOffersQuery,
       response: { 200: z.array(PackageOfferResponse), ...errorResponses },
     },
-  }, searchPackageOffers);
+    handler: searchPackageOffers,
+  });
 }
 
 async function packageUserRoutes(app: FastifyInstance) {

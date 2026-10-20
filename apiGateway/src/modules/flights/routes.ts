@@ -12,14 +12,17 @@ import { showFlight } from "./controllers/showFlight";
 async function flightOffersRoutes(app: FastifyInstance) {
   const server = app.withTypeProvider<ZodTypeProvider>();
 
-  server.get('/', {
+  server.route({
+    method: 'QUERY',
+    url: '/',
     schema: {
       tags: ['Voos'],
       summary: 'Busca ofertas de voo',
-      querystring: FlightOffersQuery,
+      body: FlightOffersQuery,
       response: { 200: z.array(FlightOfferResponse), ...errorResponses },
     },
-  }, searchFlightOffers);
+    handler: searchFlightOffers,
+  });
 }
 
 async function flightUserRoutes(app: FastifyInstance) {
