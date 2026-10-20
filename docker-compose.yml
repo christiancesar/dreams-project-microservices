@@ -1,0 +1,163 @@
+# Bancos de desenvolvimento: um MongoDB por microsserviço.
+# Imagem oficial "mongo" (Docker Official Image), com tag fixa.
+# Cada banco roda como replica set "rs0", exigido pelo Prisma para transações.
+# Sem autenticação e com portas só em 127.0.0.1: uso local apenas.
+x-mongo: &mongo
+  image: mongo:7.0
+  restart: unless-stopped
+
+x-mongo-init: &mongo-init
+  image: mongo:7.0
+  restart: "no"
+
+services:
+  user-db:
+    <<: *mongo
+    container_name: dreams-user-db
+    command: ["mongod", "--replSet", "rs0", "--bind_ip_all", "--port", "27017"]
+    ports: ["127.0.0.1:27017:27017"]
+    volumes: ["user-db-data:/data/db"]
+
+  user-db-init:
+    <<: *mongo-init
+    container_name: dreams-user-db-init
+    depends_on: [user-db]
+    command:
+      - sh
+      - -c
+      - |
+        until mongosh --quiet --host user-db:27017 --eval 'db.adminCommand({ping:1})' >/dev/null 2>&1; do sleep 2; done
+        mongosh --quiet --host user-db:27017 --eval 'try { rs.status() } catch (e) { rs.initiate({_id: "rs0", members: [{_id: 0, host: "user-db:27017"}]}) }'
+
+  flight-db:
+    <<: *mongo
+    container_name: dreams-flight-db
+    command: ["mongod", "--replSet", "rs0", "--bind_ip_all", "--port", "27018"]
+    ports: ["127.0.0.1:27018:27018"]
+    volumes: ["flight-db-data:/data/db"]
+
+  flight-db-init:
+    <<: *mongo-init
+    container_name: dreams-flight-db-init
+    depends_on: [flight-db]
+    command:
+      - sh
+      - -c
+      - |
+        until mongosh --quiet --host flight-db:27018 --eval 'db.adminCommand({ping:1})' >/dev/null 2>&1; do sleep 2; done
+        mongosh --quiet --host flight-db:27018 --eval 'try { rs.status() } catch (e) { rs.initiate({_id: "rs0", members: [{_id: 0, host: "flight-db:27018"}]}) }'
+
+  hotel-db:
+    <<: *mongo
+    container_name: dreams-hotel-db
+    command: ["mongod", "--replSet", "rs0", "--bind_ip_all", "--port", "27019"]
+    ports: ["127.0.0.1:27019:27019"]
+    volumes: ["hotel-db-data:/data/db"]
+
+  hotel-db-init:
+    <<: *mongo-init
+    container_name: dreams-hotel-db-init
+    depends_on: [hotel-db]
+    command:
+      - sh
+      - -c
+      - |
+        until mongosh --quiet --host hotel-db:27019 --eval 'db.adminCommand({ping:1})' >/dev/null 2>&1; do sleep 2; done
+        mongosh --quiet --host hotel-db:27019 --eval 'try { rs.status() } catch (e) { rs.initiate({_id: "rs0", members: [{_id: 0, host: "hotel-db:27019"}]}) }'
+
+  package-db:
+    <<: *mongo
+    container_name: dreams-package-db
+    command: ["mongod", "--replSet", "rs0", "--bind_ip_all", "--port", "27020"]
+    ports: ["127.0.0.1:27020:27020"]
+    volumes: ["package-db-data:/data/db"]
+
+  package-db-init:
+    <<: *mongo-init
+    container_name: dreams-package-db-init
+    depends_on: [package-db]
+    command:
+      - sh
+      - -c
+      - |
+        until mongosh --quiet --host package-db:27020 --eval 'db.adminCommand({ping:1})' >/dev/null 2>&1; do sleep 2; done
+        mongosh --quiet --host package-db:27020 --eval 'try { rs.status() } catch (e) { rs.initiate({_id: "rs0", members: [{_id: 0, host: "package-db:27020"}]}) }'
+
+  # ---- APIs ----------------------------------------------------------------
+  # Todos usam a mesma Dockerfile da raiz, com um build-arg SERVICE diferente.
+  # Portas internas ficam só na rede do compose; só o gateway é publicado.
+
+  user-service:
+    build: { context: ., dockerfile: Dockerfile, args: { SERVICE: userMicroservice } }
+    image: dreams/user-service:dev
+    depends_on:
+      user-db-init: { condition: service_completed_successfully }
+    environment:
+      DATABASE_URL: "mongodb://user-db:27017/users?replicaSet=rs0&directConnection=true"
+    command: ["sh", "-c", "npx prisma db push --skip-generate && npm run dev:server"]
+    expose: ["50052"]
+    restart: unless-stopped
+
+  flight-service:
+    build: { context: ., dockerfile: Dockerfile, args: { SERVICE: flightMicroservice } }
+    image: dreams/flight-service:dev
+    depends_on:
+      flight-db-init: { condition: service_completed_successfully }
+    environment:
+      DATABASE_URL: "mongodb://flight-db:27018/flights?replicaSet=rs0&directConnection=true"
+      AMADEUS_MODE: fake
+    command: ["sh", "-c", "npx prisma db push --skip-generate && npm run dev:server"]
+    expose: ["50053", "3332"]
+    restart: unless-stopped
+
+  hotel-service:
+    build: { context: ., dockerfile: Dockerfile, args: { SERVICE: hotelMicroservice } }
+    image: dreams/hotel-service:dev
+    depends_on:
+      hotel-db-init: { condition: service_completed_successfully }
+    environment:
+      DATABASE_URL: "mongodb://hotel-db:27019/hotels?replicaSet=rs0&directConnection=true"
+      AMADEUS_MODE: fake
+    command: ["sh", "-c", "npx prisma db push --skip-generate && npm run dev:server"]
+    expose: ["50054", "3331"]
+    restart: unless-stopped
+
+  package-service:
+    build: { context: ., dockerfile: Dockerfile, args: { SERVICE: packageMicroservice } }
+    image: dreams/package-service:dev
+    depends_on:
+      package-db-init: { condition: service_completed_successfully }
+      flight-service: { condition: service_started }
+      hotel-service: { condition: service_started }
+    environment:
+      DATABASE_URL: "mongodb://package-db:27020/packages?replicaSet=rs0&directConnection=true"
+      FLIGHT_SERVICE_ADDRESS: "flight-service:50053"
+      HOTEL_SERVICE_ADDRESS: "hotel-service:50054"
+      FLIGHT_API_URL: "http://flight-service:3332"
+      HOTEL_API_URL: "http://hotel-service:3331"
+    command: ["sh", "-c", "npx prisma db push --skip-generate && npm run dev:server"]
+    expose: ["50051"]
+    restart: unless-stopped
+
+  api-gateway:
+    build: { context: ., dockerfile: Dockerfile, args: { SERVICE: apiGateway } }
+    image: dreams/api-gateway:dev
+    depends_on:
+      user-service: { condition: service_started }
+      flight-service: { condition: service_started }
+      hotel-service: { condition: service_started }
+      package-service: { condition: service_started }
+    environment:
+      USER_SERVICE_ADDRESS: "user-service:50052"
+      FLIGHT_SERVICE_ADDRESS: "flight-service:50053"
+      HOTEL_SERVICE_ADDRESS: "hotel-service:50054"
+      PACKAGE_SERVICE_ADDRESS: "package-service:50051"
+    command: ["npm", "run", "dev:server"]
+    ports: ["127.0.0.1:3333:3333"]
+    restart: unless-stopped
+
+volumes:
+  user-db-data:
+  flight-db-data:
+  hotel-db-data:
+  package-db-data:

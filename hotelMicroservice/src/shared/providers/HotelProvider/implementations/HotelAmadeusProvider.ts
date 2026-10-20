@@ -4,7 +4,7 @@ import { HotelOfferSearchResponse } from "../../../../@types/amadeus/hotels/Hote
 import { HotelOffersSearchDTO } from "../dtos/HotelOffersSearchDTO";
 import { IHotelProvider } from "../interfaces/IHotelProvider";
 
-const Amadeus = require('amadeus');
+import { Amadeus } from "dreams-amadeus";
 
 @injectable()
 export class HotelAmadeusProvider implements IHotelProvider {
@@ -13,7 +13,6 @@ export class HotelAmadeusProvider implements IHotelProvider {
       this.amadeus = new Amadeus({
         clientId: process.env.AMADEUS_CLIENT_ID,
         clientSecret: process.env.AMADEUS_CLIENT_SECRET,
-        grant_type: 'client_credentials'
       })
   }
   async findHotels({

@@ -8,6 +8,7 @@ import { prisma } from '../prisma';
 import FlightServiceProto from "./modules/protos/implementations/FlightServiceProto";
 import routes from "./routes";
 import "./shared/containers";
+import "./shared/providers";
 
 const server = express();
 

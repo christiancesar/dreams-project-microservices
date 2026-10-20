@@ -53,7 +53,7 @@ export class CreatePackageService {
       off
     }).catch(err => {
       PackageTripEventHandle.event({
-        eventName: 'CREATE_HOTEL_ERROR',
+        eventName: 'CREATE_PACKAGE_ERROR',
         errorDescription: err.message,
         flightId: flightResponse.id,
         hotelId: hotelResponse!.id

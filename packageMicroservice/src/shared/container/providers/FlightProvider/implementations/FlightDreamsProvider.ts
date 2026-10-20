@@ -13,7 +13,7 @@ export class FlightDreamsProvider implements IFlightProvider {
   private flightClient: FlightsClient;
 
   constructor() {
-    this.flightClient = new FlightsClient('0.0.0.0:50053', ChannelCredentials.createInsecure())
+    this.flightClient = new FlightsClient(process.env.FLIGHT_SERVICE_ADDRESS ?? '0.0.0.0:50053', ChannelCredentials.createInsecure())
   }
 
   async createFlight(flight: CreateFlightRequestDTO): Promise<CreateFlightResponseDTO> {
