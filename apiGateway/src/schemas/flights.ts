@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { AmadeusOffer, JsonData } from "./common";
 
 export const FlightIdParams = z.object({
   flightId: z.string().describe("Id do voo registrado"),
@@ -28,3 +29,14 @@ export const FlightOffersQuery = z.object({
   travelClass: z.string().describe("Classe de viagem, ex.: ECONOMY"),
 });
 export type FlightOffersQuery = z.infer<typeof FlightOffersQuery>;
+
+export const FlightResponse = z.object({
+  id: z.string(),
+  itineraries: JsonData.describe("Itinerários do voo"),
+  price: JsonData.describe("Preço do voo"),
+  createdAt: z.date(),
+  updatedAt: z.date(),
+}).describe("Voo registrado");
+export type FlightResponse = z.infer<typeof FlightResponse>;
+
+export const FlightOfferResponse = AmadeusOffer;

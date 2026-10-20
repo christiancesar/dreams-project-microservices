@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { AmadeusOffer, JsonData } from "./common";
 
 export const PackageUserParams = z.object({
   userId: z.string().describe("Id do usuário"),
@@ -32,3 +33,27 @@ export const PackageOffersQuery = z.object({
   roomQuantity: z.coerce.number().int().min(1).describe("Número de quartos"),
 });
 export type PackageOffersQuery = z.infer<typeof PackageOffersQuery>;
+
+export const PackageResponse = z.object({
+  id: z.string(),
+  flight: z.object({
+    itineraries: JsonData,
+    price: JsonData,
+  }),
+  hotel: z.object({
+    hotel: JsonData,
+    offers: JsonData,
+  }),
+  amount: z.number(),
+  off: z.number(),
+  createdAt: z.date(),
+  updatedAt: z.date(),
+}).describe("Pacote registrado");
+export type PackageResponse = z.infer<typeof PackageResponse>;
+
+export const PackageOfferResponse = z.object({
+  flight: AmadeusOffer.describe("Oferta de voo (Amadeus)"),
+  hotel: AmadeusOffer.describe("Oferta de hotel (Amadeus)"),
+  off: z.number().describe("Desconto aplicado"),
+  total: z.number().describe("Valor total do pacote"),
+}).describe("Oferta de pacote montada a partir de voo e hotel");

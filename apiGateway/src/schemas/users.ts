@@ -23,3 +23,13 @@ export const UpdateUserBody = z.object({
   email: z.email(),
 });
 export type UpdateUserBody = z.infer<typeof UpdateUserBody>;
+
+export const UserResponse = z.object({
+  id: z.string(),
+  firstname: z.string(),
+  lastname: z.string(),
+  age: z.number(),
+  birthday: z.string(),
+  email: z.string(),
+}).describe("Usuário");
+export type UserResponse = z.infer<typeof UserResponse>;

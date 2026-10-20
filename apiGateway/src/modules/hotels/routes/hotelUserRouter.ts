@@ -1,9 +1,11 @@
+import { z } from "zod";
 import { FastifyInstance } from "fastify";
 import { ZodTypeProvider } from "fastify-type-provider-zod";
 import { inject, injectable } from "tsyringe";
 import { FASTIFY_INSTANCE } from "../../../shared/http/tokens";
 import { HttpRouter } from "../../../shared/http/mountRouter";
-import { AnyResponse, errorResponses } from "../../../schemas/common";
+import { errorResponses } from "../../../schemas/common";
+import { HotelResponse } from "../../../schemas/hotels";
 import { HotelUserParams } from "../../../schemas/hotels";
 import HotelUserController from "../controllers/HotelUserController";
 
@@ -22,7 +24,7 @@ export class HotelUserRouter implements HttpRouter {
         tags: ['Hotéis'],
         summary: 'Lista os hotéis de um usuário',
         params: HotelUserParams,
-        response: { 200: AnyResponse, ...errorResponses },
+        response: { 200: z.array(HotelResponse), ...errorResponses },
       },
     }, (request, reply) => this.hotelUserController.index(request, reply));
   }

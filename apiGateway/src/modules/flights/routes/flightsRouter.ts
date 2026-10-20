@@ -1,10 +1,11 @@
+import { z } from "zod";
 import { FastifyInstance } from "fastify";
 import { ZodTypeProvider } from "fastify-type-provider-zod";
 import { inject, injectable } from "tsyringe";
 import { FASTIFY_INSTANCE } from "../../../shared/http/tokens";
 import { HttpRouter, mountRouter } from "../../../shared/http/mountRouter";
-import { AnyResponse, errorResponses } from "../../../schemas/common";
-import { CreateFlightBody, FlightIdParams } from "../../../schemas/flights";
+import { errorResponses } from "../../../schemas/common";
+import { CreateFlightBody, FlightIdParams, FlightResponse } from "../../../schemas/flights";
 import { FlightsController } from "../controllers/FlightsController";
 import { FlightsOffersRouter } from "./flightsOffersRouter";
 import { FlightsUserRouter } from "./flightsUserRouter";
@@ -26,7 +27,7 @@ export class FlightsRouter implements HttpRouter {
       schema: {
         tags: ['Voos'],
         summary: 'Lista voos registrados',
-        response: { 200: AnyResponse, ...errorResponses },
+        response: { 200: z.array(FlightResponse), ...errorResponses },
       },
     }, (_request, reply) => this.flightsController.index(reply));
 
@@ -35,7 +36,7 @@ export class FlightsRouter implements HttpRouter {
         tags: ['Voos'],
         summary: 'Registra um voo para um usuário',
         body: CreateFlightBody,
-        response: { 200: AnyResponse, ...errorResponses },
+        response: { 200: FlightResponse, ...errorResponses },
       },
     }, (request, reply) => this.flightsController.create(request, reply));
 
@@ -44,7 +45,7 @@ export class FlightsRouter implements HttpRouter {
         tags: ['Voos'],
         summary: 'Mostra um voo registrado',
         params: FlightIdParams,
-        response: { 200: AnyResponse, ...errorResponses },
+        response: { 200: FlightResponse, ...errorResponses },
       },
     }, (request, reply) => this.flightsController.show(request, reply));
   }

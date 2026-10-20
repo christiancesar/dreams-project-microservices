@@ -1,9 +1,11 @@
+import { z } from "zod";
 import { FastifyInstance } from "fastify";
 import { ZodTypeProvider } from "fastify-type-provider-zod";
 import { inject, injectable } from "tsyringe";
 import { FASTIFY_INSTANCE } from "../../../shared/http/tokens";
 import { HttpRouter } from "../../../shared/http/mountRouter";
-import { AnyResponse, errorResponses } from "../../../schemas/common";
+import { errorResponses } from "../../../schemas/common";
+import { UserResponse } from "../../../schemas/users";
 import { CreateUserBody, UpdateUserBody, UserIdParams } from "../../../schemas/users";
 import { UsersControllers } from "../controllers/UsersControllers";
 
@@ -22,7 +24,7 @@ export class UsersRouter implements HttpRouter {
         tags: ['Usuários'],
         summary: 'Cria um usuário',
         body: CreateUserBody,
-        response: { 200: AnyResponse, ...errorResponses },
+        response: { 200: z.array(UserResponse), ...errorResponses },
       },
     }, (request, reply) => this.usersControllers.create(request, reply));
 
@@ -30,7 +32,7 @@ export class UsersRouter implements HttpRouter {
       schema: {
         tags: ['Usuários'],
         summary: 'Lista usuários',
-        response: { 200: AnyResponse, ...errorResponses },
+        response: { 200: z.array(UserResponse), ...errorResponses },
       },
     }, (_request, reply) => this.usersControllers.index(reply));
 
@@ -39,7 +41,7 @@ export class UsersRouter implements HttpRouter {
         tags: ['Usuários'],
         summary: 'Mostra um usuário',
         params: UserIdParams,
-        response: { 200: AnyResponse, ...errorResponses },
+        response: { 200: z.array(UserResponse), ...errorResponses },
       },
     }, (request, reply) => this.usersControllers.show(request, reply));
 
@@ -48,7 +50,7 @@ export class UsersRouter implements HttpRouter {
         tags: ['Usuários'],
         summary: 'Atualiza um usuário',
         body: UpdateUserBody,
-        response: { 200: AnyResponse, ...errorResponses },
+        response: { 200: z.array(UserResponse), ...errorResponses },
       },
     }, (request, reply) => this.usersControllers.update(request, reply));
   }

@@ -1,9 +1,11 @@
+import { z } from "zod";
 import { FastifyInstance } from "fastify";
 import { ZodTypeProvider } from "fastify-type-provider-zod";
 import { inject, injectable } from "tsyringe";
 import { FASTIFY_INSTANCE } from "../../../shared/http/tokens";
 import { HttpRouter } from "../../../shared/http/mountRouter";
-import { AnyResponse, errorResponses } from "../../../schemas/common";
+import { errorResponses } from "../../../schemas/common";
+import { HotelOfferResponse } from "../../../schemas/hotels";
 import { HotelOffersQuery } from "../../../schemas/hotels";
 import { HotelOffersController } from "../controllers/HotelOffersController";
 
@@ -22,7 +24,7 @@ export class HotelsOffersRouter implements HttpRouter {
         tags: ['Hotéis'],
         summary: 'Busca ofertas de hotel',
         querystring: HotelOffersQuery,
-        response: { 200: AnyResponse, ...errorResponses },
+        response: { 200: z.array(HotelOfferResponse), ...errorResponses },
       },
     }, (request, reply) => this.hotelOffersController.index(request, reply));
   }
