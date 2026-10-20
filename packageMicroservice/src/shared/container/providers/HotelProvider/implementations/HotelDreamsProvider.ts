@@ -1,16 +1,16 @@
 import { ChannelCredentials } from '@grpc/grpc-js';
-import { HotelsClient } from 'dreams-proto-sharing/src/contracts/hotel/hotel_grpc_pb';
+import { HotelsClient } from 'dreams-proto-sharing/src/contracts/hotel/hotel_grpc_pb.js';
 import {
   HotelCreate, HotelCreateRequest, HotelOffersRequest, HotelOffersResponse, HotelOffersSearch, HotelResponse, HotelResponse as HotelShowResponse,
   HotelShowRequest
-} from 'dreams-proto-sharing/src/contracts/hotel/hotel_pb';
-import { CreateHotelRequestDTO } from '../dtos/CreateHotelRequestDTO';
-import { CreateHotelResponseDTO } from '../dtos/CreateHotelResponseDTO';
-import { HotelOffersSearchRequestDTO } from '../dtos/HotelOffersSearchRequestDTO';
-import { HotelOffersSearchResponseDTO } from '../dtos/HotelOffersSearchResponseDTO';
-import { ShowHotelRequestDTO } from '../dtos/ShowHotelRequestDTO';
-import { ShowHotelResponseDTO } from '../dtos/ShowHotelResponseDTO';
-import { IHotelProvider } from '../interface/IHotelProvider';
+} from 'dreams-proto-sharing/src/contracts/hotel/hotel_pb.js';
+import { CreateHotelRequestDTO } from '../dtos/CreateHotelRequestDTO.js';
+import { CreateHotelResponseDTO } from '../dtos/CreateHotelResponseDTO.js';
+import { HotelOffersSearchRequestDTO } from '../dtos/HotelOffersSearchRequestDTO.js';
+import { HotelOffersSearchResponseDTO } from '../dtos/HotelOffersSearchResponseDTO.js';
+import { ShowHotelRequestDTO } from '../dtos/ShowHotelRequestDTO.js';
+import { ShowHotelResponseDTO } from '../dtos/ShowHotelResponseDTO.js';
+import { IHotelProvider } from '../interface/IHotelProvider.js';
 
 export class HotelDreamsProvider implements IHotelProvider {
   private hotelClient: HotelsClient;

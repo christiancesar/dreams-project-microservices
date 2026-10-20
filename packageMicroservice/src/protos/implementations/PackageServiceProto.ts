@@ -1,52 +1,53 @@
 
 import grpc, { ServerErrorResponse } from "@grpc/grpc-js";
-import { IPackagesServer } from "dreams-proto-sharing/src/contracts/package/package_grpc_pb";
+import { IPackagesServer } from "dreams-proto-sharing/src/contracts/package/package_grpc_pb.js";
 import {
   Flight,
   Hotel, PackageCreateRequest, PackageResponse, PackagesByUserRequest, PackageSearchRequest,
   PackageSearchResponse, PackagesResponse
-} from "dreams-proto-sharing/src/contracts/package/package_pb";
+} from "dreams-proto-sharing/src/contracts/package/package_pb.js";
 import { container } from "tsyringe";
-import { CreatePackageService } from "../../services/package/CreatePackageService";
-import { AssemblingPackageService } from "../../services/packageOffers/AssemblingPackageService";
-// import { Empty } from "google-protobuf/google/protobuf/empty_pb";
-import { ListPackagesByUserService } from "../../services/packageUser/ListPackagesByUserService";
-// import ListPackagesService from "../../services/package/ListPackagesService";
+import { CreatePackageService } from "../../services/package/CreatePackageService.js";
+import { AssemblingPackageService } from "../../services/packageOffers/AssemblingPackageService.js";
+import { Empty } from "google-protobuf/google/protobuf/empty_pb.js";
+import { ListPackagesByUserService } from "../../services/packageUser/ListPackagesByUserService.js";
+import { ListPackagesService } from "../../services/package/ListPackagesService.js";
 
 
 class PackagesServer implements IPackagesServer {
-  // listPackages: grpc.handleUnaryCall<Empty, PackagesResponse> = async (call, callback): Promise<void> => {
-  //   try {
-  //     const packageResponse = new PackagesResponse();
-  //     const listPackagesService = new ListPackagesService();
+  listPackages: grpc.handleUnaryCall<Empty, PackagesResponse> = async (call, callback): Promise<void> => {
+    try {
+      const packageResponse = new PackagesResponse();
+      const listPackagesService = container.resolve(ListPackagesService);
 
-  //     const packages = await listPackagesService.execute();
+      const packages = await listPackagesService.execute();
 
-  //     packages.map((package_) => {
-  //       packageResponse.addPackageresponse(
-  //         new PackageResponse()
-  //           .setId(package_.id)
-  //           .setFlight(
-  //             new Flight()
-  //               .setIntinerantes(package_.flight.itineraries)
-  //               .setPrice(package_.flight.price)
-  //           )
-  //           .setHotel(
-  //             new Hotel()
-  //               .setHotel(package_.hotel.hotel)
-  //               .setOffers(package_.hotel.offers)
-  //           )
-  //           .setAmount(package_.amount)
-  //           .setOff(package_.off)
-  //           .setUpdatedat(package_.updatedAt)
-  //           .setCreatedat(package_.createdAt)
-  //       )
-  //     })
-  //     callback(null, packageResponse);
-  //   } catch (error) {
-  //     callback(error as ServerErrorResponse, null);
-  //   }
-  // }
+      packages.forEach((package_) => {
+        packageResponse.addPackageresponse(
+          new PackageResponse()
+            .setId(package_.id)
+            .setFlight(
+              new Flight()
+                .setIntinerantes(package_.flight.itineraries)
+                .setPrice(package_.flight.price)
+            )
+            .setHotel(
+              new Hotel()
+                .setHotel(package_.hotel.hotel)
+                .setOffers(package_.hotel.offers)
+            )
+            .setAmount(package_.amount)
+            .setOff(package_.off)
+            .setUpdatedat(package_.updatedAt)
+            .setCreatedat(package_.createdAt)
+        );
+      });
+
+      callback(null, packageResponse);
+    } catch (error) {
+      callback(error as ServerErrorResponse, null);
+    }
+  }
 
   listPackageByUser: grpc.handleUnaryCall<PackagesByUserRequest, PackagesResponse> = async (call, callback): Promise<void> => {
     try {

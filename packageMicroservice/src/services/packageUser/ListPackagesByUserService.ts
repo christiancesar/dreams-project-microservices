@@ -1,7 +1,7 @@
 import { inject, injectable } from "tsyringe";
-import { IPackageRepository } from "../../repositories/interfaces/IPackageRepository";
-import { IFlightProvider } from "../../shared/container/providers/FlightProvider/interfaces/IFlightProvider";
-import { IHotelProvider } from "../../shared/container/providers/HotelProvider/interface/IHotelProvider";
+import type { IPackageRepository } from "../../repositories/interfaces/IPackageRepository.js";
+import type { IFlightProvider } from "../../shared/container/providers/FlightProvider/interfaces/IFlightProvider.js";
+import type { IHotelProvider } from "../../shared/container/providers/HotelProvider/interface/IHotelProvider.js";
 
 type PackagesByUserRequest = {
   userId: string
