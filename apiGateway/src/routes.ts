@@ -1,13 +1,12 @@
 import { FastifyInstance } from "fastify";
-import { mountRouter } from "./shared/http/mountRouter";
-import { FlightsRouter } from "./modules/flights/routes/flightsRouter";
-import { HotelsRouter } from "./modules/hotels/routes/hotelRouter";
-import { PackagesRouter } from "./modules/package/routes/packageRouter";
-import { UsersRouter } from "./modules/users/routes/usersRouter";
+import flightsRoutes from "./modules/flights/routes";
+import hotelsRoutes from "./modules/hotels/routes";
+import packagesRoutes from "./modules/package/routes";
+import usersRoutes from "./modules/users/routes";
 
-export function registerRoutes(server: FastifyInstance) {
-  mountRouter(server, UsersRouter, '/users');
-  mountRouter(server, FlightsRouter, '/flights');
-  mountRouter(server, HotelsRouter, '/hotels');
-  mountRouter(server, PackagesRouter, '/packages');
+export default async function routes(server: FastifyInstance) {
+  server.register(usersRoutes, { prefix: '/users' });
+  server.register(flightsRoutes, { prefix: '/flights' });
+  server.register(hotelsRoutes, { prefix: '/hotels' });
+  server.register(packagesRoutes, { prefix: '/packages' });
 }
